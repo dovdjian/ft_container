@@ -2,7 +2,7 @@ NAME = container
 
 CPP	=	@clang++
 
-CFLAGS	=	-Wall -Wextra -Werror
+CFLAGS	=	-Wall -Wextra -Werror -std=c++98
 
 RM	=	@rm -rf
 
@@ -20,7 +20,6 @@ WHITE		:= \033[1;37m
 END			:= \033[0m
 
 SRCS = main.cpp \
-	   Vector.cpp \
 
 OBJ = $(SRCS:.cpp=.o)
 
