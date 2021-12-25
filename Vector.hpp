@@ -33,30 +33,56 @@
 namespace ft
 {
 	template <class T, class Alloc = std::allocator <T> >
-	class Vector
+	class vector
 	{
 		public:
-			explicit Vector (const Alloc &alloc = Alloc());
-			explicit Vector (size_t n, const T &val = T(), const Alloc &alloc = Alloc());
-			template <class InputIterator> Vector (InputIterator first, InputIterator last, const Alloc &alloc = Alloc());
-			Vector (const Vector &x);
-			~Vector();
-			Vector &		operator=(const Vector &x);
-			// Iterator
-			Vector iterator begin()
+		// Typedef
+			typedef T value_type;
+			typedef Alloc allocator;
+			typedef size_t size_type;
+		// Constructor
+			explicit vector (const allocator &alloc = allocator()){(void)alloc;}
+			//explicit vector (size_type n, const value_type &val = value_type(), const allocator &alloc = allocator()){}
+			//template <class InputIterator> vector (InputIterator first, InputIterator last, const allocator &alloc = allocator()){}
+			vector (const vector &x){(void)x;}
+		// Destructor
+			~vector(){}
+			vector &		operator=(const vector &x){(void)x;}
+		// Iterator
+			class Iterator
 			{
-
+				public:
+					Iterator();
+					~Iterator();
+			};
+			typedef vector::Iterator iterator;
+			iterator begin() { return (iterator(*this, 0));}
+			iterator end() { return (iterator(*this, this->size()));}
+		// Method
+			size_type size() const{ return (this->_size);}
+			//size_t max_size() const {}
+			//void resize (size_type n, value_type val = value_type()){}
+			size_type capacity() { return (this->_capacity);}
+			bool empty() const{ return (this->size() == 0 ? true : false);}
+			void reserve (size_type n)
+			{
+				/* if (n > this->capacity())
+					reallocation
+				if (n > this->max_size())
+					throw (std::length_error); */
 			}
-			// Method
 			void push_back(const T &val)
 			{
-				Vector<int> my_vector;
+				(void)val;
+				vector<T> my_vector;
 				T new_val;
-				for (Vector<int>::iterator it = my_vector.begin() ; it != my_vector.end(); ++it){}
+				//for (vector<int>::iterator it = my_vector.begin() ; it != my_vector.end(); ++it){}
 				//if (Vector.size() > Vector.capacity())
 				//	reallocation
 			}
 		private:
+			size_type _size;
+			size_type _capacity;
 	};
 }
 
