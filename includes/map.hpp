@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Vector.hpp                                         :+:      :+:    :+:   */
+/*   map.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef VECTOR_HPP
-# define VECTOR_HPP
+#ifndef MAP_HPP
+# define MAP_HPP
 // Colors
 #define YELLOW		"\033[0;33m"
 #define PURPLE		"\033[0;35m"
@@ -29,13 +29,13 @@
 #include <string>
 #include <iostream>
 #include <string>
-#include <vector>
+#include <map>
 #include <cstddef>
 
 namespace ft
 {
 	template <class T, class Alloc = std::allocator <T> >
-	class vector
+	class map
 	{
 		public:
 		// Iterator
@@ -45,33 +45,34 @@ namespace ft
 					Iterator();
 					~Iterator();
 			};
-			// Typedef iterator
-				typedef vector::Iterator iterator;
-				typedef vector::Iterator const_iterator;
-				typedef vector::Iterator reverse_iterator;
-				typedef vector::Iterator const_reverse_iterator;
-			/* iterator begin() { return (iterator(*this, 0));}
+		// Typedef iterator
+			typedef map::Iterator iterator;
+			typedef map::Iterator const_iterator;
+			typedef map::Iterator reverse_iterator;
+			typedef map::Iterator const_reverse_iterator;
+			iterator begin() { return (iterator(*this, 0));}
 			iterator end() { return (iterator(*this, this->size()));}
 			reverse_iterator rbegin() { return (reverse_iterator(*this, 0));}
-			reverse_iterator rend() { return (reverse_iterator(*this, this->size()));} */
+			reverse_iterator rend() { return (reverse_iterator(*this, this->size()));}
 		// Typedef
-			typedef T value_type;
 			typedef Alloc allocator_type;
-			typedef size_t size_type;
-			typedef ptrdiff_t difference_type;
-			typedef value_type& reference;
-			typedef const value_type& const_reference;
-			typedef value_type *pointer;
-			typedef const value_type *const_pointer;
+			typedef typename Alloc::value_type value_type;
+			typedef typename Alloc::size_type size_type;
+			typedef typename Alloc::difference_type difference_type;
+			typedef typename Alloc::reference reference;
+			typedef typename Alloc::const_reference const_reference;
+			typedef typename Alloc::pointer pointer;
+			typedef typename Alloc::const_pointer const_pointer;
 		// Constructor
-			explicit vector (const allocator_type &alloc = allocator_type()){(void)alloc;}
-			//explicit vector (size_type n, const value_type &val = value_type(), const allocator &alloc = allocator()){}
-			//template <class InputIterator> vector (InputIterator first, InputIterator last, const allocator &alloc = allocator()){}
-			vector (const vector &x){(void)x;}
+			map(){};
+			//explicit map (const allocator_type &alloc = allocator_type()){(void)alloc;}
+			//explicit map (size_type n, const value_type &val = value_type(), const allocator &alloc = allocator()){}
+			//template <class InputIterator> map (InputIterator first, InputIterator last, const allocator &alloc = allocator()){}
+			//map (const map &x){(void)x;}
 		// Destructor
-			~vector(){}
+			~map(){}
 		// Operator
-			/* vector &		operator=(const vector &x){}
+			/* map &		operator=(const map &x){}
 			reference		operator[] (size_type n){}
 			const_reference	operator[] (size_type n) const{} */
 		// Method
@@ -113,10 +114,10 @@ namespace ft
 				void assign (size_type n, const value_type& val){}
 				void push_back(const value_type &val)
 				{
-					vector<value_type> my_vector;
-					for (vector<int>::iterator it = my_vector.begin() ; it != my_vector.end(); ++it){}
+					map<value_type> my_map;
+					for (map<int>::iterator it = my_map.begin() ; it != my_map.end(); ++it){}
 					*it = val;
-					//if (Vector.size() > Vector.capacity())
+					//if (map.size() > map.capacity())
 						//reallocation
 				}
 				void pop_back(){}
@@ -126,7 +127,7 @@ namespace ft
 				void insert (iterator position, InputIterator first, InputIterator last){}
 				iterator erase (iterator position){}
 				iterator erase (iterator first, iterator last){}
-				void swap (vector& x){}
+				void swap (map& x){}
 				void clear(){} */
 			// Allocator
 				//allocator_type get_allocator() const{}
@@ -139,5 +140,6 @@ namespace ft
 // Non member function overload
 /*
 	template <class T, class Alloc>
-		void swap (vector<T,Alloc>& x, vector<T,Alloc>& y);*/
-#endif /* ********************************************************** VECTOR_H */
+		void swap (map<T,Alloc>& x, map<T,Alloc>& y);*/
+
+#endif /* ********************************************************** `MAP_HPP */
