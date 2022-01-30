@@ -41,6 +41,12 @@ namespace ft
 		// Iterator
 			class Iterator
 			{
+				bool	operator < (vector const &src) const { return (*this < src);}
+				bool	operator > (vector const &src) const { return (*this > src);}
+				bool	operator <= (vector const &src) const { return (*this <= src);}
+				bool	operator >= (vector const &src) const { return (*this >= src);}
+				bool	operator == (vector const &src) const { return (*this == src);}
+				bool	operator != (vector const &src) const { return (*this != src);}
 				public:
 					Iterator();
 					~Iterator();
@@ -65,8 +71,17 @@ namespace ft
 			typedef typename Alloc::const_pointer const_pointer;
 		// Constructor
 			vector(){};
-			//explicit vector (const allocator_type &alloc = allocator_type()){(void)alloc;}
-			//explicit vector (size_type n, const value_type &val = value_type(), const allocator &alloc = allocator()){}
+			explicit vector (const allocator_type &alloc = allocator_type())
+			{
+				(void)alloc;
+			}
+			explicit vector (size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator())
+			{
+				(void)n;
+				(void)val;
+				(void)alloc;
+				//(void)allocator;
+			}
 			//template <class InputIterator> vector (InputIterator first, InputIterator last, const allocator &alloc = allocator()){}
 			//vector (const vector &x){(void)x;}
 		// Destructor

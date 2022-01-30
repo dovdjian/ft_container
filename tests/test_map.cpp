@@ -81,5 +81,4 @@ void	test_operator()
 */
 void	test_map()
 {
-
 }

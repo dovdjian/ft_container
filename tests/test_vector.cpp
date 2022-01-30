@@ -50,7 +50,7 @@
 		std::cout << ' ' << *it;
 	std::cout << std::endl << std::endl << END;
 }
-
+*/
 void	test_relational_operators()
 {
 	std::cout << BRED << "Test relational operator !" << END << std::endl << std::endl;
@@ -75,11 +75,11 @@ void	test_relational_operators()
 void	test_operator()
 {
 	std::cout << BRED << "Test all operator !" << END << std::endl << std::endl;
-	//test_relational_operators();
+	test_relational_operators();
 }
-*/
+
 
 void	test_vector()
 {
-	//test_operator();
+	test_operator();
 }
