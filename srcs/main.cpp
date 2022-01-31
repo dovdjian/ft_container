@@ -19,9 +19,9 @@ int main(void)
 {
 	std::cout << PURPLE << "Test vector:" << END << std::endl << std::endl;
 	test_vector();
-	std::cout << PURPLE << "Test stack:" << END << std::endl << std::endl;
+	std::cout << BBLUE << std::endl << "Test stack:" << END << std::endl << std::endl;
 	test_map();
-	std::cout << PURPLE << "Test map:" << END << std::endl << std::endl;
+	std::cout << BGREEN << std::endl << "Test map:" << END << std::endl << std::endl;
 	test_stack();
 	return (0);
 }

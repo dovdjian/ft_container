@@ -62,27 +62,40 @@ namespace ft
 			typedef vector::Iterator const_reverse_iterator;
 		// Method Iterator
 			iterator begin() { return (iterator(*this, 0));}
-			iterator end() { return (iterator(*this, this->size()));}
+			iterator end() { return (iterator(*this, this->_nbr_elements));}
 			reverse_iterator rbegin() { return (reverse_iterator(*this, 0));}
-			reverse_iterator rend() { return (reverse_iterator(*this, this->size()));}
+			reverse_iterator rend() { return (reverse_iterator(*this, this->_nbr_elements));}
 		// Constructor
-			vector(){};
-			explicit vector (const allocator_type &alloc = allocator_type())
-			{
-				(void)alloc;
-			}
-			explicit vector (size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type())
-			{
-				(void)alloc;
-				this->_buffer = new size_type[n];
+			// Default
+				explicit vector (const allocator_type &alloc = allocator_type())
+				: _alloc(alloc) ,_capacity(0), _nbr_elements(0)
+				{
+				}
+			// Fill
+				explicit vector (size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type())
+				: _alloc(alloc), _capacity(n), _nbr_elements(n)
+				{
+					if (n == 0)
+						this->_elements = NULL;
+					else
+						this->_elements = new value_type[n];
+					for (size_type i = 0; i < n; i++)
+						this->_elements[i] = val;
+				}
+			// Range
+				/* template <class InputIterator> vector (InputIterator first, InputIterator last, const allocator &alloc = allocator())
+				:
+				{
 
-				for (size_type i = 0; i < n; i++)
-					_buffer[i] = val;
-			}
-			//template <class InputIterator> vector (InputIterator first, InputIterator last, const allocator &alloc = allocator()){}
-			//vector (const vector &x){(void)x;}
+				} */
+			// Copy
+				vector (const vector &src) { *this = src; }
 		// Destructor
-			~vector(){}
+			~vector()
+			{
+				if (this->_elements)
+					delete[] this->_elements;
+			}
 		// Operator =, []
 			/* vector &		operator=(const vector &src)
 			{
@@ -147,20 +160,23 @@ namespace ft
 			// Allocator
 				//allocator_type get_allocator() const{}
 		private:
-			size_type _size;
-			size_type _capacity;
-			size_type	*_buffer;
+			allocator_type _alloc;
+			size_type _capacity; // allocate size of container
+			size_type _nbr_elements; // nbr elements in container
+			value_type	*_elements; // elements in container
 	};
 	// Non member function overload
 		template <class T, class Alloc>
 			bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-				{ return (lhs == rhs);}
+				{ return (lhs.size() == rhs.size()
+					&& std::equal(lhs.begin(), lhs.end(), rhs.begin())); }
 		template <class T, class Alloc>
 				bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 				{ return (!(lhs == rhs));}
 		template <class T, class Alloc>
 			bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-				{ return (lhs < rhs);}
+				{ return std::lexicographical_compare(lhs.begin(), lhs.end(),
+					rhs.begin(), rhs.end()); }
 		template <class T, class Alloc>
 			bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 				{ return (!(rhs < lhs));}

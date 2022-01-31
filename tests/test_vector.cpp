@@ -60,32 +60,32 @@ void	test_relational_operators()
 	std::vector<int> v_stl (3,100);	// three ints with a value of 100
 	std::vector<int> v2_stl (2,200);	// two ints with a value of 200
 
-	std::cout << "my tests: \n";
-	if (v == v2)
-		std::cout << "foo and bar are equal\n";
-	if (v != v2)
-		std::cout << "foo and bar are not equal\n";
+	std::cout << BPURPLE << "my tests:  " << std::endl << std::endl;
+	//if (v == v2)
+		//std::cout << "foo and bar are equal" << std::endl;
+	//if (v != v2)
+		//std::cout << "foo and bar are not equal" << std::endl;
 	if (v < v2)
-		std::cout << "foo is less than bar\n";
-	if (v > v2)
-		std::cout << "foo is greater than bar\n";
+		std::cout << "foo is less than bar" << std::endl;
+	/* if (v > v2)
+		std::cout << "foo is greater than bar" << std::endl;
 	if (v <= v2)
-		std::cout << "foo is less than or equal to bar\n";
+		std::cout << "foo is less than or equal to bar" << std::endl;
 	if (v >= v2)
-		std::cout << "foo is greater than or equal to bar\n";
-	std::cout << "stl tests: \n";
+		std::cout << "foo is greater than or equal to bar" << std::endl; */
+	std::cout << BYELLOW << "stl tests: " << std::endl << std::endl;
 	if (v_stl == v2_stl)
-		std::cout << "foo and bar are equal\n";
+		std::cout << "foo and bar are equal" << std::endl;
 	if (v_stl != v2_stl)
-		std::cout << "foo and bar are not equal\n";
+		std::cout << "foo and bar are not equal" << std::endl;
 	if (v_stl < v2_stl)
-		std::cout << "foo is less than bar\n";
+		std::cout << "foo is less than bar" << std::endl;
 	if (v_stl > v2_stl)
-		std::cout << "foo is greater than bar\n";
+		std::cout << "foo is greater than bar" << std::endl;
 	if (v_stl <= v2_stl)
-		std::cout << "foo is less than or equal to bar\n";
+		std::cout << "foo is less than or equal to bar" << std::endl;
 	if (v_stl >= v2_stl)
-		std::cout << "foo is greater than or equal to bar\n";
+		std::cout << "foo is greater than or equal to bar" << std::endl;
 }
 
 void	test_operator()
