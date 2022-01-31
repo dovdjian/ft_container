@@ -31,6 +31,7 @@
 #include <string>
 #include <vector>
 #include <cstddef>
+#include <memory>
 
 namespace ft
 {
@@ -38,15 +39,18 @@ namespace ft
 	class vector
 	{
 		public:
+		// Typedef
+			typedef T value_type;
+			typedef Alloc allocator_type;
+			typedef typename Alloc::size_type size_type;
+			typedef typename Alloc::difference_type difference_type;
+			typedef typename Alloc::reference reference;
+			typedef typename Alloc::const_reference const_reference;
+			typedef typename Alloc::pointer pointer;
+			typedef typename Alloc::const_pointer const_pointer;
 		// Iterator
 			class Iterator
 			{
-				bool	operator < (vector const &src) const { return (*this < src);}
-				bool	operator > (vector const &src) const { return (*this > src);}
-				bool	operator <= (vector const &src) const { return (*this <= src);}
-				bool	operator >= (vector const &src) const { return (*this >= src);}
-				bool	operator == (vector const &src) const { return (*this == src);}
-				bool	operator != (vector const &src) const { return (*this != src);}
 				public:
 					Iterator();
 					~Iterator();
@@ -56,40 +60,36 @@ namespace ft
 			typedef vector::Iterator const_iterator;
 			typedef vector::Iterator reverse_iterator;
 			typedef vector::Iterator const_reverse_iterator;
+		// Method Iterator
 			iterator begin() { return (iterator(*this, 0));}
 			iterator end() { return (iterator(*this, this->size()));}
 			reverse_iterator rbegin() { return (reverse_iterator(*this, 0));}
 			reverse_iterator rend() { return (reverse_iterator(*this, this->size()));}
-		// Typedef
-			typedef Alloc allocator_type;
-			typedef typename Alloc::value_type value_type;
-			typedef typename Alloc::size_type size_type;
-			typedef typename Alloc::difference_type difference_type;
-			typedef typename Alloc::reference reference;
-			typedef typename Alloc::const_reference const_reference;
-			typedef typename Alloc::pointer pointer;
-			typedef typename Alloc::const_pointer const_pointer;
 		// Constructor
 			vector(){};
 			explicit vector (const allocator_type &alloc = allocator_type())
 			{
 				(void)alloc;
 			}
-			explicit vector (size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator())
+			explicit vector (size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type())
 			{
-				(void)n;
-				(void)val;
 				(void)alloc;
-				//(void)allocator;
+				this->_buffer = new size_type[n];
+
+				for (size_type i = 0; i < n; i++)
+					_buffer[i] = val;
 			}
 			//template <class InputIterator> vector (InputIterator first, InputIterator last, const allocator &alloc = allocator()){}
 			//vector (const vector &x){(void)x;}
 		// Destructor
 			~vector(){}
-		// Operator
-			/* vector &		operator=(const vector &x){}
-			reference		operator[] (size_type n){}
-			const_reference	operator[] (size_type n) const{} */
+		// Operator =, []
+			/* vector &		operator=(const vector &src)
+			{
+				*this = src;
+			} */
+			//reference		operator[] (size_type n){}
+			//const_reference	operator[] (size_type n) const{}
 		// Method
 			//Capacity
 				size_type size() const{ return (this->_size);}
@@ -149,12 +149,29 @@ namespace ft
 		private:
 			size_type _size;
 			size_type _capacity;
+			size_type	*_buffer;
 	};
+	// Non member function overload
+		template <class T, class Alloc>
+			bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+				{ return (lhs == rhs);}
+		template <class T, class Alloc>
+				bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+				{ return (!(lhs == rhs));}
+		template <class T, class Alloc>
+			bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+				{ return (lhs < rhs);}
+		template <class T, class Alloc>
+			bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+				{ return (!(rhs < lhs));}
+		template <class T, class Alloc>
+			bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+				{ return (rhs < lhs);}
+		template <class T, class Alloc>
+			bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+				{ return (!(lhs < rhs));}
+		//template <class T, class Alloc>
+			//void swap (vector<T,Alloc>& x, vector<T,Alloc>& y);
 }
-
-// Non member function overload
-/*
-	template <class T, class Alloc>
-		void swap (vector<T,Alloc>& x, vector<T,Alloc>& y);*/
 
 #endif /* ********************************************************** `VECTOR_HPP */
