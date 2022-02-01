@@ -39,9 +39,9 @@ namespace ft
 	// forward declare the iterator
 
 	template <class T, class Alloc>
-		class Iterator;
+		class InputIterator;
 	template <class T, class Alloc>
-		class Const_iterator;
+		class Const_InputIterator;
 
 	template <class T, class Alloc = std::allocator <T> >
 	class vector
@@ -57,65 +57,95 @@ namespace ft
 			typedef typename Alloc::pointer pointer;
 			typedef typename Alloc::const_pointer const_pointer;
 		// make the iterator a friend
-			friend class Iterator <value_type, Alloc >;
-			//friend class Const_iterator <value_type, Alloc >;
+			friend class InputIterator <value_type, allocator_type >;
+			friend class Const_InputIterator <value_type, allocator_type >;
 		// Iterator
-			class Iterator : public std::iterator<std::input_iterator_tag, value_type>
+			class InputIterator : public std::iterator<std::input_iterator_tag, value_type>
 			{
 				public:
 				// Constructor
 					// Default
 						//Iterator();
-					Iterator(vector & src, size_type size)
+					InputIterator(vector & src, size_type size)
 					: _vector(src), _size(size)
 					{
 
 					}
-					~Iterator();
+					~InputIterator();
+				// Operator
+					bool operator==(vector <value_type, allocator_type> & src)
+						{ return (src == this->_vector); }
+					bool operator!=(vector <value_type, allocator_type> & src)
+						{ return (!(src == this->_vector)); }
+					value_type & operator*() { this->_vector[this->_size]; }
+				/*	InputIterator & operator++(){ }
+					InputIterator & operator++(value_type)
+					{
+						InputIterator<value_type, allocator_type> it;
+
+						it.setElem(this->_elem);
+						this->_elem++;
+						return (it);
+					} */
 				private:
-					vector <value_type, Alloc> & _vector;
+					vector <value_type, allocator_type> & _vector;
 					size_type _size;
 			};
 		// Const_iterator
-			/* class Const_iterator : public std::iterator<std::input_iterator_tag, value_type>
+		class Const_InputIterator : public std::iterator<std::input_iterator_tag, value_type>
 			{
 				public:
 				// Constructor
 					// Default
 						//Iterator();
-					Const_iterator(vector & src, size_type size)
+					Const_InputIterator(const vector & src, size_type size)
 					: _vector(src), _size(size)
 					{
 
 					}
-					~Const_iterator();
+					~Const_InputIterator();
+				// Operator
+					bool operator==(const vector <value_type, allocator_type> & src)
+						{ return (src == this->_vector); }
+					bool operator!=(const vector <value_type, allocator_type> & src)
+						{ return (!(src == this->_vector)); }
+					value_type & operator*() { return this->_vector[this->_size]; }
+				/*	Const_InputIterator & operator++(){ }
+					Const_InputIterator & operator++(value_type)
+					{
+						Const_InputIterator<value_type, allocator_type> it;
+
+						it.setElem(this->_elem);
+						this->_elem++;
+						return (it);
+					} */
 				private:
-					vector <value_type, Alloc> & _vector;
+					const vector <value_type, allocator_type> & _vector;
 					size_type _size;
-			}; */
+			};
 		// Typedef iterator
-			typedef vector::Iterator iterator;
-			//typedef vector::Const_iterator const_iterator;
-			typedef vector::Iterator reverse_iterator;
-			//typedef vector::Const_iterator const_reverse_iterator;
+			typedef vector::InputIterator iterator;
+			typedef vector::Const_InputIterator const_iterator;
+			typedef vector::InputIterator reverse_iterator;
+			typedef vector::Const_InputIterator const_reverse_iterator;
 		// Method Iterator
 			iterator begin() { return (iterator(*this, 0));}
-			iterator end() { return (iterator(*this, this->_nbr_elements));}
-			//const_iterator begin() { return (const_iterator(*this, 0)); const}
-			//const_iterator end() { return (const_iterator(*this, this->_nbr_elements)); const}
-			reverse_iterator rbegin() { return (reverse_iterator(*this, 0));}
-			reverse_iterator rend() { return (reverse_iterator(*this, this->_nbr_elements));}
-			//const_reverse_iterator rbegin() { return (const_reverse_iterator(*this, 0)); const}
-			//const_reverse_iterator rend() { return (const_reverse_iterator(*this, this->_nbr_elements)); const}
+			iterator end() { return (iterator(*this, this->_size));}
+			const_iterator begin() const { return (const_iterator(*this, 0));}
+			const_iterator end() const { return (const_iterator(*this, this->_size));}
+			//reverse_iterator rbegin() { return (reverse_iterator(*this, this->_size));}
+			//reverse_iterator rend() { return (reverse_iterator(*this, 0));}
+			//const_reverse_iterator rbegin() const { return (const_reverse_iterator(*this, this->_size));}
+			//const_reverse_iterator rend() const { return (const_reverse_iterator(*this, 0));}
 		// Constructor
 			// Default
 				explicit vector (const allocator_type &alloc = allocator_type())
-				: _alloc(alloc) ,_capacity(0), _nbr_elements(0)
+				: _alloc(alloc), _capacity(0), _size(0)
 				{
 				}
 			// Fill
 				explicit vector (size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type())
-				: _alloc(alloc), _capacity(n), _nbr_elements(n)
+				: _alloc(alloc), _capacity(n), _size(n)
 				{
 					if (n == 0)
 						this->_elements = NULL;
@@ -125,8 +155,10 @@ namespace ft
 						this->_elements[i] = val;
 				}
 			// Range
-				/* template <class InputIterator> vector (InputIterator first, InputIterator last, const allocator &alloc = allocator())
-				:
+			/* 	template <class InputIterator>
+					vector (InputIterator first, InputIterator last,
+						const allocator &alloc = allocator_type())
+						: _alloc(alloc), _first(first), _last(last)
 				{
 
 				} */
@@ -147,11 +179,11 @@ namespace ft
 			//const_reference	operator[] (size_type n) const{}
 		// Method
 			//Capacity
-				size_type size() const{ return (this->_size);}
+				size_type size() const{ return (this->_size); }
 				//size_type max_size() const {}
 				//void resize (size_type n, value_type val = value_type()){}
-				size_type capacity() { return (this->_capacity);}
-				bool empty() const{ return (this->size() == 0 ? true : false);}
+				size_type capacity() { return (this->_capacity); }
+				bool empty() const{ return (this->size() == 0 ? true : false); }
 				/* void reserve (size_type n)
 				{
 					if (n > this->capacity())
@@ -204,7 +236,7 @@ namespace ft
 		private:
 			allocator_type _alloc;
 			size_type _capacity; // allocate size of container
-			size_type _nbr_elements; // nbr elements in container
+			size_type _size; // nbr elements in container
 			value_type	*_elements; // elements in container
 	};
 	// Non member function overload

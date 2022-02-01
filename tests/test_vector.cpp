@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include "vector.hpp"
-
-/* void	test_constructor_and_iterator()
+/*
+void	test_constructor_and_iterator()
 {
 	std::cout << BRED << "Create obj with all constructor !" << END << std::endl << std::endl;
 
@@ -61,12 +61,12 @@ void	test_relational_operators()
 	std::vector<int> v2_stl (2,200);	// two ints with a value of 200
 
 	std::cout << BPURPLE << "my tests:  " << std::endl << std::endl;
-	//if (v == v2)
-		//std::cout << "foo and bar are equal" << std::endl;
+	if (v == v2)
+		std::cout << "foo and bar are equal" << std::endl;
 	//if (v != v2)
 		//std::cout << "foo and bar are not equal" << std::endl;
-	if (v < v2)
-		std::cout << "foo is less than bar" << std::endl;
+	//if (v < v2)
+		//std::cout << "foo is less than bar" << std::endl;
 	/* if (v > v2)
 		std::cout << "foo is greater than bar" << std::endl;
 	if (v <= v2)
