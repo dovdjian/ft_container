@@ -39,9 +39,9 @@ namespace ft
 	// forward declare the iterator
 
 	template <class T, class Alloc>
-		class InputIterator;
+		class Iterator;
 	template <class T, class Alloc>
-		class Const_InputIterator;
+		class Const_Iterator;
 
 	template <class T, class Alloc = std::allocator <T> >
 	class vector
@@ -57,63 +57,67 @@ namespace ft
 			typedef typename Alloc::pointer pointer;
 			typedef typename Alloc::const_pointer const_pointer;
 		// make the iterator a friend
-			friend class InputIterator <value_type, allocator_type >;
-			friend class Const_InputIterator <value_type, allocator_type >;
+			friend class Iterator <value_type, allocator_type >;
+			friend class Const_Iterator <value_type, allocator_type >;
 		// Iterator
-			class InputIterator : public std::iterator<std::input_iterator_tag, value_type>
+			class Iterator : public std::vector<T, Alloc>::iterator
 			{
 				public:
 				// Constructor
 					// Default
-						//Iterator();
-					InputIterator(vector & src, size_type size)
+						//Iterator(){}
+					Iterator(vector & src, size_type size)
 					: _vector(src), _size(size)
 					{
 
 					}
-					~InputIterator();
+					~Iterator(){}
 				// Operator
-					bool operator==(vector <value_type, allocator_type> & src)
-						{ return (src == this->_vector); }
-					bool operator!=(vector <value_type, allocator_type> & src)
-						{ return (!(src == this->_vector)); }
-					value_type & operator*() { this->_vector[this->_size]; }
-				/*	InputIterator & operator++(){ }
-					InputIterator & operator++(value_type)
+					//bool operator==(vector <value_type, allocator_type> & src)
+						//{ return (src == this->_vector); }
+					//bool operator!=(vector <value_type, allocator_type> & src)
+						//{ return (!(src == this->_vector)); }
+					//value_type & operator*() { this->_vector[this->_size]; }
+					//Iterator & operator++(){ }
+					/* Iterator & operator++(value_type)
 					{
-						InputIterator<value_type, allocator_type> it;
+						Iterator<value_type, allocator_type> it;
 
 						it.setElem(this->_elem);
 						this->_elem++;
 						return (it);
 					} */
+					bool operator!=(const Iterator & src) const
+					{
+						return (this->_size != src._size);
+					}
 				private:
 					vector <value_type, allocator_type> & _vector;
 					size_type _size;
 			};
 		// Const_iterator
-		class Const_InputIterator : public std::iterator<std::input_iterator_tag, value_type>
+		class Const_Iterator : public Iterator
 			{
 				public:
 				// Constructor
 					// Default
 						//Iterator();
-					Const_InputIterator(const vector & src, size_type size)
+					Const_Iterator(const vector & src, size_type size)
 					: _vector(src), _size(size)
 					{
 
 					}
-					~Const_InputIterator();
+					~Const_Iterator();
 				// Operator
 					bool operator==(const vector <value_type, allocator_type> & src)
 						{ return (src == this->_vector); }
 					bool operator!=(const vector <value_type, allocator_type> & src)
 						{ return (!(src == this->_vector)); }
 					value_type & operator*() { return this->_vector[this->_size]; }
-				/*	Const_InputIterator & operator++(){ }
-					Const_InputIterator & operator++(value_type)
+				/*	Const_Iterator & operator++(){ }
+					Const_Iterator & operator++(value_type)
 					{
-						Const_InputIterator<value_type, allocator_type> it;
+						Const_Iterator<value_type, allocator_type> it;
 
 						it.setElem(this->_elem);
 						this->_elem++;
@@ -123,11 +127,19 @@ namespace ft
 					const vector <value_type, allocator_type> & _vector;
 					size_type _size;
 			};
-		// Typedef iterator
-			typedef vector::InputIterator iterator;
-			typedef vector::Const_InputIterator const_iterator;
-			typedef vector::InputIterator reverse_iterator;
-			typedef vector::Const_InputIterator const_reverse_iterator;
+		// My Typedef iterator
+			typedef vector::Iterator iterator;
+			typedef vector::Const_Iterator const_iterator;
+			typedef vector::Iterator reverse_iterator;
+			typedef vector::Const_Iterator const_reverse_iterator;
+		// std Typedef iterator
+			/* typedef typename std::vector<T, Alloc>::iterator iterator;
+			typedef typename std::vector<T, Alloc>::const_iterator const_iterator;
+			typedef typename std::vector<T, Alloc>::reverse_iterator reverse_iterator;
+			typedef typename std::vector<T, Alloc>::const_reverse_iterator const_reverse_iterator; */
+			//typedef std::vectorerator const_iterator;
+			//typedef std::vector reverse_iterator;
+			//typedef std::vectorerator const_reverse_iterator;
 		// Method Iterator
 			iterator begin() { return (iterator(*this, 0));}
 			iterator end() { return (iterator(*this, this->_size));}
@@ -167,15 +179,20 @@ namespace ft
 		// Destructor
 			~vector()
 			{
-				if (this->_elements)
-					delete[] this->_elements;
+				//if (this->_elements)
+					//delete []this->_elements;
+				//this->_size = 0;
+				//this->_capacity = 0;
 			}
 		// Operator =, []
-			/* vector &		operator=(const vector &src)
+			vector &		operator=(const vector &src)
 			{
 				*this = src;
-			} */
-			//reference		operator[] (size_type n){}
+			}
+			reference		operator[] (size_type n) const
+			{
+				return (this->_elements[n]);
+			}
 			//const_reference	operator[] (size_type n) const{}
 		// Method
 			//Capacity
@@ -183,7 +200,7 @@ namespace ft
 				//size_type max_size() const {}
 				//void resize (size_type n, value_type val = value_type()){}
 				size_type capacity() { return (this->_capacity); }
-				bool empty() const{ return (this->size() == 0 ? true : false); }
+				bool empty() const{ return (this->_size == 0 ? true : false); }
 				/* void reserve (size_type n)
 				{
 					if (n > this->capacity())
@@ -211,6 +228,25 @@ namespace ft
 				reference back(){}
 				const_reference back() const{}
 			// Modifiers
+			void insert(const value_type &value)
+			{
+				if (this->_size == this->_capacity)
+				{
+					if (this->_capacity == 0)
+						this->_capacity = 1;
+					this->_capacity *= 2;
+					// allocate 2x larger memory
+					value_type *new_mem = new value_type[this->_capacity];
+					// copy data to there
+					for (size_type i = 0; i < this->_size; ++i)
+						new_mem[i] = this->_elements[i];
+					delete this->_elements;
+					this->_elements = new_mem;
+				}
+				// insert the new element
+				this->_elements[this->_size] = value;
+				++this->_size;
+			}
 				/* template <class InputIterator>
 				void assign (InputIterator first, InputIterator last){}
 				void assign (size_type n, const value_type& val){}

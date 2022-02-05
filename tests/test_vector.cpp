@@ -11,47 +11,50 @@
 /* ************************************************************************** */
 
 #include "vector.hpp"
-/*
+
 void	test_constructor_and_iterator()
 {
 	std::cout << BRED << "Create obj with all constructor !" << END << std::endl << std::endl;
 
 	ft::vector<int> first;				// empty ft::vector of ints
 	ft::vector<int> second(4,100);		// four ints with value 100
-	ft::vector<int> third(second.begin(), second.end());  // iterating through second
-	ft::vector<int> fourth(third); // copy
-	std::cout << BYELLOW << "The contents of first are:" << BBLUE;
-	for (ft::vector<int>::iterator it = first.begin(); it != first.end(); ++it)
-		std::cout << ' ' << *it;
-	std::cout << std::endl;
-	std::cout << BYELLOW << "The contents of second(4, 100) are:" << BBLUE;
-	for (ft::vector<int>::iterator it = second.begin(); it != second.end(); ++it)
-		std::cout << ' ' << *it;
-	std::cout << std::endl;
-	std::cout << BYELLOW << "The contents of third(second.begin, second.end) are:" << BBLUE;
-	for (ft::vector<int>::iterator it = third.begin(); it != third.end(); ++it)
+	//ft::vector<int> third(second.begin(), second.end());  // iterating through second
+	//ft::vector<int> fourth(third); // copy
+	first.insert(8);
+	first.insert(3);
+	first.insert(1);
+	first.insert(7);
+	first.insert(2);
+	for (auto i : first)
+		std::cout << "i = " << i << std::endl;
+	//std::cout << BYELLOW << "The contents of second(4, 100) are:" << BBLUE;
+	//for (ft::vector<int>::iterator it = second.begin(); it != second.end(); ++it)
+		//std::cout << "*it = "  << *it;
+	//std::cout << std::endl;
+	//std::cout << BYELLOW << "The contents of third(second.begin, second.end) are:" << BBLUE;
+	/* for (std::vector<int>::iterator it = third.begin(); it != third.end(); ++it)
 		std::cout << ' ' << *it;
 	std::cout << std::endl;
 	std::cout << BYELLOW << "The contents of fourth(third) are:" << BBLUE;
-	for (ft::vector<int>::iterator it = fourth.begin(); it != fourth.end(); ++it)
-		std::cout << ' ' << *it;
-	std::cout << std::endl;
+	for (std::vector<int>::iterator it = fourth.begin(); it != fourth.end(); ++it)
+		std::cout << ' ' << *it; */
+	//std::cout << std::endl;
 
 	// the iterator constructor can also be used to construct from arrays:
-	int myints[] = {16,2,77,29};
-	ft::vector<int> fifth(myints, myints + sizeof(myints) / sizeof(int));
+	/* int myints[] = {16,2,77,29};
+	std::vector<int> fifth(myints, myints + sizeof(myints) / sizeof(int));
 
 	std::cout << BYELLOW << "The contents of fifth are:" << BBLUE;
-	for (ft::vector<int>::iterator it = fifth.begin(); it != fifth.end(); ++it)
+	for std::vector<int>::iterator it = fifth.begin(); it != fifth.end(); ++it)
 		std::cout << ' ' << *it;
 	std::cout << std::endl;
 	std::cout << BYELLOW << "The contents of fifth in reverse are:" << BBLUE;
-	for (ft::vector<int>::reverse_iterator it = fifth.rbegin(); it != fifth.rend(); ++it)
+	for (std::vector<int>::reverse_iterator it = fifth.rbegin(); it != fifth.rend(); ++it)
 		std::cout << ' ' << *it;
-	std::cout << std::endl << std::endl << END;
+	std::cout << std::endl << std::endl << END; */
 }
-*/
-void	test_relational_operators()
+
+/* void	test_relational_operators()
 {
 	std::cout << BRED << "Test relational operator !" << END << std::endl << std::endl;
 	//ft::vector v;
@@ -67,12 +70,12 @@ void	test_relational_operators()
 		//std::cout << "foo and bar are not equal" << std::endl;
 	//if (v < v2)
 		//std::cout << "foo is less than bar" << std::endl;
-	/* if (v > v2)
+	if (v > v2)
 		std::cout << "foo is greater than bar" << std::endl;
 	if (v <= v2)
 		std::cout << "foo is less than or equal to bar" << std::endl;
 	if (v >= v2)
-		std::cout << "foo is greater than or equal to bar" << std::endl; */
+		std::cout << "foo is greater than or equal to bar" << std::endl;
 	std::cout << BYELLOW << "stl tests: " << std::endl << std::endl;
 	if (v_stl == v2_stl)
 		std::cout << "foo and bar are equal" << std::endl;
@@ -86,12 +89,13 @@ void	test_relational_operators()
 		std::cout << "foo is less than or equal to bar" << std::endl;
 	if (v_stl >= v2_stl)
 		std::cout << "foo is greater than or equal to bar" << std::endl;
-}
+} */
 
 void	test_operator()
 {
 	std::cout << BRED << "Test all operator !" << END << std::endl << std::endl;
-	test_relational_operators();
+	//test_relational_operators();
+	test_constructor_and_iterator();
 }
 
 
