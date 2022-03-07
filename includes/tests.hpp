@@ -16,6 +16,7 @@
 #include <fstream>
 #include <ostream>
 #include <iostream>
+#include <string>
 
 void	test_vector();
 void	test_stack();

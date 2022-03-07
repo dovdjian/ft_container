@@ -24,18 +24,15 @@ int main(void)
 	std::cout << BGREEN << std::endl << "Test map:" << END << std::endl << std::endl;
 	test_stack();
 
-	std::string file_str, line;
-	std::ifstream ifs("./container", std::ofstream::out | std::ofstream::binary);
-	std::ofstream file("ft_output.txt");
+	/* std::ifstream in("in.txt");
+	std::streambuf *cinbuf = std::cin.rdbuf(); //save old buf
+	std::cin.rdbuf(in.rdbuf()); //redirect std::cin to in.txt!	 */
+	std::ofstream out("out.txt");
+	//std::streambuf *coutbuf = std::cout.rdbuf(); //save old buf
+	std::cout.rdbuf(out.rdbuf()); //redirect std::cout to out.txt!
 
-	ifs.open("./container", std::ofstream::out | std::ofstream::binary);
-	if (!ifs.is_open())
-		//throw std::invalid_argument("[Error] Opening file");
-		return (-1);
-	while (std::getline(ifs, line))
-		file_str += line;
 
-	ifs.close();
-	file << file_str;
-	return (0);
+	//while (std::getline(std::cin, line))  //input from the file in.txt
+		//std::cout << line << "\n";   //output to the file out.txt
+	//std::cout.rdbuf(coutbuf); //reset to standard output again
 }

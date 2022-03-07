@@ -4,7 +4,7 @@ NAME_STL = container_stl
 
 CPP	=	@clang++
 
-CFLAGS	=	-Wall -Wextra -Werror -std=c++98
+CFLAGS	=	-Wall -Wextra -Werror #-std=c++98
 
 RM	=	@rm -rf
 
@@ -31,12 +31,10 @@ TESTS_STL = test_vector_stl.cpp \
 
 MAIN = main.cpp
 
-MAIN_STL = main_stl.cpp
-
 SRCS = $(addprefix srcs/, $(MAIN)) \
 		$(addprefix srcs/tests/ft_tests/, $(TESTS)) \
 
-SRCS_STL = $(addprefix srcs/, $(MAIN_STL)) \
+SRCS_STL = $(addprefix srcs/, $(MAIN)) \
 		$(addprefix srcs/tests/stl_tests/, $(TESTS_STL)) \
 
 OBJ = $(SRCS:.cpp=.o)
