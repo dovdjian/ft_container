@@ -23,19 +23,5 @@ int main(void)
 	test_map();
 	std::cout << BGREEN << std::endl << "Test map:" << END << std::endl << std::endl;
 	test_stack();
-
-	std::string file_str, line;
-	std::ifstream ifs("./container", std::ofstream::out | std::ofstream::binary);
-	std::ofstream file("ft_output.txt");
-
-	ifs.open("./container", std::ofstream::out | std::ofstream::binary);
-	if (!ifs.is_open())
-		//throw std::invalid_argument("[Error] Opening file");
-		return (-1);
-	while (std::getline(ifs, line))
-		file_str += line;
-
-	ifs.close();
-	file << file_str;
 	return (0);
 }

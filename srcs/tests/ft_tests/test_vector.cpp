@@ -20,28 +20,28 @@ void	test_constructor_and_iterator()
 	ft::vector<int> second(4,100);		// four ints with value 100
 	//ft::vector<int> third(second.begin(), second.end());  // iterating through second
 	//ft::vector<int> fourth(third); // copy
-	/* first.insert(8);
-	first.insert(3);
-	first.insert(1);
-	first.insert(7);
-	first.insert(2); */
 	first.push_back(10);
 	first.push_back(20);
+	first.pop_back();
 	first.push_back(30);
+	//first.insert(8);
 	first.push_back(40);
 	first.push_back(50);
-	first.pop_back();
 	std::cout << "first.size()\t=\t" << first.size() << std::endl;
-	ft::vector<int>::iterator it;
 	for (size_t i = 0; i < first.size(); i++)
-		std::cout << "first\t=\t" << first[i] << std::endl;
+		std::cout << "first[i]\t=\t" << first[i] << std::endl;
+
+	std::cout << std::endl << " --------------- TEST ITERATORS --------------- " << std::endl << std::endl;
+
+	ft::vector<int>::iterator it;
 	for (it = first.begin() ; it != first.end() ; ++it)
 		std::cout << "*it\t=\t" << *it << std::endl;
-	//for (auto i : first)
-		//std::cout << "i = " << i << std::endl;
-	//std::cout << BYELLOW << "The contents of second(4, 100) are:" << BBLUE;
-	//for (ft::vector<int>::iterator it = second.begin(); it != second.end(); ++it)
-		//std::cout << "*it = "  << *it;
+	//first.pop_back();
+	std::cout << "*after pop back\t=\t" << *it << std::endl;
+
+	std::cout << BYELLOW << "The contents of second(4, 100) are:" << std::endl << BBLUE;
+	for (ft::vector<int>::iterator it = second.begin(); it != second.end(); ++it)
+		std::cout << "*it\t=\t" << *it << std::endl;
 	//std::cout << std::endl;
 	//std::cout << BYELLOW << "The contents of third(second.begin, second.end) are:" << BBLUE;
 	/* for (std::vector<int>::iterator it = third.begin(); it != third.end(); ++it)

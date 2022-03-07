@@ -1,8 +1,10 @@
 NAME = container
 
+NAME_STL = container_stl
+
 CPP	=	@clang++
 
-CFLAGS	=	-Wall -Wextra -Werror #-std=c++98
+CFLAGS	=	-Wall -Wextra -Werror -std=c++98
 
 RM	=	@rm -rf
 
@@ -23,29 +25,45 @@ TESTS = test_vector.cpp \
 		test_stack.cpp \
 		test_map.cpp \
 
+TESTS_STL = test_vector_stl.cpp \
+		test_stack_stl.cpp \
+		test_map_stl.cpp \
+
 MAIN = main.cpp
 
+MAIN_STL = main_stl.cpp
+
 SRCS = $(addprefix srcs/, $(MAIN)) \
-		$(addprefix srcs/tests/, $(TESTS)) \
+		$(addprefix srcs/tests/ft_tests/, $(TESTS)) \
+
+SRCS_STL = $(addprefix srcs/, $(MAIN_STL)) \
+		$(addprefix srcs/tests/stl_tests/, $(TESTS_STL)) \
 
 OBJ = $(SRCS:.cpp=.o)
+
+OBJ_STL = $(SRCS_STL:.cpp=.o)
 
 %.o: %.cpp
 		@printf "${PURPLE}%-35.35s\r${END}" $@
 		${CPP} $(HEADER) ${CFLAGS} -c $< -o $@
 
-all : $(NAME)
+all : $(NAME) $(NAME_STL)
 
 $(NAME) : $(OBJ)
 	$(CPP) $(CFLAGS) $(HEADER) -o $(NAME) $(OBJ)
 	@echo "The ${RED} $(NAME) ${END} has been build !"
 
+$(NAME_STL) : $(OBJ_STL)
+	$(CPP) $(CFLAGS) $(HEADER) -o $(NAME_STL) $(OBJ_STL)
+	@echo "The ${RED} $(NAME_STL) ${END} has been build !"
+
 clean :
-	$(RM) $(OBJ)
+	$(RM) $(OBJ) $(OBJ_STL)
 
 fclean : clean
-	@$(RM) $(NAME)
+	@$(RM) $(NAME) $(NAME_STL)
 	@echo "The ${BLUE} $(NAME) ${END} has been deleted !"
+	@echo "The ${BLUE} $(NAME_STL) ${END} has been deleted !"
 
 re : fclean all
 

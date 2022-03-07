@@ -13,8 +13,16 @@
 #ifndef TESTS_HPP
 # define TESTS_HPP
 
+#include <fstream>
+#include <ostream>
+#include <iostream>
+
 void	test_vector();
 void	test_stack();
 void	test_map();
+
+void	test_vector_stl();
+void	test_stack_stl();
+void	test_map_stl();
 
 #endif

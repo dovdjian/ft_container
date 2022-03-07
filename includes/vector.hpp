@@ -70,28 +70,26 @@ namespace ft
 
 						}
 					// COPY
-						/* Iterator(const Iterator & it)
+						Iterator(const Iterator & it)
 						{
 							this->_v = it._v;
-							this->_index = it.index;
+							this->_index = it._index;
 						}
 					// ?
-						Iterator(const vector * v, int index)
+						Iterator(vector * v, int index)
 						{
 							this->_v = v;
 							this->_index = index;
-						} */
+						}
 						~Iterator(){}
 				// ALL CATEGORIES
-
-				// INPUT
-					bool operator==(vector <value_type, allocator_type> & src)
-						{ return (src == this->_v); }
-					bool operator!=(vector <value_type, allocator_type> & src)
-						{ return (!(src == this->_v)); }
-					//value_type & operator*() { this->_vector[this->_size]; }
-					//Iterator & operator++(){ }
-					/* Iterator & operator++(value_type)
+					Iterator & operator++() // pre
+					{
+						std::cout << "preincrement operator" << std::endl;
+						_index++;
+						return (*this);
+					}
+					/* Iterator & operator++(value_type) // post
 					{
 						Iterator<value_type, allocator_type> it;
 
@@ -99,10 +97,16 @@ namespace ft
 						this->_elem++;
 						return (it);
 					} */
-					bool operator!=(const Iterator & src) const
-					{
-						return (this->_size != src._size);
-					}
+				// FORWARD
+					bool operator==(const Iterator & it)
+						{ return (this->_v == it._v && this->_index == it._index); }
+					bool operator!=(const Iterator & it)
+						{ return (!(*this == it)); }
+					value_type & operator*() { return (this->_v->_elements[_index]); }
+				// BIDIRECTIONAL
+
+				// RANDOM ACCESS
+
 				private:
 					const vector	*_v;
 					int				_index;
@@ -111,33 +115,53 @@ namespace ft
 		class Const_Iterator : public Iterator
 			{
 				public:
-				// Constructor
+				// CONSTRUCTOR
 					// Default
-						//Iterator();
-					Const_Iterator(const vector & src, size_type size)
-					: _vector(src), _size(size)
-					{
+						Const_Iterator() : _v(NULL)
+						{
 
-					}
-					~Const_Iterator();
-				// Operator
-					/*bool operator==(const vector <value_type, allocator_type> & src)
-						{ return (src == this->_vector); }
-					bool operator!=(const vector <value_type, allocator_type> & src)
-						{ return (!(src == this->_vector)); }
-					value_type & operator*() { return this->_vector[this->_size]; }
-					Const_Iterator & operator++(){ }
-					Const_Iterator & operator++(value_type)
+						}
+					// COPY
+						Const_Iterator(const Iterator & it)
+						{
+							this->_v = it._v;
+							this->_index = it._index;
+						}
+					// ?
+						Const_Iterator(vector * v, int index)
+						{
+							this->_v = v;
+							this->_index = index;
+						}
+						~Const_Iterator(){}
+				// ALL CATEGORIES
+					Iterator & operator++() // pre
 					{
-						Const_Iterator<value_type, allocator_type> it;
+						std::cout << "preincrement operator" << std::endl;
+						_index++;
+						return (*this);
+					}
+					/* Iterator & operator++(value_type) // post
+					{
+						Iterator<value_type, allocator_type> it;
 
 						it.setElem(this->_elem);
 						this->_elem++;
 						return (it);
 					} */
+				// FORWARD
+					bool operator==(const Iterator & it)
+						{ return (this->_v == it._v && this->_index == it._index); }
+					bool operator!=(const Iterator & it)
+						{ return (!(*this == it)); }
+					value_type & operator*() { return (this->_v->_elements[_index]); }
+				// BIDIRECTIONAL
+
+				// RANDOM ACCESS
+
 				private:
-					const vector <value_type, allocator_type> & _vector;
-					size_type _size;
+					const vector	*_v;
+					int				_index;
 			};
 		// My Typedef iterator
 			typedef vector::Iterator iterator;
