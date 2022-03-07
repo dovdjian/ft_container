@@ -60,23 +60,35 @@ namespace ft
 			friend class Iterator <value_type, allocator_type >;
 			friend class Const_Iterator <value_type, allocator_type >;
 		// ITERATOR
-			class Iterator : public std::vector<T, Alloc>::iterator
+			class Iterator : public std::iterator<std::random_access_iterator_tag, value_type>
 			{
 				public:
 				// CONSTRUCTOR
 					// Default
-						//Iterator(){}
-					Iterator(vector & src, size_type size)
-					: _vector(src), _size(size)
-					{
+						Iterator() : _v(NULL)
+						{
 
-					}
-					~Iterator(){}
-				// Operator
-					//bool operator==(vector <value_type, allocator_type> & src)
-						//{ return (src == this->_vector); }
-					//bool operator!=(vector <value_type, allocator_type> & src)
-						//{ return (!(src == this->_vector)); }
+						}
+					// COPY
+						/* Iterator(const Iterator & it)
+						{
+							this->_v = it._v;
+							this->_index = it.index;
+						}
+					// ?
+						Iterator(const vector * v, int index)
+						{
+							this->_v = v;
+							this->_index = index;
+						} */
+						~Iterator(){}
+				// ALL CATEGORIES
+
+				// INPUT
+					bool operator==(vector <value_type, allocator_type> & src)
+						{ return (src == this->_v); }
+					bool operator!=(vector <value_type, allocator_type> & src)
+						{ return (!(src == this->_v)); }
 					//value_type & operator*() { this->_vector[this->_size]; }
 					//Iterator & operator++(){ }
 					/* Iterator & operator++(value_type)
@@ -92,8 +104,8 @@ namespace ft
 						return (this->_size != src._size);
 					}
 				private:
-					vector <value_type, allocator_type> & _vector;
-					size_type _size;
+					const vector	*_v;
+					int				_index;
 			};
 		// CONST_ITERATOR
 		class Const_Iterator : public Iterator
@@ -141,10 +153,10 @@ namespace ft
 			//typedef std::vector reverse_iterator;
 			//typedef std::vectorerator const_reverse_iterator;
 		// METHOD ITERATOR
-			iterator begin() { return (iterator(*this, 0));}
-			iterator end() { return (iterator(*this, this->_size));}
-			const_iterator begin() const { return (const_iterator(*this, 0));}
-			const_iterator end() const { return (const_iterator(*this, this->_size));}
+			iterator begin() { return (iterator(this, 0));}
+			iterator end() { return (iterator(this, this->_size));}
+			const_iterator begin() const { return (const_iterator(this, 0));}
+			const_iterator end() const { return (const_iterator(this, this->_size));}
 			//reverse_iterator rbegin() { return (reverse_iterator(*this, this->_size));}
 			//reverse_iterator rend() { return (reverse_iterator(*this, 0));}
 			//const_reverse_iterator rbegin() const { return (const_reverse_iterator(*this, this->_size));}

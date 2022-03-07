@@ -32,8 +32,11 @@ void	test_constructor_and_iterator()
 	first.push_back(50);
 	first.pop_back();
 	std::cout << "first.size()\t=\t" << first.size() << std::endl;
+	ft::vector<int>::iterator it;
 	for (size_t i = 0; i < first.size(); i++)
 		std::cout << "first\t=\t" << first[i] << std::endl;
+	for (it = first.begin() ; it != first.end() ; ++it)
+		std::cout << "*it\t=\t" << *it << std::endl;
 	//for (auto i : first)
 		//std::cout << "i = " << i << std::endl;
 	//std::cout << BYELLOW << "The contents of second(4, 100) are:" << BBLUE;

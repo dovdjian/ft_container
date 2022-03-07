@@ -26,7 +26,7 @@ TESTS = test_vector.cpp \
 MAIN = main.cpp
 
 SRCS = $(addprefix srcs/, $(MAIN)) \
-		$(addprefix tests/, $(TESTS)) \
+		$(addprefix srcs/tests/, $(TESTS)) \
 
 OBJ = $(SRCS:.cpp=.o)
 
