@@ -9,6 +9,7 @@
 		"string_view": "cpp",
 		"*.tcc": "cpp",
 		"unordered_map": "cpp",
-		"algorithm": "cpp"
+		"algorithm": "cpp",
+		"__bit_reference": "cpp"
 	}
 }
