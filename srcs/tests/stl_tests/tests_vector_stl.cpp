@@ -14,6 +14,7 @@
 
 void	tests_iterator()
 {
+	std::cout << BYELLOW << "*** TEST ITERATOR ***" << END << std::endl << std::endl;
 	std::vector<int> v;
 	std::vector<int>::iterator it; // default constructible
 	std::vector<int>::iterator copy_constr(it); // copy constructible
@@ -87,6 +88,6 @@ void	tests_operator()
 
 void	tests_vector()
 {
-	tests_operator();
+	//tests_operator();
 	tests_iterator();
 }

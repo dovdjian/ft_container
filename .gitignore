@@ -31,3 +31,4 @@
 *.out
 *.app
 container
+container_stl
