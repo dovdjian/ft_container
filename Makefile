@@ -4,7 +4,7 @@ NAME_STL = container_stl
 
 CPP	=	@clang++
 
-CFLAGS	=	-Wall -Wextra -Werror #-std=c++98
+CFLAGS	=	-Wall -Wextra -Werror -std=c++98
 
 RM	=	@rm -rf
 
@@ -21,13 +21,13 @@ CYAN		:= \033[1;36m
 WHITE		:= \033[1;37m
 END			:= \033[0m
 
-TESTS = test_vector.cpp \
-		test_stack.cpp \
-		test_map.cpp \
+TESTS = tests_vector.cpp \
+		tests_stack.cpp \
+		tests_map.cpp \
 
-TESTS_STL = test_vector_stl.cpp \
-		test_stack_stl.cpp \
-		test_map_stl.cpp \
+TESTS_STL = tests_vector_stl.cpp \
+			tests_stack_stl.cpp \
+			tests_map_stl.cpp \
 
 MAIN = main.cpp
 

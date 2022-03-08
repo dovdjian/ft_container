@@ -111,7 +111,7 @@ void	test_operator()
 }
 
 
-void	test_vector()
+void	tests_vector()
 {
 	test_operator();
 }

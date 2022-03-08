@@ -1,0 +1,39 @@
+[0;35m--------------- TEST VECTOR ---------------[0m
+
+[1;31mTest all operator ![0m
+
+[1;31mCreate obj with all constructor ![0m
+
+first.size()	=	4
+first[i]	=	10
+first[i]	=	30
+first[i]	=	40
+first[i]	=	50
+
+ --------------- TEST ITERATORS --------------- 
+
+*it	=	je suis dans * iterator
+10
+*it	=	je suis dans * iterator
+30
+*it	=	je suis dans * iterator
+40
+*it	=	je suis dans * iterator
+50
+*after pop back	=	je suis dans * iterator
+0
+[1;33mThe contents of second(4, 100) are:
+[1;34m*it	=	je suis dans * iterator
+100
+*it	=	je suis dans * iterator
+100
+*it	=	je suis dans * iterator
+100
+*it	=	je suis dans * iterator
+100
+[1;34m
+--------------- TEST STACK ---------------[0m
+
+[1;32m
+--------------- TEST MAP ---------------[0m
+

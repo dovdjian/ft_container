@@ -18,12 +18,8 @@
 #include <iostream>
 #include <string>
 
-void	test_vector();
-void	test_stack();
-void	test_map();
-
-void	test_vector_stl();
-void	test_stack_stl();
-void	test_map_stl();
+void	tests_vector();
+void	tests_stack();
+void	tests_map();
 
 #endif

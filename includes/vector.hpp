@@ -26,9 +26,6 @@
 #define END			"\033[0m"
 
 #include <iostream>
-#include <string>
-#include <iostream>
-#include <string>
 #include <vector>
 #include <cstddef>
 #include <memory>
@@ -85,7 +82,6 @@ namespace ft
 				// ALL CATEGORIES
 					Iterator & operator++() // pre
 					{
-						std::cout << "preincrement operator" << std::endl;
 						_index++;
 						return (*this);
 					}
@@ -102,7 +98,11 @@ namespace ft
 						{ return (this->_v == it._v && this->_index == it._index); }
 					bool operator!=(const Iterator & it)
 						{ return (!(*this == it)); }
-					value_type & operator*() { return (this->_v->_elements[_index]); }
+					value_type & operator*()
+					{
+						std::cout << "je suis dans * iterator" << std::endl;
+						return (this->_v->_elements[_index]);
+					}
 				// BIDIRECTIONAL
 
 				// RANDOM ACCESS
@@ -137,7 +137,6 @@ namespace ft
 				// ALL CATEGORIES
 					Iterator & operator++() // pre
 					{
-						std::cout << "preincrement operator" << std::endl;
 						_index++;
 						return (*this);
 					}
