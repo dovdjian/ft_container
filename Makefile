@@ -2,7 +2,7 @@ NAME = container
 
 NAME_STL = container_stl
 
-CPP	=	@clang++
+CPP	=	@c++
 
 CFLAGS	=	-Wall -Wextra -Werror -std=c++98
 

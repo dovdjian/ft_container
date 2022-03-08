@@ -25,21 +25,34 @@ void	tests_iterator()
 	v.push_back(2);
 	v.push_back(3);
 
-	for (it = v.begin() ; it != v.end() ; ++it)
+	it = v.begin();
+	--it; // pre decr
+	copy_constr = it; // operator =
+	//if (it == copy_constr) // operator ==
+
+	std::cout << "*IT = *COPY_CONSTR" << std::endl;
+	while (it != v.end())
 	{
-		std::cout << BRED << "*it\t=\t" << *it << END << std::endl;
-		//std::cout << BBLUE << "it->\t=\t" << it-> << END << std::endl;
-		if (it == copy_constr)
-			std::cout << "it == copy_constr" << std::endl;
-		else
-			std::cout << "it != copy_constr" << std::endl;
-		if (it != copy_assign)
-			std::cout << "it != copy_assign" << std::endl;
-		else
-			std::cout << "it == copy_assign" << std::endl;
+		std::cout << BRED <<
+			*it << " = " << *copy_constr << END << std::endl; // operator *
+		++it; // pre incr
+		copy_constr++; // post incre
+	}
+	std::cout << "*IT = *COPY_ASSIGN" << std::endl;
+	it = v.begin();
+	it--; // post decr
+	copy_assign = it;
+	while (it != v.end())
+	{
+		std::cout << BBLUE <<
+			*it << " = " << *copy_assign << END << std::endl;
+		it++;
+		++copy_assign;
 	}
 	*it = 10;
 	std::cout << "*it after assign to 10\t=\t" << *it << std::endl;
+	std::cout << "*it after assign to 10\t=\t" << *copy_assign << std::endl;
+	std::cout << "*it after assign to 10\t=\t" << *copy_constr << std::endl;
 }
 
 /* void	test_relational_operators()
