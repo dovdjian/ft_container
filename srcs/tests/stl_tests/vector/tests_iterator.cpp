@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 14:16:14 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/09 14:16:23 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/09 15:49:21y dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,53 +103,34 @@ void	tests_constructors_iterator()
 	std::vector<int>::iterator copy_constr(it); // copy constructible
 	std::vector<int>::iterator copy_assign = it; // copy assignable
 
-	std::cout << "PUSHBACK 10, 20, 30, 40" << std::endl;
+	std::cout << BRED << "v = 500, 600, 700, 800"
+		<< std::endl << std::endl;
 
-	v.push_back(10);
-	v.push_back(20);
-	v.push_back(30);
-	v.push_back(40);
+	v.push_back(500);
+	v.push_back(600);
+	v.push_back(700);
+	v.push_back(800);
 
 	it = v.begin();
-	copy_constr = it; // operator =
-	//if (it == copy_constr) // operator ==
-
-	std::cout << BRED << "*IT = *COPY_CONSTR" << std::endl;
-	while (it != v.end())
-	{
-		std::cout << *it << " = " <<
-			*copy_constr << std::endl; // operator *
-		++it; // pre incr
-		copy_constr++; // post incre
-	}
-	it = v.begin();
-	it--; // post decr
+	copy_constr = it;
 	copy_assign = it;
-	std::cout << BBLUE << "*IT = *COPY_ASSIGN" << std::endl;
-	while (it != v.end())
-	{
-		std::cout << *it << " = " <<
-			*copy_assign << std::endl;
-		it++;
-		++copy_assign;
-	}
-	*it = 10;
-	std::cout << END << "*it after assign to 10\t\t=\t" << *it << std::endl;
-	std::cout << "*copy_constr after assign to 10\t=\t" << *copy_constr << std::endl;
-	std::cout << "*copy_assign after assign to 10\t=\t" << *copy_assign << std::endl;
+
+	std::cout << std::endl << END << "*it\t\t=\t" << *it << std::endl;
+	std::cout << "*copy_constr\t=\t" << *copy_constr << std::endl;
+	std::cout << "*copy_assign\t=\t" << *copy_assign << std::endl;
 	std::cout << std::endl << BCYAN << "### END ###" << END << std::endl << std::endl;
 }
 
 void	tests_operator_iterator()
 {
-	tests_relational_operators();
 	tests_arithmetic_operators();
+	tests_relational_operators();
 }
 
 void	tests_iterator()
 {
 	std::cout << BYELLOW << "*** TEST ITERATOR ***" << END << std::endl << std::endl;
-	tests_operator_iterator();
 	tests_constructors_iterator();
+	tests_operator_iterator();
 	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
 }

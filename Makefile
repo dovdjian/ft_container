@@ -34,6 +34,8 @@ STACK_STL	=	tests_stack_stl.cpp \
 
 MAP_STL		=	tests_map_stl.cpp \
 
+UTILS		=	utils.cpp \
+
 TESTS = 	$(addprefix vector/, $(VECTOR)) \
 			$(addprefix stack/, $(STACK)) \
 			$(addprefix map/, $(MAP)) \
@@ -47,9 +49,11 @@ MAIN = main.cpp
 
 SRCS =		$(addprefix srcs/, $(MAIN)) \
 			$(addprefix srcs/tests/ft_tests/, $(TESTS)) \
+			#$(addprefix srcs/utils/, $(UTILS)) \
 
 SRCS_STL =	$(addprefix srcs/, $(MAIN)) \
 			$(addprefix srcs/tests/stl_tests/, $(TESTS_STL)) \
+			#$(addprefix srcs/utils/, $(UTILS)) \
 
 OBJ = $(SRCS:.cpp=.o)
 
