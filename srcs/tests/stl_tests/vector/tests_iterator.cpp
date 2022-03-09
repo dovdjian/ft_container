@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   tests_iterator.cpp                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/24 20:28:18 by dodjian           #+#    #+#             */
-/*   Updated: 2021/12/26 17:25 by dodjian          ###   ########.fr       */
+/*   Created: 2022/03/09 14:16:14 by dodjian           #+#    #+#             */
+/*   Updated: 2022/03/09 14:16:23 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	tests_relational_operators()
 	c = b + 1;
 	std::cout << "*a\t=\t" << *a << std::endl;
 	std::cout << "*b\t=\t" << *b << std::endl;
-	std::cout << "*c\t=\t" << *c << std::endl;
+	std::cout << "*c\t=\t" << *c << std::endl << std::endl;
 	if (b != c)
 		std::cout << "b != c" << std::endl;
 	if (a == b)
@@ -50,7 +50,8 @@ void	tests_arithmetic_operators()
 	std::vector<int> v;
 	std::vector<int>::iterator it; // default constructible
 
-	std::cout << "PUSHBACK 10, 20, 30, 40" << std::endl;
+	std::cout << BRED << "v = 10, 20, 30, 40" << END
+		<< std::endl << std::endl;
 
 	v.push_back(10);
 	v.push_back(20);
@@ -58,28 +59,38 @@ void	tests_arithmetic_operators()
 	v.push_back(40);
 
 	it = v.begin();
-	std::cout << "*it\t=\t" << *it << std::endl;
-	std::cout << "*it++\t=\t" << *it++ << std::endl;
-	std::cout << "*it\t=\t" << *it << std::endl;
-	std::cout << "*++it\t=\t" << *++it << std::endl;
-	std::cout << "*it\t=\t" << *it << std::endl << std::endl;
+	std::cout << "*it\t\t=\t" << *it << std::endl;
+	std::cout << "*it++\t\t=\t" << *it++ << std::endl;
+	std::cout << "*it\t\t=\t" << *it << std::endl;
+	std::cout << "*++it\t\t=\t" << *++it << std::endl;
 
-	std::cout << "*it--\t=\t" << *it-- << std::endl;
-	std::cout << "*it\t=\t" << *it << std::endl;
-	std::cout << "*--it\t=\t" << *--it << std::endl;
-	std::cout << "*it\t=\t" << *it << std::endl << std::endl;
+	std::cout << std::endl << "*it\t\t=\t" << *it << std::endl;
+	std::cout << "*it--\t\t=\t" << *it-- << std::endl;
+	std::cout << "*it\t\t=\t" << *it << std::endl;
+	std::cout << "*--it\t\t=\t" << *--it << std::endl;
 
 	it = v.begin() + 2;
 
-	std::cout << "*it\t=\t" << *it << std::endl;
+	std::cout << std::endl << "*it\t\t=\t" << *it << std::endl;
 	std::cout << "*(it + 1)\t=\t" << *(it + 1) << std::endl;
 	std::cout << "*(1 + it)\t=\t" << *(1 + it) << std::endl;
 	std::cout << "*(it - 1)\t=\t" << *(it - 1) << std::endl;
-	std::cout << "*(it - 2)\t=\t" << *(it - 2) << std::endl;
-	//it += 2;
-	//it -= 2;
-	//--it; // pre decr
-	//it--; // post decr
+
+	std::cout << std::endl << "*it\t\t=\t" << *it << std::endl;
+	it -= 2;
+	std::cout << "it -= 2\t\t=\t" << *it << std::endl;
+	it += 2;
+	std::cout << "it += 2\t\t=\t" << *it << std::endl;
+
+	std::cout << std::endl << "*it\t\t=\t" << *it << std::endl;
+	--it; // pre decr
+	std::cout << "--it\t\t=\t" << *it << std::endl;
+	++it; // pre incr
+	std::cout << "++it\t\t=\t" << *it << std::endl;
+	it--; // post decr
+	std::cout << "it--\t\t=\t" << *it << std::endl;
+	it++; // post incr
+	std::cout << "it++\t\t=\t" << *it << std::endl;
 	std::cout << std::endl << BCYAN << "### END ###" << END << std::endl << std::endl;
 }
 
@@ -129,61 +140,16 @@ void	tests_constructors_iterator()
 	std::cout << std::endl << BCYAN << "### END ###" << END << std::endl << std::endl;
 }
 
+void	tests_operator_iterator()
+{
+	tests_relational_operators();
+	tests_arithmetic_operators();
+}
+
 void	tests_iterator()
 {
 	std::cout << BYELLOW << "*** TEST ITERATOR ***" << END << std::endl << std::endl;
-	tests_relational_operators();
-	tests_arithmetic_operators();
+	tests_operator_iterator();
 	tests_constructors_iterator();
 	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
-}
-
-/* void	test_relational_operators()
-{
-	std::cout << BRED << "Test relational operator !" << END << std::endl << std::endl;
-	//std::vector v;
-	std::vector<int> v (3,100);	// three ints with a value of 100
-	std::vector<int> v2 (2,200);	// two ints with a value of 200
-	std::vector<int> v_stl (3,100);	// three ints with a value of 100
-	std::vector<int> v2_stl (2,200);	// two ints with a value of 200
-
-	std::cout << BPURPLE << "my tests:  " << std::endl << std::endl;
-	if (v == v2)
-		std::cout << "foo and bar are equal" << std::endl;
-	//if (v != v2)
-		//std::cout << "foo and bar are not equal" << std::endl;
-	//if (v < v2)
-		//std::cout << "foo is less than bar" << std::endl;
-	if (v > v2)
-		std::cout << "foo is greater than bar" << std::endl;
-	if (v <= v2)
-		std::cout << "foo is less than or equal to bar" << std::endl;
-	if (v >= v2)
-		std::cout << "foo is greater than or equal to bar" << std::endl;
-	std::cout << BYELLOW << "stl tests: " << std::endl << std::endl;
-	if (v_stl == v2_stl)
-		std::cout << "foo and bar are equal" << std::endl;
-	if (v_stl != v2_stl)
-		std::cout << "foo and bar are not equal" << std::endl;
-	if (v_stl < v2_stl)
-		std::cout << "foo is less than bar" << std::endl;
-	if (v_stl > v2_stl)
-		std::cout << "foo is greater than bar" << std::endl;
-	if (v_stl <= v2_stl)
-		std::cout << "foo is less than or equal to bar" << std::endl;
-	if (v_stl >= v2_stl)
-		std::cout << "foo is greater than or equal to bar" << std::endl;
-} */
-
-void	tests_operator()
-{
-	std::cout << BRED << "Test all operator !" << END << std::endl << std::endl;
-	//test_relational_operators();
-}
-
-
-void	tests_vector()
-{
-	//tests_operator();
-	tests_iterator();
 }

@@ -21,21 +21,35 @@ CYAN		:= \033[1;36m
 WHITE		:= \033[1;37m
 END			:= \033[0m
 
-TESTS = tests_vector.cpp \
-		tests_stack.cpp \
-		tests_map.cpp \
+VECTOR		=	tests_vector.cpp \
 
-TESTS_STL = tests_vector_stl.cpp \
-			tests_stack_stl.cpp \
-			tests_map_stl.cpp \
+STACK		=	tests_stack.cpp
+
+MAP			=	tests_map.cpp
+
+VECTOR_STL	=	tests_iterator.cpp \
+				tests_vector_stl.cpp \
+
+STACK_STL	=	tests_stack_stl.cpp \
+
+MAP_STL		=	tests_map_stl.cpp \
+
+TESTS = 	$(addprefix vector/, $(VECTOR)) \
+			$(addprefix stack/, $(STACK)) \
+			$(addprefix map/, $(MAP)) \
+
+
+TESTS_STL = $(addprefix vector/, $(VECTOR_STL)) \
+			$(addprefix stack/, $(STACK_STL)) \
+			$(addprefix map/, $(MAP_STL)) \
 
 MAIN = main.cpp
 
-SRCS = $(addprefix srcs/, $(MAIN)) \
-		$(addprefix srcs/tests/ft_tests/, $(TESTS)) \
+SRCS =		$(addprefix srcs/, $(MAIN)) \
+			$(addprefix srcs/tests/ft_tests/, $(TESTS)) \
 
-SRCS_STL = $(addprefix srcs/, $(MAIN)) \
-		$(addprefix srcs/tests/stl_tests/, $(TESTS_STL)) \
+SRCS_STL =	$(addprefix srcs/, $(MAIN)) \
+			$(addprefix srcs/tests/stl_tests/, $(TESTS_STL)) \
 
 OBJ = $(SRCS:.cpp=.o)
 

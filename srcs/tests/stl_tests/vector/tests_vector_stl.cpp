@@ -1,32 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector.hpp                                         :+:      :+:    :+:   */
+/*   all_tests.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/24 20:26:27 by dodjian           #+#    #+#             */
-/*   Updated: 2021/12/24 20:53:37by dodjian          ###   ########.fr       */
+/*   Created: 2022/03/09 14:15:14 by dodjian           #+#    #+#             */
+/*   Updated: 2022/03/09 14:19:03 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TESTS_HPP
-# define TESTS_HPP
+#include "tests.hpp"
 
-#include <fstream>
-#include <ostream>
-#include <iostream>
-#include <string>
-
-// ---------------- TEST VECTOR -------------------
-
-void	tests_vector();
-void	tests_iterator();
-
-// ---------------- TEST STACK -------------------
-void	tests_stack();
-
-// ---------------- TEST MAP -------------------
-void	tests_map();
-
-#endif
+void	tests_vector()
+{
+	tests_iterator();
+}
