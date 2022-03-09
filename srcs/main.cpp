@@ -22,6 +22,8 @@ int	main(void)
 		std::cout << PURPLE << "--------------- TEST VECTOR ---------------"
 			<< END << std::endl << std::endl;
 		tests_vector();
+		std::cout << PURPLE << "------------------- END -------------------"
+			<< END << std::endl << std::endl;
 	}
 	catch(const std::exception& e)
 	{
@@ -29,9 +31,11 @@ int	main(void)
 	}
 	try
 	{
-		std::cout << BBLUE << std::endl <<  "--------------- TEST STACK ---------------"
+		std::cout << BBLUE << std::endl <<  "--------------- TEST STACK ----------------"
 			<< END << std::endl << std::endl;
 		tests_stack();
+		std::cout << BBLUE << std::endl <<  "------------------- END -------------------"
+			<< END << std::endl << std::endl;
 	}
 	catch(const std::exception& e)
 	{
@@ -39,9 +43,11 @@ int	main(void)
 	}
 	try
 	{
-		std::cout << BGREEN << std::endl <<  "--------------- TEST MAP ---------------"
+		std::cout << BGREEN << std::endl <<  "---------------- TEST MAP -----------------"
 			<< END << std::endl << std::endl;
 		tests_map();
+		std::cout << BGREEN << std::endl <<  "------------------- END -------------------"
+			<< END << std::endl << std::endl;
 	}
 	catch(const std::exception& e)
 	{

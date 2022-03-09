@@ -6,53 +6,136 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 20:28:18 by dodjian           #+#    #+#             */
-/*   Updated: 2021/12/26 17:25:07by dodjian          ###   ########.fr       */
+/*   Updated: 2021/12/26 17:25 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.hpp"
 
-void	tests_iterator()
+void	tests_relational_operators()
 {
-	std::cout << BYELLOW << "*** TEST ITERATOR ***" << END << std::endl << std::endl;
+	std::cout << BCYAN << "### relational operators ###" << END << std::endl << std::endl;
+	std::vector<int> v;
+	std::vector<int>::iterator a;
+	std::vector<int>::iterator b(a); // copy constr
+	std::vector<int>::iterator c = a; // copy assign
+
+	v.push_back(6);
+	v.push_back(7);
+
+	a = v.begin();
+	b = a;
+	c = b + 1;
+	std::cout << "*a\t=\t" << *a << std::endl;
+	std::cout << "*b\t=\t" << *b << std::endl;
+	std::cout << "*c\t=\t" << *c << std::endl;
+	if (b != c)
+		std::cout << "b != c" << std::endl;
+	if (a == b)
+		std::cout << "a == b" << std::endl;
+	if (b < c)
+		std::cout << "b < c" << std::endl;
+	if (c > b)
+		std::cout << "c > b" << std::endl;
+	if (a <= b)
+		std::cout << "a <= b" << std::endl;
+	if (c >= b)
+		std::cout << "c >= b" << std::endl;
+	std::cout << std::endl << BCYAN << "### END ###" << END << std::endl << std::endl;
+}
+
+void	tests_arithmetic_operators()
+{
+	std::cout << BCYAN << "### arithmetic operators ###" << END << std::endl << std::endl;
+	std::vector<int> v;
+	std::vector<int>::iterator it; // default constructible
+
+	std::cout << "PUSHBACK 10, 20, 30, 40" << std::endl;
+
+	v.push_back(10);
+	v.push_back(20);
+	v.push_back(30);
+	v.push_back(40);
+
+	it = v.begin();
+	std::cout << "*it\t=\t" << *it << std::endl;
+	std::cout << "*it++\t=\t" << *it++ << std::endl;
+	std::cout << "*it\t=\t" << *it << std::endl;
+	std::cout << "*++it\t=\t" << *++it << std::endl;
+	std::cout << "*it\t=\t" << *it << std::endl << std::endl;
+
+	std::cout << "*it--\t=\t" << *it-- << std::endl;
+	std::cout << "*it\t=\t" << *it << std::endl;
+	std::cout << "*--it\t=\t" << *--it << std::endl;
+	std::cout << "*it\t=\t" << *it << std::endl << std::endl;
+
+	it = v.begin() + 2;
+
+	std::cout << "*it\t=\t" << *it << std::endl;
+	std::cout << "*(it + 1)\t=\t" << *(it + 1) << std::endl;
+	std::cout << "*(1 + it)\t=\t" << *(1 + it) << std::endl;
+	std::cout << "*(it - 1)\t=\t" << *(it - 1) << std::endl;
+	std::cout << "*(it - 2)\t=\t" << *(it - 2) << std::endl;
+	//it += 2;
+	//it -= 2;
+	//--it; // pre decr
+	//it--; // post decr
+	std::cout << std::endl << BCYAN << "### END ###" << END << std::endl << std::endl;
+}
+
+
+void	tests_constructors_iterator()
+{
+	std::cout << BCYAN << "### constructor ###" << END << std::endl << std::endl;
 	std::vector<int> v;
 	std::vector<int>::iterator it; // default constructible
 	std::vector<int>::iterator copy_constr(it); // copy constructible
 	std::vector<int>::iterator copy_assign = it; // copy assignable
 
-	v.push_back(1);
-	v.push_back(4);
-	v.push_back(2);
-	v.push_back(3);
+	std::cout << "PUSHBACK 10, 20, 30, 40" << std::endl;
+
+	v.push_back(10);
+	v.push_back(20);
+	v.push_back(30);
+	v.push_back(40);
 
 	it = v.begin();
-	--it; // pre decr
 	copy_constr = it; // operator =
 	//if (it == copy_constr) // operator ==
 
-	std::cout << "*IT = *COPY_CONSTR" << std::endl;
+	std::cout << BRED << "*IT = *COPY_CONSTR" << std::endl;
 	while (it != v.end())
 	{
-		std::cout << BRED <<
-			*it << " = " << *copy_constr << END << std::endl; // operator *
+		std::cout << *it << " = " <<
+			*copy_constr << std::endl; // operator *
 		++it; // pre incr
 		copy_constr++; // post incre
 	}
-	std::cout << "*IT = *COPY_ASSIGN" << std::endl;
 	it = v.begin();
 	it--; // post decr
 	copy_assign = it;
+	std::cout << BBLUE << "*IT = *COPY_ASSIGN" << std::endl;
 	while (it != v.end())
 	{
-		std::cout << BBLUE <<
-			*it << " = " << *copy_assign << END << std::endl;
+		std::cout << *it << " = " <<
+			*copy_assign << std::endl;
 		it++;
 		++copy_assign;
 	}
 	*it = 10;
-	std::cout << "*it after assign to 10\t=\t" << *it << std::endl;
-	std::cout << "*it after assign to 10\t=\t" << *copy_assign << std::endl;
-	std::cout << "*it after assign to 10\t=\t" << *copy_constr << std::endl;
+	std::cout << END << "*it after assign to 10\t\t=\t" << *it << std::endl;
+	std::cout << "*copy_constr after assign to 10\t=\t" << *copy_constr << std::endl;
+	std::cout << "*copy_assign after assign to 10\t=\t" << *copy_assign << std::endl;
+	std::cout << std::endl << BCYAN << "### END ###" << END << std::endl << std::endl;
+}
+
+void	tests_iterator()
+{
+	std::cout << BYELLOW << "*** TEST ITERATOR ***" << END << std::endl << std::endl;
+	tests_relational_operators();
+	tests_arithmetic_operators();
+	tests_constructors_iterator();
+	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
 }
 
 /* void	test_relational_operators()
