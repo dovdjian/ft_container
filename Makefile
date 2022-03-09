@@ -21,7 +21,9 @@ CYAN		:= \033[1;36m
 WHITE		:= \033[1;37m
 END			:= \033[0m
 
-VECTOR		=	tests_vector.cpp \
+VECTOR		=	tests_iterator.cpp \
+				tests_methods.cpp \
+				tests_vector.cpp \
 
 STACK		=	tests_stack.cpp
 
