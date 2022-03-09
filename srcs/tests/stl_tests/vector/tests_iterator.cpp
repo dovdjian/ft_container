@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "vector.hpp"
+#include "utils.hpp"
 
 void	tests_relational_operators()
 {
@@ -50,14 +51,12 @@ void	tests_arithmetic_operators()
 	std::vector<int> v;
 	std::vector<int>::iterator it; // default constructible
 
-	std::cout << BRED << "v = 10, 20, 30, 40" << END
-		<< std::endl << std::endl;
-
 	v.push_back(10);
 	v.push_back(20);
 	v.push_back(30);
 	v.push_back(40);
 
+	printVec(v);
 	it = v.begin();
 	std::cout << "*it\t\t=\t" << *it << std::endl;
 	std::cout << "*it++\t\t=\t" << *it++ << std::endl;
@@ -103,14 +102,12 @@ void	tests_constructors_iterator()
 	std::vector<int>::iterator copy_constr(it); // copy constructible
 	std::vector<int>::iterator copy_assign = it; // copy assignable
 
-	std::cout << BRED << "v = 500, 600, 700, 800"
-		<< std::endl << std::endl;
-
 	v.push_back(500);
 	v.push_back(600);
 	v.push_back(700);
 	v.push_back(800);
 
+	printVec(v);
 	it = v.begin();
 	copy_constr = it;
 	copy_assign = it;
