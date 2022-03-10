@@ -230,11 +230,12 @@ namespace ft
 				bool empty() const{ return (this->_size == 0 ? true : false); }
 				void reserve (size_type n)
 				{
+					std::cout << "this->capacity() = " << this->_capacity << std::endl;
 					if (n > this->_capacity)
 					{
 						this->_capacity *= 2;
 						// allocate 2x larger memory
-						value_type *new_mem = new value_type[this->_capacity];
+						value_type *new_mem = _allocvalue_type[this->_capacity];
 						// copy data to there
 						for (size_type i = 0; i < this->_size; ++i)
 							new_mem[i] = this->_elements[i];
@@ -242,7 +243,8 @@ namespace ft
 						this->_elements = new_mem;
 					}
 					if (n > this->max_size())
-						throw (std::length_error("lol"));
+						throw (std::length_error("n greater than max_size"));
+					std::cout << "this->capacity() = " << this->_capacity << std::endl;
 				}
 			// ELEMENT ACCESS
 				reference		operator[] (size_type n) const
@@ -278,6 +280,9 @@ namespace ft
 					if (this->_size >= this->_capacity)
 						this->reserve(this->_capacity);
 					std::cout << "pb 1" << std::endl;
+					std::cout << "this->size() = " << this->size() << std::endl;
+					for (size_t i = 0; i < this->size() ; i++)
+						std::cout << "element[i] = " << _elements[i] << std::endl;
 					this->_elements[this->_size] = val;
 					std::cout << "pb after" << std::endl;
 					this->_size++;
