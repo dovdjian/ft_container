@@ -17,7 +17,7 @@ void	tests_relational_operators()
 {
 	std::cout << BCYAN << "### relational operators ###" << END << std::endl << std::endl;
 	std::vector<int> v;
-	std::vector<int>::iterator a;
+	std::vector<int>::iterator a, d;
 	std::vector<int>::iterator b(a); // copy constr
 	std::vector<int>::iterator c = a; // copy assign
 
@@ -27,6 +27,7 @@ void	tests_relational_operators()
 	a = v.begin();
 	b = a;
 	c = b + 1;
+	d = c - 1;
 	std::cout << "*a\t=\t" << *a << std::endl;
 	std::cout << "*b\t=\t" << *b << std::endl;
 	std::cout << "*c\t=\t" << *c << std::endl << std::endl;
@@ -56,7 +57,7 @@ void	tests_arithmetic_operators()
 	v.push_back(30);
 	v.push_back(40);
 
-	printVec(v);
+/* 	printVec(v);
 	it = v.begin();
 	std::cout << "*it\t\t=\t" << *it << std::endl;
 	std::cout << "*it++\t\t=\t" << *it++ << std::endl;
@@ -66,7 +67,7 @@ void	tests_arithmetic_operators()
 	std::cout << std::endl << "*it\t\t=\t" << *it << std::endl;
 	std::cout << "*it--\t\t=\t" << *it-- << std::endl;
 	std::cout << "*it\t\t=\t" << *it << std::endl;
-	std::cout << "*--it\t\t=\t" << *--it << std::endl;
+	std::cout << "*--it\t\t=\t" << *--it << std::endl; */
 
 	it = v.begin() + 2;
 
@@ -121,13 +122,13 @@ void	tests_constructors_iterator()
 void	tests_operator_iterator()
 {
 	tests_arithmetic_operators();
-	tests_relational_operators();
+	//tests_relational_operators();
 }
 
 void	tests_iterator()
 {
 	std::cout << BYELLOW << "*** TEST ITERATOR ***" << END << std::endl << std::endl;
-	tests_constructors_iterator();
+	//tests_constructors_iterator();
 	tests_operator_iterator();
 	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
 }

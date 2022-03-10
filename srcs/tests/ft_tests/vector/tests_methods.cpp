@@ -6,14 +6,14 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:27:50 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/09 18:26:52 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/10 14:14:29 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.hpp"
 #include "utils.hpp"
 
-/* void	tests_capacity()
+void	tests_capacity()
 {
 	std::cout << BCYAN << "### capacity ###" << END <<
 		std::endl << std::endl;
@@ -31,12 +31,12 @@
 	std::cout << "v.empty()\t=\t" << v.empty() << std::endl;
 	std::cout << "v.size()\t=\t" << v.size() << std::endl;
 	std::cout << "v.max_size()\t=\t" << v.max_size() << std::endl;
-	v.resize(2);
+	//v.resize(2);
 
-	std::cout << std::endl << BPURPLE << "V RESIZED TO 2"
-		<< std::endl << std::endl << END;
+	//std::cout << std::endl << BPURPLE << "V RESIZED TO 2"
+		//<< std::endl << std::endl << END;
 
-	std::cout << "v.size()\t=\t" << v.size() << std::endl;
+	//std::cout << "v.size()\t=\t" << v.size() << std::endl;
 	v.reserve(100);
 	std::cout << std::endl << BPURPLE << "V RESERVE TO 100"
 		<< std::endl << std::endl << END;
@@ -45,7 +45,7 @@
 	std::cout << std::endl << BCYAN << "### END ###"
 		<< END << std::endl << std::endl;
 }
-
+/*
 void	tests_element_access()
 {
 	std::cout << BCYAN << "### element access ###" << END <<
@@ -156,7 +156,7 @@ void	tests_methods()
 {
 
 	std::cout << BYELLOW << "*** TEST METHODS ***" << END << std::endl << std::endl;
-	//tests_capacity();
+	tests_capacity();
 	//tests_element_access();
 	//tests_modifiers();
 	tests_allocator();
