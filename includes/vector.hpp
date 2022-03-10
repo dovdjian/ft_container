@@ -35,10 +35,10 @@ namespace ft
 {
 	// forward declare the iterator
 
-	template <class T, class Alloc>
+	/* template <class T, class Alloc>
 		class Iterator;
 	template <class T, class Alloc>
-		class Const_Iterator;
+		class Const_Iterator; */
 
 	template <class T, class Alloc = std::allocator <T> >
 	class vector
@@ -47,15 +47,15 @@ namespace ft
 		// TYPEDEF
 			typedef T value_type;
 			typedef Alloc allocator_type;
-			typedef typename Alloc::size_type size_type;
-			typedef typename Alloc::difference_type difference_type;
-			typedef typename Alloc::reference reference;
-			typedef typename Alloc::const_reference const_reference;
+			typedef value_type & reference;
+			typedef const value_type& const_reference;
 			typedef typename Alloc::pointer pointer;
 			typedef typename Alloc::const_pointer const_pointer;
+			typedef ptrdiff_t difference_type;
+			typedef size_t size_type;
 		// make the iterator a friend
-			friend class Iterator <value_type, allocator_type >;
-			friend class Const_Iterator <value_type, allocator_type >;
+			//friend class Iterator <value_type, allocator_type >;
+			//friend class Const_Iterator <value_type, allocator_type >;
 		// ITERATOR
 			class Iterator
 			{
@@ -79,21 +79,10 @@ namespace ft
 						_ptr++;
 						return (*this);
 					}
-					Iterator operator++(value_type) // post
+					Iterator operator++(int) // post
 					{
 						Iterator	ret = *this;
 						_ptr++;
-						return (ret);
-					}
-					Iterator & operator--() // pre
-					{
-						_ptr--;
-						return (*this);
-					}
-					Iterator operator--(value_type) // post
-					{
-						Iterator	ret = *this;
-						_ptr--;
 						return (ret);
 					}
 				// FORWARD
@@ -102,23 +91,39 @@ namespace ft
 					bool operator!=(Iterator const & v) const
 						{ return (this->_ptr != v.getPtr()); }
 					value_type & operator*() { return (*this->_ptr); }
+					pointer operator->() { return (this->_ptr); }
 				// BIDIRECTIONAL
+					Iterator & operator--() // pre
+					{
+						_ptr--;
+						return (*this);
+					}
+					Iterator operator--(int) // post
+					{
+						Iterator	ret = *this;
 
+						_ptr--;
+						return (ret);
+					}
 				// RANDOM ACCESS
-					Iterator operator+(ptrdiff_t const & val) const
-						{ return (Iterator(this->_ptr + val));  }
-					Iterator operator+(ptrdiff_t const & val) const
-						{ return (Iterator(this->_ptr + val));  }
-					Iterator operator-(ptrdiff_t const & val) const
-						{ return (Iterator(this->_ptr - val));  }
+					Iterator operator+(difference_type const & val) const
+						{ return (Iterator(this->_ptr + val)); }
+					Iterator operator-(difference_type const & val) const
+						{ return (Iterator(this->_ptr - val)); }
 					bool operator<(Iterator const & it) const
-						{ return (this->_ptr < it.getPtr());  }
+						{ return (this->_ptr < it.getPtr()); }
 					bool operator>(Iterator const & it) const
-						{ return (this->_ptr > it.getPtr());  }
+						{ return (this->_ptr > it.getPtr()); }
 					bool operator<=(Iterator const & it) const
-						{ return (this->_ptr <= it.getPtr());  }
+						{ return (this->_ptr <= it.getPtr()); }
 					bool operator>=(Iterator const & it) const
-						{ return (this->_ptr >= it.getPtr());  }
+						{ return (this->_ptr >= it.getPtr()); }
+					Iterator operator+=(difference_type const & val)
+						{ return (Iterator(this->_ptr += val)); }
+					Iterator operator-=(difference_type const & val)
+						{ return (Iterator(this->_ptr -= val)); }
+					reference operator[] (difference_type n) const
+						{ return (this->_ptr[n]); }
 				private:
 					pointer			_ptr;
 			};
@@ -145,14 +150,12 @@ namespace ft
 						_ptr++;
 						return (*this);
 					}
-					/* Iterator & operator++(value_type) // post
+					Iterator operator++(int) // post
 					{
-						Iterator<value_type, allocator_type> it;
-
-						it.setElem(this->_elem);
-						this->_elem++;
-						return (it);
-					} */
+						Iterator	ret = *this;
+						_ptr++;
+						return (ret);
+					}
 				// FORWARD
 					bool operator==(Iterator const & v) const
 						{ return (this->_ptr == v.getPtr()); }
@@ -160,20 +163,36 @@ namespace ft
 						{ return (this->_ptr != v.getPtr()); }
 					value_type & operator*() { return (*this->_ptr); }
 				// BIDIRECTIONAL
-
+					Iterator & operator--() // pre
+					{
+						_ptr--;
+						return (*this);
+					}
+					Iterator operator--(int) // post
+					{
+						Iterator	ret = *this;
+						_ptr--;
+						return (ret);
+					}
 				// RANDOM ACCESS
-					Iterator operator+(ptrdiff_t const & val) const
-						{ return (Iterator(this->_ptr + val));  }
-					//Iterator operator-(Iterator const & v) const
-						//{ return (this->_ptr - v.getPtr());  }
+					Iterator operator+(difference_type const & val) const
+						{ return (Iterator(this->_ptr + val)); }
+					Iterator operator-(difference_type const & val) const
+						{ return (Iterator(this->_ptr - val)); }
 					bool operator<(Iterator const & it) const
-						{ return (this->_ptr < it.getPtr());  }
+						{ return (this->_ptr < it.getPtr()); }
 					bool operator>(Iterator const & it) const
-						{ return (this->_ptr > it.getPtr());  }
+						{ return (this->_ptr > it.getPtr()); }
 					bool operator<=(Iterator const & it) const
-						{ return (this->_ptr <= it.getPtr());  }
+						{ return (this->_ptr <= it.getPtr()); }
 					bool operator>=(Iterator const & it) const
-						{ return (this->_ptr >= it.getPtr());  }
+						{ return (this->_ptr >= it.getPtr()); }
+					Iterator operator+=(difference_type const & val)
+						{ return (Iterator(this->_ptr += val)); }
+					Iterator operator-=(difference_type const & val)
+						{ return (Iterator(this->_ptr -= val)); }
+					reference operator[] (difference_type n) const
+						{ return (this->_ptr[n]); }
 				private:
 					pointer			_ptr;
 			};
@@ -194,22 +213,21 @@ namespace ft
 		// CONSTRUCTOR
 			// DEFAULT
 				explicit vector (const allocator_type &alloc = allocator_type())
-				: _alloc(alloc), _capacity(0), _size(0), _elements(NULL)
 				{
+					this->_alloc = alloc;
+					this->_size = 0;
+					this->_capacity = 0;
+					this->_elements = _alloc.allocate(0);
 				}
 			// FILL
 				explicit vector (size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type())
-				: _alloc(alloc), _capacity(n), _size(n)
 				{
-					if (n == 0)
-						this->_elements = NULL;
-					else
-						this->_elements = _alloc.allocate(n);
-					for (size_type i = 0; i < n; ++i)
-					{
-						_alloc.construct(val, this->_elements[i]);
-						_alloc.destroy(this->_elements + i);
-					}
+					(void)val;
+					this->_alloc = alloc;
+					this->_size = n;
+					this->_capacity = n;
+					//this->resize(n, val);
+					this->_elements = _alloc.allocate(n);
 				}
 			// RANGE
 			/* 	template <class InputIterator>
@@ -235,8 +253,34 @@ namespace ft
 			//CAPACITY
 				size_type size() const{ return (this->_size); }
 				size_type max_size() const { return (2305843) ;}
-				//void resize (size_type n, value_type val = value_type()){}
-				size_type capacity() { return (this->_capacity);}
+				/* void resize (size_type n, value_type val = value_type())
+				{
+					if (n < this->size())
+					{
+						for (size_t i = n; i < this->size(); ++i)
+						{
+							_alloc.destroy(this->_elements + i);
+							_size--;
+						}
+					}
+					else if (n > this->size())
+					{
+						if (n > this->capacity())
+						{
+							reserve(this->_capacity * 2);
+						}
+						else
+						{
+							for (size_t i = this->size(); i < n; ++i)
+							{
+								//this->insert();
+								_alloc.destroy(this->_elements + i);
+								_size++;
+							}
+						}
+					}
+				} */
+				size_type capacity() const { return (this->_capacity); }
 				bool empty() const{ return (this->_size == 0 ? true : false); }
 				void reserve(size_type n)
 				{
