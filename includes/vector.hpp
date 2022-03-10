@@ -100,7 +100,7 @@ namespace ft
 						{ return (!(*this == it)); }
 					value_type & operator*()
 					{
-						std::cout << "je suis dans * iterator" << std::endl;
+						//std::cout << "je suis dans * iterator" << std::endl;
 						return (this->_v->_elements[_index]);
 					}
 				// BIDIRECTIONAL
@@ -224,17 +224,26 @@ namespace ft
 		// METHODS
 			//CAPACITY
 				size_type size() const{ return (this->_size); }
-				//size_type max_size() const {}
+				size_type max_size() const { return (2305843) ;}
 				//void resize (size_type n, value_type val = value_type()){}
 				size_type capacity() { return (this->_capacity); }
 				bool empty() const{ return (this->_size == 0 ? true : false); }
-				/* void reserve (size_type n)
+				void reserve (size_type n)
 				{
-					if (n > this->capacity())
-						reallocation
+					if (n > this->_capacity)
+					{
+						this->_capacity *= 2;
+						// allocate 2x larger memory
+						value_type *new_mem = new value_type[this->_capacity];
+						// copy data to there
+						for (size_type i = 0; i < this->_size; ++i)
+							new_mem[i] = this->_elements[i];
+						delete this->_elements;
+						this->_elements = new_mem;
+					}
 					if (n > this->max_size())
-						throw (std::length_error);
-				} */
+						throw (std::length_error("lol"));
+				}
 			// ELEMENT ACCESS
 				reference		operator[] (size_type n) const
 				{
@@ -265,9 +274,12 @@ namespace ft
 				//void assign (size_type n, const value_type& val){}
 				void push_back(const value_type &val)
 				{
+					std::cout << "pb" << std::endl;
 					if (this->_size >= this->_capacity)
-						reallocate();
+						this->reserve(this->_capacity);
+					std::cout << "pb 1" << std::endl;
 					this->_elements[this->_size] = val;
+					std::cout << "pb after" << std::endl;
 					this->_size++;
 				}
 				void pop_back()
@@ -295,18 +307,6 @@ namespace ft
 			// Allocator
 				allocator_type	get_allocator() const{ return (this->_alloc); }
 		private:
-			// METHODS
-				void	reallocate()
-				{
-					this->_capacity *= 2;
-					// allocate 2x larger memory
-					value_type *new_mem = new value_type[this->_capacity];
-					// copy data to there
-					for (size_type i = 0; i < this->_size; ++i)
-						new_mem[i] = this->_elements[i];
-					delete this->_elements;
-					this->_elements = new_mem;
-				}
 			// VARIABLES
 				allocator_type	_alloc;
 				size_type		_capacity; // allocate size of container

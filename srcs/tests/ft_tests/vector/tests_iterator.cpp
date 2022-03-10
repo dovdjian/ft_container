@@ -102,10 +102,13 @@ void	tests_constructors_iterator()
 	ft::vector<int>::iterator copy_constr(it); // copy constructible
 	ft::vector<int>::iterator copy_assign = it; // copy assignable
 
+	std::cout << "BFR PB" << std::endl;
 	v.push_back(500);
+	std::cout << "AFTER PB 500" << std::endl;
 	v.push_back(600);
 	v.push_back(700);
 	v.push_back(800);
+	std::cout << "BFR PB" << std::endl;
 
 	printVec(v);
 	it = v.begin();
