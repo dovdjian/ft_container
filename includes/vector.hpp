@@ -74,6 +74,7 @@ namespace ft
 						}
 					// COPY ASSIGNABLE
 						Iterator(pointer ptr) : _ptr(ptr) {}
+					// DESTRUCTOR
 						~Iterator(){}
 					// OPERATOR =
 						Iterator & operator=( Iterator const & src)
@@ -145,21 +146,22 @@ namespace ft
 				// TYPEDEF
 					typedef T value_type;
 					typedef ptrdiff_t difference_type;
-					typedef typename Alloc::pointer pointer;
-					typedef typename Alloc::reference reference;
+					typedef typename Alloc::const_pointer const_pointer;
+					typedef typename Alloc::const_reference const_reference;
 				// CONSTRUCTOR
 					// Default
 						Const_Iterator() : _ptr(NULL) {}
 					// COPY CONSTRUCTIBLE
-						Const_Iterator(const Iterator & cpy)
+						Const_Iterator(const Const_Iterator & cpy)
 						{
 							*this = cpy;
 						}
 					// COPY ASSIGNABLE
 						Const_Iterator(pointer ptr) : _ptr(ptr) {}
+					// DESTRUCTOR
 						~Const_Iterator(){}
 					// OPERATOR =
-						Iterator & operator=( Iterator const & src)
+						Const_Iterator & operator=( Const_Iterator const & src)
 						{
 							if (this != &src)
 								this->_ptr = src.getPtr();
@@ -175,7 +177,7 @@ namespace ft
 					}
 					Const_Iterator operator++(int)
 					{
-						Iterator	ret = *this;
+						Const_Iterator	ret = *this;
 						_ptr++;
 						return (ret);
 					}
@@ -193,7 +195,7 @@ namespace ft
 					}
 					Const_Iterator operator--(int)
 					{
-						Iterator	ret = *this;
+						Const_Iterator	ret = *this;
 						_ptr--;
 						return (ret);
 					}
@@ -214,7 +216,7 @@ namespace ft
 						{ return (Const_Iterator(this->_ptr += val)); }
 					Const_Iterator operator-=(difference_type const & val)
 						{ return (Const_Iterator(this->_ptr -= val)); }
-					reference operator[] (difference_type n) const
+					const_reference operator[] (difference_type n) const
 						{ return (this->_ptr[n]); }
 				private:
 					pointer			_ptr;

@@ -111,7 +111,7 @@ void	tests_constructors_iterator()
 	v.push_back(800);
 
 	printVec(v);
-	it = v.begin();
+	it = v.begin() + 2;
 	copy_constr = it;
 	copy_assign = it;
 
@@ -123,14 +123,14 @@ void	tests_constructors_iterator()
 
 void	tests_operator_iterator()
 {
-	tests_arithmetic_operators();
+	//tests_arithmetic_operators();
 	//tests_relational_operators();
 }
 
 void	tests_iterator()
 {
 	std::cout << BYELLOW << "*** TEST ITERATOR ***" << END << std::endl << std::endl;
-	//tests_constructors_iterator();
-	tests_operator_iterator();
+	tests_constructors_iterator();
+	//tests_operator_iterator();
 	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
 }
