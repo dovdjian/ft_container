@@ -29,7 +29,6 @@
 #include <vector>
 #include <cstddef>
 #include <memory>
-#include <iterator>
 
 namespace ft
 {
@@ -47,8 +46,8 @@ namespace ft
 		// TYPEDEF
 			typedef T value_type;
 			typedef Alloc allocator_type;
-			typedef value_type & reference;
-			typedef const value_type& const_reference;
+			typedef typename Alloc::reference reference;
+			typedef typename Alloc::const_reference const_reference;
 			typedef typename Alloc::pointer pointer;
 			typedef typename Alloc::const_pointer const_pointer;
 			typedef ptrdiff_t difference_type;
@@ -226,7 +225,7 @@ namespace ft
 					this->_alloc = alloc;
 					this->_size = n;
 					this->_capacity = n;
-					//this->resize(n, val);
+					this->resize(n, val);
 					this->_elements = _alloc.allocate(n);
 				}
 			// RANGE
@@ -252,39 +251,38 @@ namespace ft
 		// METHODS
 			//CAPACITY
 				size_type size() const{ return (this->_size); }
-				size_type max_size() const { return (2305843) ;}
-				/* void resize (size_type n, value_type val = value_type())
+				size_type max_size() const { return (this->_alloc.max_size()) ;}
+				void resize(size_type n, value_type val = value_type())
 				{
 					if (n < this->size())
 					{
 						for (size_t i = n; i < this->size(); ++i)
-						{
 							_alloc.destroy(this->_elements + i);
-							_size--;
-						}
 					}
 					else if (n > this->size())
 					{
-						if (n > this->capacity())
-						{
+						if (n > this->capacity() * 2)
+							reserve(n);
+						else if (n > this->capacity())
 							reserve(this->_capacity * 2);
-						}
 						else
 						{
 							for (size_t i = this->size(); i < n; ++i)
 							{
-								//this->insert();
-								_alloc.destroy(this->_elements + i);
-								_size++;
+								if (val)
+									_alloc.construct(this->_elements + i, val);
+								else
+									this->_elements[i] = 0;
 							}
 						}
 					}
-				} */
+					this->_size = n;
+				}
 				size_type capacity() const { return (this->_capacity); }
 				bool empty() const{ return (this->_size == 0 ? true : false); }
 				void reserve(size_type n)
 				{
-					if (n > this->_capacity)
+					if (n > this->capacity())
 					{
 						value_type *new_mem = _alloc.allocate(n);
 						for (size_type i = 0; i < this->_size; ++i)
@@ -292,8 +290,6 @@ namespace ft
 							_alloc.construct(new_mem + i, this->_elements[i]);
 							_alloc.destroy(this->_elements + i);
 						}
-						if (this->_elements)
-							this->_alloc.deallocate(this->_elements, this->_capacity);
 						this->_capacity = n;
 						this->_elements = new_mem;
 					}
@@ -301,29 +297,34 @@ namespace ft
 						throw (std::length_error("n greater than max_size"));
 				}
 			// ELEMENT ACCESS
-				reference		operator[] (size_type n) const
+				reference operator[](size_type n) const
 				{
 					return (this->_elements[n]);
 				}
-				//const_reference	operator[] (size_type n) const{}
-				reference at (size_type n)
+				/* const_reference operator[](size_type n) const
 				{
-					//if (n > this->size())
-						//throw (std::out_of_range());
-					for (size_type i = 0; i < n; i++){}
-					//return (reference val);
-				}
-				const_reference at (size_type n) const
+					return (this->_elements[n]);
+				} */
+				reference at(size_type n)
 				{
-					//if (n > this->size())
-						//throw (std::out_of_range());
-					for (size_type i = 0; i < n; i++){}
-					//return (const_reference val);
+					if (n > this->size())
+						throw (std::out_of_range("n greater than max_size"));
+					return (this->_elements[n]);
 				}
-				reference front(){}
-				const_reference front() const{}
-				reference back(){}
-				const_reference back() const{}
+				const_reference at(size_type n) const
+				{
+					if (n > this->size())
+						throw (std::out_of_range("n greater than max_size"));
+					return (this->_elements[n]);
+				}
+				reference front()
+					{ return (this->_elements[0]); }
+				const_reference front() const
+					{ return (this->_elements[0]); }
+				reference back()
+					{ return (this->_elements[this->size() - 1]); }
+				const_reference back() const
+					{ return (this->_elements[this->size() - 1]); }
 			// MODIFIERS
 				//template <class InputIterator>
 				//void assign (InputIterator first, InputIterator last){}
@@ -352,15 +353,30 @@ namespace ft
 				void insert (iterator position, size_type n, const value_type& val){}
 				template <class InputIterator>
 				void insert (iterator position, InputIterator first, InputIterator last){}
-				iterator erase (iterator position){}
-				iterator erase (iterator first, iterator last){}
-				void swap (vector& x){} */
+				*/
+				/* iterator erase (iterator position)
+				{
+					return (this->erase(position, position + 1));
+				}
+				iterator erase (iterator first, iterator last)
+				{
+					size_type begin = first - this->begin();
+					size_type end = last - this->begin();
+					size_type i;
+
+					for (i = begin ; i < this->size() - end + begin; ++i)
+					{
+						_alloc.destroy(this->_elements + i);
+						this->_size--;
+					}
+					return (iterator(this->begin() + begin));
+				} */
+				//void swap (vector& x){}
 				void clear()
 				{
-					if (this->_elements)
-						this->_alloc.deallocate(this->_elements, this->_capacity);
+					for (size_t i = 0; i < this->size(); ++i)
+						_alloc.destroy(this->_elements + i);
 					this->_size = 0;
-					this->_capacity = 0;
 				}
 			// Allocator
 				allocator_type	get_allocator() const{ return (this->_alloc); }

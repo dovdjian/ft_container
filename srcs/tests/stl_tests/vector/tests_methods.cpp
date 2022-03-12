@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:27:50 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/09 18:14:53 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/12 16:26:56 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ void	tests_capacity()
 	std::cout << std::endl << BPURPLE << "V RESIZED TO 2"
 		<< std::endl << std::endl << END;
 
+	std::cout << "v.size()\t=\t" << v.size() << std::endl;
+
+	v.resize(10);
+	std::cout << std::endl << BPURPLE << "V RESIZED TO 10"
+		<< std::endl << std::endl << END;
 	std::cout << "v.size()\t=\t" << v.size() << std::endl;
 	v.reserve(100);
 	std::cout << std::endl << BPURPLE << "V RESERVE TO 100"
@@ -104,11 +109,11 @@ void	tests_modifiers()
 	std::cout << "v2 insert 2 fois nombre 300 a position begin + 1"
 		<< std::endl;
 	printVec(v2);
-	std::cout << "v2 erase le nombre a begin + 1" << std::endl;
-	v2.erase(v2.begin() + 1);
+	std::cout << "v2 erase le nombre a begin + 3 (1)" << std::endl;
+	v2.erase(v2.begin() + 3);
 	printVec(v2);
-	std::cout << "v2 erase tous de begin a begin + 1" << std::endl;
-	v2.erase(v2.begin(), v2.begin() + 1);
+	std::cout << "v2 erase begin + 3 a end (tous les 100)" << std::endl;
+	v2.erase(v2.begin() + 3, v2.end());
 	printVec(v2);
 	std::cout << BRED << "--------------------------------" << END
 		<< std::endl;
@@ -156,9 +161,9 @@ void	tests_methods()
 {
 
 	std::cout << BYELLOW << "*** TEST METHODS ***" << END << std::endl << std::endl;
-	tests_capacity();
+	//tests_capacity();
 	tests_element_access();
-	tests_modifiers();
-	tests_allocator();
+	//tests_modifiers();
+	//tests_allocator();
 	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
 }

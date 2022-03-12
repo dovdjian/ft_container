@@ -6,13 +6,14 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:40:49 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/09 16:45:01 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/11 14:20:16 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TESTS_HPP
 # define TESTS_HPP
 
+#include <vector>
 #include <fstream>
 #include <ostream>
 #include <iostream>

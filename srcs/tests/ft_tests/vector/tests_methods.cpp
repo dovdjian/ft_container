@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:27:50 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/10 14:14:29 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/12 16:26:50 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,16 @@ void	tests_capacity()
 	std::cout << "v.empty()\t=\t" << v.empty() << std::endl;
 	std::cout << "v.size()\t=\t" << v.size() << std::endl;
 	std::cout << "v.max_size()\t=\t" << v.max_size() << std::endl;
-	//v.resize(2);
+	v.resize(2);
 
-	//std::cout << std::endl << BPURPLE << "V RESIZED TO 2"
-		//<< std::endl << std::endl << END;
+	std::cout << std::endl << BPURPLE << "V RESIZED TO 2"
+		<< std::endl << std::endl << END;
 
-	//std::cout << "v.size()\t=\t" << v.size() << std::endl;
+	std::cout << "v.size()\t=\t" << v.size() << std::endl;
+	v.resize(10);
+	std::cout << std::endl << BPURPLE << "V RESIZED TO 10"
+		<< std::endl << std::endl << END;
+	std::cout << "v.size()\t=\t" << v.size() << std::endl;
 	v.reserve(100);
 	std::cout << std::endl << BPURPLE << "V RESERVE TO 100"
 		<< std::endl << std::endl << END;
@@ -45,7 +49,7 @@ void	tests_capacity()
 	std::cout << std::endl << BCYAN << "### END ###"
 		<< END << std::endl << std::endl;
 }
-/*
+
 void	tests_element_access()
 {
 	std::cout << BCYAN << "### element access ###" << END <<
@@ -79,9 +83,9 @@ void	tests_modifiers()
 	ft::vector<int>			v, v2;
 	ft::vector<int>::iterator	it;
 
-	v.assign (7,100);
+	/* v.assign (7,100);
 	it = v.begin() + 1;
-	v2.assign(it, v.end() - 1);
+	v2.assign(it, v.end() - 1); */
 
 	v.push_back(12);
 	std::cout << "v" << std::endl;
@@ -96,38 +100,42 @@ void	tests_modifiers()
 		<< std::endl << std::endl;
 
 	it = v2.begin() + 1;
-	v2.insert(it, 1);
+	/* v2.insert(it, 1);
 	std::cout << "v2 insert nombre 1 a position begin + 1"
 		<< std::endl;
 	printVec(v2);
 	v2.insert(it, 2, 300);
 	std::cout << "v2 insert 2 fois nombre 300 a position begin + 1"
-		<< std::endl;
+		<< std::endl; */
 	printVec(v2);
 	std::cout << "v2 erase le nombre a begin + 1" << std::endl;
-	v2.erase(v2.begin() + 1);
+	//v2.erase(v2.begin() + 1);
 	printVec(v2);
 	std::cout << "v2 erase tous de begin a begin + 1" << std::endl;
-	v2.erase(v2.begin(), v2.begin() + 1);
+	//v2.erase(v2.begin(), v2.begin() + 1);
 	printVec(v2);
 	std::cout << BRED << "--------------------------------" << END
 		<< std::endl;
-	std::cout << std::endl << "BEFORE SWAP" << std::endl;
+	/* std::cout << std::endl << "BEFORE SWAP" << std::endl;
 	printVec(v);
 	printVec(v2);
 	std::cout << "AFTER SWAP V WITH V2 CONTENT" << std::endl;
-	v.swap(v2);
+	v.swap(v2); */
 	printVec(v);
 	printVec(v2);
+	for (size_t i = 0; i < 10; i++)
+		v.push_back(i);
+	printVec(v);
+
 	v.clear();
-	v2.clear();
+	//v2.clear();
 	std::cout << "AFTER CLEAR" << std::endl;
 	printVec(v);
 	printVec(v2);
 
 	std::cout << std::endl << BCYAN << "### END ###"
 		<< END << std::endl << std::endl;
-} */
+}
 
 void	tests_allocator()
 {
@@ -156,9 +164,9 @@ void	tests_methods()
 {
 
 	std::cout << BYELLOW << "*** TEST METHODS ***" << END << std::endl << std::endl;
-	tests_capacity();
-	//tests_element_access();
+	//tests_capacity();
+	tests_element_access();
 	//tests_modifiers();
-	tests_allocator();
+	//tests_allocator();
 	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
 }
