@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:27:50 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/12 16:26:50 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/12 16:50:41 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,11 +116,13 @@ void	tests_modifiers()
 	printVec(v2);
 	std::cout << BRED << "--------------------------------" << END
 		<< std::endl;
-	/* std::cout << std::endl << "BEFORE SWAP" << std::endl;
+	std::cout << std::endl << "BEFORE SWAP" << std::endl;
+	for (size_t i = 0; i < 10; i++)
+		v2.push_back(i);
 	printVec(v);
 	printVec(v2);
 	std::cout << "AFTER SWAP V WITH V2 CONTENT" << std::endl;
-	v.swap(v2); */
+	v.swap(v2);
 	printVec(v);
 	printVec(v2);
 	for (size_t i = 0; i < 10; i++)
@@ -165,8 +167,8 @@ void	tests_methods()
 
 	std::cout << BYELLOW << "*** TEST METHODS ***" << END << std::endl << std::endl;
 	//tests_capacity();
-	tests_element_access();
-	//tests_modifiers();
+	//tests_element_access();
+	tests_modifiers();
 	//tests_allocator();
 	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
 }

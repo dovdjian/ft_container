@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:27:50 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/12 16:26:56 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/12 16:49:36 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,8 +162,8 @@ void	tests_methods()
 
 	std::cout << BYELLOW << "*** TEST METHODS ***" << END << std::endl << std::endl;
 	//tests_capacity();
-	tests_element_access();
-	//tests_modifiers();
+	//tests_element_access();
+	tests_modifiers();
 	//tests_allocator();
 	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
 }

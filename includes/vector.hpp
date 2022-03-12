@@ -59,6 +59,11 @@ namespace ft
 			class Iterator
 			{
 				public:
+				// TYPEDEF
+					typedef T value_type;
+					typedef ptrdiff_t difference_type;
+					typedef typename Alloc::pointer pointer;
+					typedef typename Alloc::reference reference;
 				// CONSTRUCTOR
 					// Default
 						Iterator() : _ptr(NULL) {}
@@ -70,6 +75,13 @@ namespace ft
 					// COPY ASSIGNABLE
 						Iterator(pointer ptr) : _ptr(ptr) {}
 						~Iterator(){}
+					// OPERATOR =
+						Iterator & operator=( Iterator const & src)
+						{
+							if (this != &src)
+								this->_ptr = src.getPtr();
+							return (*this);
+						}
 				// METHODS
 					value_type*		getPtr() const { return (this->_ptr); }
 				// ALL CATEGORIES
@@ -127,9 +139,14 @@ namespace ft
 					pointer			_ptr;
 			};
 		// CONST_ITERATOR
-			class Const_Iterator : public Iterator
+			class Const_Iterator
 			{
 				public:
+				// TYPEDEF
+					typedef T value_type;
+					typedef ptrdiff_t difference_type;
+					typedef typename Alloc::pointer pointer;
+					typedef typename Alloc::reference reference;
 				// CONSTRUCTOR
 					// Default
 						Const_Iterator() : _ptr(NULL) {}
@@ -141,55 +158,62 @@ namespace ft
 					// COPY ASSIGNABLE
 						Const_Iterator(pointer ptr) : _ptr(ptr) {}
 						~Const_Iterator(){}
+					// OPERATOR =
+						Iterator & operator=( Iterator const & src)
+						{
+							if (this != &src)
+								this->_ptr = src.getPtr();
+							return (*this);
+						}
 				// METHODS
 					value_type*		getPtr() const { return (this->_ptr); }
 				// ALL CATEGORIES
-					Iterator & operator++() // pre
+					Const_Iterator & operator++()
 					{
 						_ptr++;
 						return (*this);
 					}
-					Iterator operator++(int) // post
+					Const_Iterator operator++(int)
 					{
 						Iterator	ret = *this;
 						_ptr++;
 						return (ret);
 					}
 				// FORWARD
-					bool operator==(Iterator const & v) const
+					bool operator==(Const_Iterator const & v) const
 						{ return (this->_ptr == v.getPtr()); }
-					bool operator!=(Iterator const & v) const
+					bool operator!=(Const_Iterator const & v) const
 						{ return (this->_ptr != v.getPtr()); }
 					value_type & operator*() { return (*this->_ptr); }
 				// BIDIRECTIONAL
-					Iterator & operator--() // pre
+					Const_Iterator & operator--()
 					{
 						_ptr--;
 						return (*this);
 					}
-					Iterator operator--(int) // post
+					Const_Iterator operator--(int)
 					{
 						Iterator	ret = *this;
 						_ptr--;
 						return (ret);
 					}
 				// RANDOM ACCESS
-					Iterator operator+(difference_type const & val) const
-						{ return (Iterator(this->_ptr + val)); }
-					Iterator operator-(difference_type const & val) const
-						{ return (Iterator(this->_ptr - val)); }
-					bool operator<(Iterator const & it) const
+					Const_Iterator operator+(difference_type const & val) const
+						{ return (Const_Iterator(this->_ptr + val)); }
+					Const_Iterator operator-(difference_type const & val) const
+						{ return (Const_Iterator(this->_ptr - val)); }
+					bool operator<(Const_Iterator const & it) const
 						{ return (this->_ptr < it.getPtr()); }
-					bool operator>(Iterator const & it) const
+					bool operator>(Const_Iterator const & it) const
 						{ return (this->_ptr > it.getPtr()); }
-					bool operator<=(Iterator const & it) const
+					bool operator<=(Const_Iterator const & it) const
 						{ return (this->_ptr <= it.getPtr()); }
-					bool operator>=(Iterator const & it) const
+					bool operator>=(Const_Iterator const & it) const
 						{ return (this->_ptr >= it.getPtr()); }
-					Iterator operator+=(difference_type const & val)
-						{ return (Iterator(this->_ptr += val)); }
-					Iterator operator-=(difference_type const & val)
-						{ return (Iterator(this->_ptr -= val)); }
+					Const_Iterator operator+=(difference_type const & val)
+						{ return (Const_Iterator(this->_ptr += val)); }
+					Const_Iterator operator-=(difference_type const & val)
+						{ return (Const_Iterator(this->_ptr -= val)); }
 					reference operator[] (difference_type n) const
 						{ return (this->_ptr[n]); }
 				private:
@@ -221,7 +245,6 @@ namespace ft
 			// FILL
 				explicit vector (size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type())
 				{
-					(void)val;
 					this->_alloc = alloc;
 					this->_size = n;
 					this->_capacity = n;
@@ -246,7 +269,14 @@ namespace ft
 		// =
 			vector &		operator=(const vector &src)
 			{
-				*this = src;
+				if (this != &src)
+				{
+					this->_size = src._size;
+					this->_capacity = src._capacity;
+					this->_elements = src._elements;
+					this->_alloc = src._alloc;
+				}
+				return (*this);
 			}
 		// METHODS
 			//CAPACITY
@@ -268,12 +298,7 @@ namespace ft
 						else
 						{
 							for (size_t i = this->size(); i < n; ++i)
-							{
-								if (val)
-									_alloc.construct(this->_elements + i, val);
-								else
-									this->_elements[i] = 0;
-							}
+								_alloc.construct(this->_elements + i, val);
 						}
 					}
 					this->_size = n;
@@ -297,14 +322,14 @@ namespace ft
 						throw (std::length_error("n greater than max_size"));
 				}
 			// ELEMENT ACCESS
-				reference operator[](size_type n) const
+				reference operator[](size_type n)
 				{
-					return (this->_elements[n]);
+					return *(this->_elements + n);
 				}
-				/* const_reference operator[](size_type n) const
+				const_reference operator[](size_type n) const
 				{
-					return (this->_elements[n]);
-				} */
+					return *(this->_elements + n);
+				}
 				reference at(size_type n)
 				{
 					if (n > this->size())
@@ -328,7 +353,19 @@ namespace ft
 			// MODIFIERS
 				//template <class InputIterator>
 				//void assign (InputIterator first, InputIterator last){}
-				//void assign (size_type n, const value_type& val){}
+				void assign(size_type n, const value_type& val)
+				{
+					if (n > this->capacity())
+					{
+						vector tmp(n, val, this->get_allocator());
+						tmp.swap(*this);
+					}
+					else if (n > this->size())
+					{
+
+					}
+					this->_size = n;
+				}
 				void push_back(const value_type &val)
 				{
 					if (this->_capacity == 0)
@@ -342,8 +379,7 @@ namespace ft
 				{
 					if (this->_size > 0)
 					{
-						this->_alloc.deallocate(this->_elements, 1);
-						//delete this->_elements;
+						this->_alloc.destroy(this->_elements + this->size() - 1);
 						this->_size--;
 					}
 					if (this->_size == this->_capacity / 2)
@@ -371,7 +407,20 @@ namespace ft
 					}
 					return (iterator(this->begin() + begin));
 				} */
-				//void swap (vector& x){}
+				void swap(vector& x)
+				{
+					size_type tmp_size = this->_size;
+					size_type tmp_capa = this->_capacity;
+					value_type *tmp_elem = this->_elements;
+
+					this->_size = x._size;
+					this->_capacity = x._capacity;
+					this->_elements = x._elements;
+
+					x._size = tmp_size;
+					x._capacity = tmp_capa;
+					x._elements = tmp_elem;
+				}
 				void clear()
 				{
 					for (size_t i = 0; i < this->size(); ++i)
@@ -408,8 +457,9 @@ namespace ft
 		template <class T, class Alloc>
 			bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 				{ return (!(lhs < rhs));}
-		//template <class T, class Alloc>
-			//void swap (vector<T,Alloc>& x, vector<T,Alloc>& y);
+		template <class T, class Alloc>
+			void swap (vector<T,Alloc>& x, vector<T,Alloc>& y)
+				{ x.swap(y); }
 }
 
 #endif /* ********************************************************** `VECTOR_HPP */
