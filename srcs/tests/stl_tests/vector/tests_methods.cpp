@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:27:50 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/12 16:49:36 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/14 15:11:14 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,11 +159,40 @@ void	tests_allocator()
 
 void	tests_methods()
 {
-
 	std::cout << BYELLOW << "*** TEST METHODS ***" << END << std::endl << std::endl;
 	//tests_capacity();
 	//tests_element_access();
 	tests_modifiers();
 	//tests_allocator();
+	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
+}
+
+void	tests_constructor()
+{
+	std::cout << BYELLOW << "*** TEST CONSTRUCTORS ***" << END << std::endl << std::endl;
+	std::vector<int> first;                                // empty vector of ints
+	std::vector<int> second(5, 20);                       // four ints with value 100
+	std::cout << std::endl << "SECOND INIT" << std::endl;
+	printVec(second);
+	while (!second.empty())
+		second.pop_back();
+	for (int i = 0; i < 10; i++)
+		second.push_back(i);
+	std::vector<int>::iterator it_test = second.begin();
+	std::vector<int>::iterator it_test_end = second.end();
+
+	it_test_end--;
+	std::cout << "DECREMENT END ITERATOR THIRD" << std::endl;
+	std::vector<int> third(it_test, it_test_end);  // iterating through second
+	std::vector<int> fourth(third);                       // a copy of third
+
+	std::cout << "FIRST" << std::endl;
+	printVec(first);
+	std::cout << std::endl << "SECOND" << std::endl;
+	printVec(second);
+	std::cout << std::endl << "THIRD" << std::endl;
+	printVec(third);
+	std::cout << std::endl << "FOURTH" << std::endl;
+	printVec(fourth);
 	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
 }

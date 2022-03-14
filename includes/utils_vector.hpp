@@ -1,35 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tests.hpp                                          :+:      :+:    :+:   */
+/*   utils.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/09 16:40:49 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/14 14:18:51 by dodjian          ###   ########.fr       */
+/*   Created: 2022/03/09 16:41:37 by dodjian           #+#    #+#             */
+/*   Updated: 2022/03/09 18:28:16 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TESTS_HPP
-# define TESTS_HPP
+#ifndef UTILS_VECTOR_HPP
+# define UTILS_VECTOR_HPP
 
-#include <vector>
-#include <fstream>
-#include <ostream>
-#include <iostream>
-#include <string>
+//#include "vector.hpp"
 
-// ---------------- TEST VECTOR -------------------
+namespace ft
+{
+	template <bool B, class T = void>
+	struct enable_if {};
 
-void	tests_vector();
-void	tests_constructor();
-void	tests_iterator();
-void	tests_methods();
-
-// ---------------- TEST STACK -------------------
-void	tests_stack();
-
-// ---------------- TEST MAP -------------------
-void	tests_map();
+	template <class T>
+	struct enable_if<true, T> { typedef T type; };
+}
 
 #endif

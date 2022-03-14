@@ -121,9 +121,9 @@ void	tests_constructors_iterator()
 
 	std::vector<int>::const_iterator it_c; // default constructible
 
-	it_c = it;
-	if (it_c != it)
-		std::cout << "false" << std::endl;
+	//it_c = it;
+	//if (it_c != it)
+		//std::cout << "false" << std::endl;
 	std::cout << std::endl << END << "*it_c\t\t=\t" << *it_c << std::endl;
 	std::cout << std::endl << BCYAN << "### END ###" << END << std::endl << std::endl;
 }
