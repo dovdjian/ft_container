@@ -118,6 +118,13 @@ void	tests_constructors_iterator()
 	std::cout << std::endl << END << "*it\t\t=\t" << *it << std::endl;
 	std::cout << "*copy_constr\t=\t" << *copy_constr << std::endl;
 	std::cout << "*copy_assign\t=\t" << *copy_assign << std::endl;
+
+	ft::vector<int>::const_iterator it_c; // default constructible
+
+	it = it_c;
+	//if (it != it_c)
+		//std::cout << "false" << std::endl;
+	std::cout << std::endl << END << "*it_c\t\t=\t" << *it_c << std::endl;
 	std::cout << std::endl << BCYAN << "### END ###" << END << std::endl << std::endl;
 }
 
