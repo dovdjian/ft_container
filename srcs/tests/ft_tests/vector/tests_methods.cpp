@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:27:50 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/14 15:15:04 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/15 19:44:45 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,10 @@ void	tests_modifiers()
 	ft::vector<int>			v, v2;
 	ft::vector<int>::iterator	it;
 
-	/* v.assign (7,100);
+	v.assign(7,100);
 	it = v.begin() + 1;
-	v2.assign(it, v.end() - 1); */
-
+	v2.assign(it, v.end() - 1);
+	
 	v.push_back(12);
 	std::cout << "v" << std::endl;
 	printVec(v);
@@ -100,13 +100,13 @@ void	tests_modifiers()
 		<< std::endl << std::endl;
 
 	it = v2.begin() + 1;
-	/* v2.insert(it, 1);
+	v2.insert(it, 1);
 	std::cout << "v2 insert nombre 1 a position begin + 1"
 		<< std::endl;
 	printVec(v2);
 	v2.insert(it, 2, 300);
 	std::cout << "v2 insert 2 fois nombre 300 a position begin + 1"
-		<< std::endl; */
+		<< std::endl;
 	printVec(v2);
 	std::cout << "v2 erase le nombre a begin + 1" << std::endl;
 	//v2.erase(v2.begin() + 1);
@@ -172,7 +172,7 @@ void	tests_methods()
 	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
 }
 
-void	tests_constructor()
+/* void	tests_constructor()
 {
 	std::cout << BYELLOW << "*** TEST CONSTRUCTORS ***" << END << std::endl << std::endl;
 	ft::vector<int> first;                                // empty vector of ints
@@ -197,11 +197,11 @@ void	tests_constructor()
 	printVec(first);
 	std::cout << std::endl << "SECOND" << std::endl;
 	printVec(second);
-/* 	std::cout << std::endl << "THIRD" << std::endl;
+ 	std::cout << std::endl << "THIRD" << std::endl;
 	printVec(third);
 	std::cout << std::endl << "FOURTH" << std::endl;
-	printVec(fourth); */
+	printVec(fourth);
 	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
 }
-
+ */
 

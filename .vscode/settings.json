@@ -25,6 +25,7 @@
 		"memory": "cpp",
 		"optional": "cpp",
 		"set": "cpp",
-		"tuple": "cpp"
+		"tuple": "cpp",
+		"type_traits": "cpp"
 	}
 }

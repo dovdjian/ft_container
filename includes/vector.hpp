@@ -204,7 +204,7 @@ namespace ft
 					this->resize(n, val);
 				}
 			// RANGE
-				template <class Iterator>
+			/* 	template <class Iterator>
 					vector(Iterator first, Iterator last,
 						const allocator_type &alloc = allocator_type(),
 							typename ft::enable_if<!std::is_integral<Iterator>::value>::type* = 0)
@@ -214,9 +214,17 @@ namespace ft
 					this->_capacity = 0;
 					this->_elements = NULL;
 					this->assign(first, last);
-				}
+				} */
 			// COPY
-				vector(const vector &src) { *this = src; }
+				vector(const vector &src)
+				{
+					this->_alloc = src._alloc;
+					this->_size = src.size();
+					this->_capacity = src.capacity();
+					this->_elements = this->_alloc.allocate(src.capacity());
+					for (size_type i = 0 ; i < src.size() ; i++)
+						this->_tab[i] = src._tab[i];
+				}
 		// DESTRUCTOR
 			~vector()
 			{
@@ -310,29 +318,15 @@ namespace ft
 				void assign(Iterator first, Iterator last,
 				typename ft::enable_if<!std::is_integral<Iterator>::value>::type* = 0)
 				{
-					//erase(begin(), end());
-					//insert(begin(), n, t);
-					typename T::iterator it = first;
-
-					for (it = first ; it != end ; ++it)
-						_alloc.construct(this->_elements + i, val);
-
-					vector tmp(first, last, this->get_allocator());
-					tmp.swap(*this);
+					erase(begin(), end());
+					insert(begin(), first, last);
 				}
 				void assign(size_type n, const value_type& val)
 				{
 					if (n > this->capacity())
-					{
-						vector tmp(n, val, this->get_allocator());
-						tmp.swap(*this);
-					}
-					else if (n > this->size())
-					{
-
-					}
-					//erase(begin(), end());
-					//insert(begin(), n, t);
+						resize(n, val);
+					erase(begin(), end());
+					insert(begin(), n, val);
 					this->_size = n;
 				}
 				void push_back(const value_type &val)
@@ -354,28 +348,40 @@ namespace ft
 					if (this->_size == this->_capacity / 2)
 						this->_capacity /= 2;
 				}
-				/*iterator insert (iterator position, const value_type& val){}
-				void insert (iterator position, size_type n, const value_type& val){}
-				template <class InputIterator>
-				void insert (iterator position, InputIterator first, InputIterator last){}
-				*/
-				/* iterator erase (iterator position)
+				iterator insert(iterator position, const value_type& val)
+				{
+					this->insert(position, 1, val);
+				}
+				void insert(iterator position, size_type n, const value_type& val)
+				{
+					size_type pos = position - this->begin();
+
+					for (size_type i = 0; i < n; i++)
+					{
+						_alloc.construct(this->_elements + pos + i, val);
+					}
+				}
+				//template <class InputIterator>
+				//void insert(iterator position, InputIterator first, InputIterator last){}
+
+				iterator erase(iterator position)
 				{
 					return (this->erase(position, position + 1));
 				}
-				iterator erase (iterator first, iterator last)
+				iterator erase(iterator first, iterator last)
 				{
 					size_type begin = first - this->begin();
 					size_type end = last - this->begin();
 					size_type i;
 
-					for (i = begin ; i < this->size() - end + begin; ++i)
+					for (i = begin ; i < end - begin; ++i)
 					{
+						this->_elements[i] = this->_elements[i + 1];
 						_alloc.destroy(this->_elements + i);
 						this->_size--;
 					}
 					return (iterator(this->begin() + begin));
-				} */
+				}
 				void swap(vector& x)
 				{
 					size_type tmp_size = this->_size;
