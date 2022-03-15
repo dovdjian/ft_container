@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:41:37 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/15 20:59:22 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/15 21:31:12 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,6 @@ namespace ft
 
 	template<typename T>
 	struct is_integral<const T> : is_integral<T> {};
-
-	template<class T>
-	struct is_integral
-	{
-		static const bool value;
-		typedef std::integral_constant<bool, value> type;
-	};
 
 	template<>
 	struct is_integral<bool> : true_type {};
