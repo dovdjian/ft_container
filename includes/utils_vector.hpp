@@ -6,14 +6,12 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:41:37 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/15 21:31:12 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/20 12:02:16 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_VECTOR_HPP
 # define UTILS_VECTOR_HPP
-
-//#include "vector.hpp"
 
 namespace ft
 {
@@ -30,7 +28,7 @@ namespace ft
 		typedef integral_constant<T, v> type;
 
 		static const T value = v;
-		operator value_type() { return v };
+		operator value_type() { return (v); };
 	};
 
 	typedef integral_constant<bool, true> true_type;
@@ -47,12 +45,6 @@ namespace ft
 
 	template<>
 	struct is_integral<char> : true_type {};
-
-	template<>
-	struct is_integral<char16_t> : true_type {};
-
-	template<>
-	struct is_integral<char32_t> : true_type {};
 
 	template<>
 	struct is_integral<wchar_t> : true_type {};
@@ -86,6 +78,31 @@ namespace ft
 
 	template<>
 	struct is_integral<unsigned long long int> : true_type {};
+
+	template <class InputIterator1, class InputIterator2>
+	bool lexicographical_compare(InputIterator1 first1, InputIterator1 last1,
+		InputIterator2 first2, InputIterator2 last2)
+	{
+		for (; (first1 != last1) && (first2 != last2); first1++, first2++)
+		{
+			if (*first1 < *first2)
+				return (true);
+			if (*first2 < *first1)
+				return (false);
+		}
+		return (first1 == last1) && (first2 != last2);
+	}
+	template <class InputIterator1, class InputIterator2>
+	bool equal(InputIterator1 first1, InputIterator1 last1,
+		InputIterator2 first2)
+	{
+		for (; first1 != last1; ++first1, ++first2)
+		{
+			if (!(*first1 == *first2))
+				return (false);
+		}
+		return (true);
+	}
 }
 
 #endif

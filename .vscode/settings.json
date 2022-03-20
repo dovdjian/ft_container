@@ -26,6 +26,8 @@
 		"optional": "cpp",
 		"set": "cpp",
 		"tuple": "cpp",
-		"type_traits": "cpp"
+		"type_traits": "cpp",
+		"cstddef": "cpp",
+		"utility": "cpp"
 	}
 }

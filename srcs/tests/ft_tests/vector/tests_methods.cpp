@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:27:50 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/15 19:44:45 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/20 11:10:26 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	tests_modifiers()
 	v.assign(7,100);
 	it = v.begin() + 1;
 	v2.assign(it, v.end() - 1);
-	
+
 	v.push_back(12);
 	std::cout << "v" << std::endl;
 	printVec(v);
@@ -108,29 +108,28 @@ void	tests_modifiers()
 	std::cout << "v2 insert 2 fois nombre 300 a position begin + 1"
 		<< std::endl;
 	printVec(v2);
-	std::cout << "v2 erase le nombre a begin + 1" << std::endl;
-	//v2.erase(v2.begin() + 1);
+	it = v2.begin();
+	v2.insert(it, v2.begin(), v2.end() - 1);
+	std::cout << "v2 insert a it pos: begin a end - 1 nbr"
+		<< std::endl;
 	printVec(v2);
-	std::cout << "v2 erase tous de begin a begin + 1" << std::endl;
-	//v2.erase(v2.begin(), v2.begin() + 1);
+	std::cout << "v2 erase le nombre a begin + 3 (1)" << std::endl;
+	v2.erase(v2.begin() + 3);
+	printVec(v2);
+	std::cout << "v2 erase begin + 3 a end (tous les 100)" << std::endl;
+	v2.erase(v2.begin() + 3, v2.end());
 	printVec(v2);
 	std::cout << BRED << "--------------------------------" << END
 		<< std::endl;
 	std::cout << std::endl << "BEFORE SWAP" << std::endl;
-	for (size_t i = 0; i < 10; i++)
-		v2.push_back(i);
 	printVec(v);
 	printVec(v2);
 	std::cout << "AFTER SWAP V WITH V2 CONTENT" << std::endl;
 	v.swap(v2);
 	printVec(v);
 	printVec(v2);
-	for (size_t i = 0; i < 10; i++)
-		v.push_back(i);
-	printVec(v);
-
 	v.clear();
-	//v2.clear();
+	v2.clear();
 	std::cout << "AFTER CLEAR" << std::endl;
 	printVec(v);
 	printVec(v2);
