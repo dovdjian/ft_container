@@ -77,18 +77,18 @@ namespace ft
 						}
 					// COPY ASSIGNABLE
 						Iterator(pointer ptr) : _ptr(ptr) {}
-					// DESTRUCTOR
-						~Iterator(){}
-					// IMPLICIT CONVERSION
-						operator Iterator<const ite_T, true>() const
-							{ return (Iterator<const ite_T, true>(this->_ptr)); }
-					// OPERATOR =
-						Iterator & operator=( Iterator const & src)
-						{
-							if (this != &src)
-								this->_ptr = src.getPtr();
-							return (*this);
-						}
+				// DESTRUCTOR
+					~Iterator(){}
+				// IMPLICIT CONVERSION
+					operator Iterator<const ite_T, true>() const
+						{ return (Iterator<const ite_T, true>(this->_ptr)); }
+				// OPERATOR =
+					Iterator & operator=( Iterator const & src)
+					{
+						if (this != &src)
+							this->_ptr = src.getPtr();
+						return (*this);
+					}
 				// METHODS
 					pointer		getPtr() const { return (this->_ptr); }
 				// ALL CATEGORIES
@@ -179,7 +179,7 @@ namespace ft
 			const_iterator begin() const { return (const_iterator(this->_elements)); }
 			const_iterator end() const { return (const_iterator(this->_elements + this->_size));}
 			reverse_iterator rbegin() { return (reverse_iterator(this->end())); }
-			reverse_iterator rend() { return (reverse_iterator(this->begin()); }
+			reverse_iterator rend() { return (reverse_iterator(this->begin())); }
 			const_reverse_iterator rbegin() const { return (const_reverse_iterator(this->end())); }
 			const_reverse_iterator rend() const { return (const_reverse_iterator(this->begin())); }
 		// CONSTRUCTOR
