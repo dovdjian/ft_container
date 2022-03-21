@@ -30,6 +30,7 @@
 #include <cstddef>
 #include <memory>
 #include "utils_vector.hpp"
+#include "rev_iterator.hpp"
 
 namespace ft
 {

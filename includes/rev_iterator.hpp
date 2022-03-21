@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:41:37 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/20 12:33:24 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/20 13:24:37 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ namespace ft
 					pointer;
 			// CONSTRUCTOR
 				// Default
-					reverse_iterator() : _ptr(NULL) {}
+					reverse_iterator() : _it(NULL) {}
 				// Init
-					explicit reverse_iterator (iterator_type it);
+					explicit reverse_iterator(iterator_type it);
 				// COPY CONSTRUCTIBLE
 					reverse_iterator(const Iterator & cpy)
 					{
@@ -90,8 +90,8 @@ namespace ft
 						{ return (this->_ptr == v.getPtr()); }
 					bool operator!=(Iterator<const ite_T, true> const & v) const
 						{ return (this->_ptr != v.getPtr()); }
-				reference operator*() { return (*this->_ptr); }
-				pointer operator->() { return (this->_ptr); }
+				reference operator*() { return (*this->_it); }
+				pointer operator->() const {  return &(operator*()); }
 			// BIDIRECTIONAL
 				Iterator & operator--() // pre
 				{
@@ -139,9 +139,9 @@ namespace ft
 				reverse_iterator operator-=(difference_type const & val)
 					{ return (Iterator(this->_ptr -= val)); }
 				reference operator[] (difference_type n) const
-					{ return (this->_ptr[n]); }
+					{ return (this->_it[n]); }
 			private:
-				iterator_type it;
+				iterator_type _it;
 	};
 }
 #endif
