@@ -168,6 +168,14 @@ namespace ft
 				private:
 					pointer			_ptr;
 			};
+		// OVERLOAD +
+			template<typename ite_T, bool is_const >
+				friend Iterator<ite_T, is_const> operator+(
+					typename Iterator<ite_T, is_const>::difference_type const & lhs,
+						Iterator<ite_T, is_const> const & rhs )
+			{
+				return (Iterator<ite_T, is_const>(rhs + lhs));
+			}
 		// My Typedef iterator
 			typedef Iterator<T, false> iterator;
 			typedef Iterator<const T, true> const_iterator;
@@ -186,7 +194,6 @@ namespace ft
 			// DEFAULT
 				explicit vector(const allocator_type &alloc = allocator_type())
 				{
-					//std::cout << "default constructor" << std::endl;
 					this->_alloc = alloc;
 					this->_size = 0;
 					this->_capacity = 0;
@@ -196,8 +203,6 @@ namespace ft
 				explicit vector(size_type n, const value_type &val = value_type(),
 					const allocator_type &alloc = allocator_type())
 				{
-					//std::cout << "fill constructor" << std::endl;
-					//std::cout << "n \t=\t" << n << std::endl;
 					this->_alloc = alloc;
 					this->_size = 0;
 					this->_capacity = 0;
@@ -217,68 +222,75 @@ namespace ft
 					this->assign(first, last);
 				}
 			// COPY
-				vector(const vector &src)
+				vector(const vector & src)
 				{
 					this->_alloc = src._alloc;
-					this->_size = src.size();
-					this->_capacity = src.capacity();
 					this->_elements = this->_alloc.allocate(src.capacity());
+					this->_capacity = src.capacity();
+					this->_size = src.size();
 					for (size_type i = 0 ; i < src.size() ; i++)
 						this->_elements[i] = src._elements[i];
+					this->_size = src._size;
 				}
 		// DESTRUCTOR
 			~vector()
 			{
 				clear();
+				this->_alloc.deallocate(this->_elements, this->_capacity);
 			}
 		// =
 			vector &		operator=(const vector &src)
 			{
 				if (this != &src)
 				{
-					this->_size = src._size;
-					this->_capacity = src._capacity;
-					this->_elements = src._elements;
-					this->_alloc = src._alloc;
+					clear();
+					reserve(src._size);
+					for (size_type i = 0; i < src.size(); i++)
+						this->_alloc.construct(this->_elements + i, src[i]);
+					this->_size = src.size();
 				}
 				return (*this);
 			}
 		// METHODS
 			//CAPACITY
-				size_type size() const{ return (this->_size); }
+				size_type size() const { return (this->_size); }
 				size_type max_size() const { return (this->_alloc.max_size()) ;}
 				void resize(size_type n, value_type val = value_type())
 				{
-					if (n < this->size())
+					if (n < size())
 					{
-						for (size_type i = n; i < this->size(); ++i)
+						for (size_type i = n; i < size(); ++i)
 							_alloc.destroy(this->_elements + i);
 					}
-					else if (n > this->size())
+					else if (n > size())
 					{
-						if (n > this->capacity() * 2)
+						if (n > capacity() * 2)
 							reserve(n);
-						else if (n > this->capacity())
+						else if (n > capacity())
 							reserve(this->_capacity * 2);
-						for (size_type i = this->size(); i < n; ++i)
+						for (size_type i = size(); i < n; ++i)
 						{
-							_size++;
+							this->_size++;
 							_alloc.construct(this->_elements + i, val);
 						}
 					}
 				}
 				size_type capacity() const { return (this->_capacity); }
-				bool empty() const{ return (this->_size == 0 ? true : false); }
+				bool empty() const { return (this->size() == 0 ? true : false); }
 				void reserve(size_type n)
 				{
 					if (n > this->capacity())
 					{
 						value_type *new_mem = _alloc.allocate(n);
-						for (size_type i = 0; i < this->size(); ++i)
+						for (size_type i = 0; i < size(); ++i)
 						{
 							_alloc.construct(new_mem + i, this->_elements[i]);
 							_alloc.destroy(this->_elements + i);
 						}
+						/* if (this->_elements)
+						{
+							this->_alloc.deallocate(this->_elements, this->_capacity);
+						} */
 						this->_capacity = n;
 						this->_elements = new_mem;
 					}
@@ -311,30 +323,31 @@ namespace ft
 				const_reference front() const
 					{ return (this->_elements[0]); }
 				reference back()
-					{ return (this->_elements[this->size() - 1]); }
+					{ return (this->_elements[size() - 1]); }
 				const_reference back() const
-					{ return (this->_elements[this->size() - 1]); }
+					{ return (this->_elements[size() - 1]); }
 			// MODIFIERS
 				template <class InputIterator>
-				void assign(InputIterator first, InputIterator last,
-				typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
+					void assign(InputIterator first, InputIterator last,
+						typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
 				{
-					erase(begin(), end());
+					clear();
+					//erase(begin(), end());
 					insert(begin(), first, last);
 				}
 				void assign(size_type n, const value_type& val)
 				{
 					erase(begin(), end());
-					if (n > this->capacity())
+					if (n > capacity())
 						resize(n, val);
 					this->_size = n;
 				}
 				void push_back(const value_type &val)
 				{
 					if (this->_capacity == 0)
-						this->reserve(1);
+						reserve(1);
 					else if (this->_size == this->_capacity)
-						this->reserve(this->_capacity * 2);
+						reserve(this->_capacity * 2);
 					this->_elements[this->_size] = val;
 					this->_size++;
 				}
@@ -342,7 +355,7 @@ namespace ft
 				{
 					if (this->_size > 0)
 					{
-						this->_alloc.destroy(this->_elements + this->size() - 1);
+						this->_alloc.destroy(this->_elements + size() - 1);
 						this->_size--;
 					}
 					if (this->_size == this->_capacity / 2)
@@ -352,47 +365,47 @@ namespace ft
 				{
 					size_type start = position - this->begin();
 
-					this->insert(position, 1, val);
-					return (iterator(this->begin() + start));
+					insert(position, 1, val);
+					return (iterator(begin() + start));
 				}
 				void insert(iterator position, size_type n, const value_type& val)
 				{
-					size_type	start = position - this->begin();
+					size_type	start = position - begin();
 
-					if (n + this->size() > this->capacity() * 2)
-						this->reserve(n + this->size());
-					else if (n + this->size() > this->capacity())
-						this->reserve(this->capacity() * 2);
+					if (n + size() > capacity() * 2)
+						reserve(n + size());
+					else if (n + size() > capacity())
+						reserve(capacity() * 2);
 
 					for (size_type i = 0 ; i < n ; ++i)	//alloc
-						this->_alloc.construct(this->_elements + i + this->size(), val);
-					for (size_type i = this->size() + n ; i > start + n ; --i)	//cpy
+						this->_alloc.construct(this->_elements + i + size(), val);
+					for (size_type i = size() + n ; i > start + n ; --i)	//cpy
 						this->_elements[i - 1] = this->_elements[i - n - 1];
 					for (size_type i = 0 ; i < n ; ++i)	//insert
 						this->_elements[i + start] = val;
 					this->_size += n;
 				}
 				template <class InputIterator>
-				void insert(iterator position, InputIterator first, InputIterator last,
-					typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
+					void insert(iterator position, InputIterator first, InputIterator last,
+						typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
 				{
-					size_type	start = position - this->begin();
+					size_type	start = position - begin();
 					size_type	n = last - first;
-					if (n > this->capacity())
+					if (n > capacity())
 						resize(n);
 					InputIterator it;
 
 					for (it = first ; it != last ; n++, it++) {}
-					if (n + this->size() > this->capacity() * 2)
-						this->reserve(n + this->size());
-					else if (n + this->size() > this->capacity())
-						this->reserve(this->capacity() * 2);
+					if (n + size() > capacity() * 2)
+					 reserve(n + size());
+					else if (n + size() > capacity())
+					 reserve(capacity() * 2);
 
 					it = first;
 					for (size_type i = 0 ; i < n ; ++i, ++it)	//alloc
-						this->_alloc.construct(this->_elements + i + this->size(), *it);
+						this->_alloc.construct(this->_elements + i + size(), *it);
 
-					for (size_type i = this->size() + n ; i > start + n ; --i)	//cpy
+					for (size_type i = size() + n ; i > start + n ; --i)	//cpy
 						this->_elements[i - 1] = this->_elements[i - n - 1];
 					for (size_type i = 0 ; i < n ; ++i, ++first)	//insert
 						this->_elements[i + start] = *first;
@@ -400,7 +413,7 @@ namespace ft
 				}
 				iterator erase(iterator position)
 				{
-					return (this->erase(position, position + 1));
+					return (erase(position, position + 1));
 				}
 				iterator erase(iterator first, iterator last)
 				{
@@ -408,11 +421,11 @@ namespace ft
 					size_type end = last - this->begin();
 					size_type i;
 
-					for (i = begin ; (i - begin) + end < this->size() ; i++)
+					for (i = begin ; (i - begin) + end < size() ; i++)
 						this->_elements[i] = this->_elements[(i - begin) + end];
-					for (i = this->size() - end + begin ; i < this->size() ; i++)
+					for (i = size() - end + begin ; i < size() ; i++)
 						this->_alloc.destroy(this->_elements + i);
-					this->_size = this->size() - end + begin;
+					this->_size = size() - end + begin;
 
 					return (iterator(this->begin() + begin));
 				}
@@ -432,7 +445,7 @@ namespace ft
 				}
 				void clear()
 				{
-					for (size_t i = 0; i < this->size(); ++i)
+					for (size_t i = 0; i < size(); ++i)
 						_alloc.destroy(this->_elements + i);
 					this->_size = 0;
 				}
@@ -447,27 +460,27 @@ namespace ft
 	};
 	// Non member function overload
 		template <class T, class Alloc>
-			bool operator==(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
+			bool operator==(const vector<T, Alloc> & lhs, const vector<T, Alloc> & rhs)
 				{ return (lhs.size() == rhs.size()
 					&& ft::equal(lhs.begin(), lhs.end(), rhs.begin())); }
 		template <class T, class Alloc>
-				bool operator!=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
+				bool operator!=(const vector<T, Alloc> & lhs, const vector<T, Alloc> & rhs)
 				{ return (!(lhs == rhs));}
 		template <class T, class Alloc>
-			bool operator<(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
+			bool operator<(const vector<T, Alloc> & lhs, const vector<T, Alloc> & rhs)
 				{ return (ft::lexicographical_compare(lhs.begin(), lhs.end(),
 					rhs.begin(), rhs.end())); }
 		template <class T, class Alloc>
-			bool operator<=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
+			bool operator<=(const vector<T, Alloc> & lhs, const vector<T, Alloc> & rhs)
 				{ return (!(rhs < lhs));}
 		template <class T, class Alloc>
-			bool operator>(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
+			bool operator>(const vector<T, Alloc> & lhs, const vector<T, Alloc> & rhs)
 				{ return (rhs < lhs);}
 		template <class T, class Alloc>
-			bool operator>=(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
+			bool operator>=(const vector<T, Alloc> & lhs, const vector<T, Alloc> & rhs)
 				{ return (!(lhs < rhs));}
 		template <class T, class Alloc>
-			void swap(vector<T, Alloc>& x, vector<T, Alloc>& y)
+			void swap(vector<T, Alloc> & x, vector<T, Alloc> & y)
 				{ x.swap(y); }
 }
 

@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:40:49 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/14 14:18:51 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/21 13:40:32 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 void	tests_vector();
 void	tests_constructor();
 void	tests_iterator();
+void	tests_r_iterator();
 void	tests_methods();
 
 // ---------------- TEST STACK -------------------

@@ -23,6 +23,7 @@ END			:= \033[0m
 
 VECTOR		=	tests_iterator.cpp \
 				tests_methods.cpp \
+				tests_reverse_iterator.cpp \
 				tests_vector.cpp \
 
 STACK		=	tests_stack.cpp
@@ -31,6 +32,7 @@ MAP			=	tests_map.cpp
 
 VECTOR_STL	=	tests_iterator.cpp \
 				tests_methods.cpp \
+				tests_reverse_iterator.cpp \
 				tests_vector_stl.cpp \
 
 STACK_STL	=	tests_stack_stl.cpp \

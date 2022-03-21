@@ -1,39 +1,81 @@
 [0;35m--------------- TEST VECTOR ---------------[0m
 
-[1;31mTest all operator ![0m
+[1;33m*** TEST REV ITERATOR ***[0m
 
-[1;31mCreate obj with all constructor ![0m
+[1;36m### constructor ###[0m
 
-first.size()	=	4
-first[i]	=	10
-first[i]	=	30
-first[i]	=	40
-first[i]	=	50
+[1;32mvec_it     = [ 500 600 700 800 ]
 
- --------------- TEST ITERATORS --------------- 
+[0m[1;32mvec_rev_it = [ 800 700 600 500 ]
 
-*it	=	je suis dans * iterator
-10
-*it	=	je suis dans * iterator
-30
-*it	=	je suis dans * iterator
-40
-*it	=	je suis dans * iterator
-50
-*after pop back	=	je suis dans * iterator
-0
-[1;33mThe contents of second(4, 100) are:
-[1;34m*it	=	je suis dans * iterator
-100
-*it	=	je suis dans * iterator
-100
-*it	=	je suis dans * iterator
-100
-*it	=	je suis dans * iterator
-100
+[0m
+[1;36m### END ###[0m
+
+[1;36m### arithmetic operators ###[0m
+
+[1;32mvec_rev_it = [ 40 30 20 10 ]
+
+[0m*it		=	40
+*it++		=	40
+*it		=	30
+*++it		=	20
+
+*it		=	20
+*it--		=	20
+*it		=	30
+*--it		=	40
+
+*it		=	20
+*(it + 1)	=	10
+*(1 + it)	=	10
+*(it - 1)	=	30
+
+*it		=	20
+it -= 2		=	40
+it += 2		=	20
+
+*it		=	20
+--it		=	30
+++it		=	20
+it--		=	30
+it++		=	20
+
+it[i]	=	40
+it[i]	=	30
+it[i]	=	20
+it[i]	=	10
+
+[1;36m### END ###[0m
+
+[1;36m### relational operators ###[0m
+
+*a	=	7
+*b	=	7
+*c	=	6
+
+b != c
+a == b
+b < c
+c > b
+a <= b
+c >= b
+
+[1;36m### END ###[0m
+
+
+[1;33m*** END ***[0m
+
+[0;35m------------------- END -------------------[0m
+
 [1;34m
---------------- TEST STACK ---------------[0m
+--------------- TEST STACK ----------------[0m
+
+[1;34m
+------------------- END -------------------[0m
 
 [1;32m
---------------- TEST MAP ---------------[0m
+---------------- TEST MAP -----------------[0m
+
+[1;32m
+------------------- END -------------------[0m
 
