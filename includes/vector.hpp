@@ -205,7 +205,7 @@ namespace ft
 			// RANGE
 				template <class Iterator>
 					vector(Iterator first, Iterator last,
-						const allocator_type &alloc = allocator_type(),
+						const allocator_type & alloc = allocator_type(),
 							typename ft::enable_if<!ft::is_integral<Iterator>::value>::type* = 0)
 				{
 					this->_alloc = alloc;
@@ -222,7 +222,10 @@ namespace ft
 					this->_capacity = src.capacity();
 					this->_size = src.size();
 					for (size_type i = 0 ; i < src.size() ; i++)
-						this->_elements[i] = src._elements[i];
+					{
+						this->_alloc.construct(this->_elements + i, src[i]);
+						//this->_elements[i] = src._elements[i];
+					}
 				}
 		// DESTRUCTOR
 			~vector()
@@ -231,7 +234,7 @@ namespace ft
 				this->_alloc.deallocate(this->_elements, this->_capacity);
 			}
 		// =
-			vector &		operator=(const vector &src)
+			vector &		operator=(const vector & src)
 			{
 				if (this != &src)
 				{
