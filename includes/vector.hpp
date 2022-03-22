@@ -192,7 +192,7 @@ namespace ft
 			const_reverse_iterator rend() const { return (const_reverse_iterator(this->begin())); }
 		// CONSTRUCTOR
 			// DEFAULT
-				explicit vector(const allocator_type &alloc = allocator_type())
+				explicit vector(const allocator_type & alloc = allocator_type())
 				{
 					this->_alloc = alloc;
 					this->_size = 0;
@@ -200,8 +200,8 @@ namespace ft
 					this->_elements = this->_alloc.allocate(0);
 				}
 			// FILL
-				explicit vector(size_type n, const value_type &val = value_type(),
-					const allocator_type &alloc = allocator_type())
+				explicit vector(size_type n, const value_type & val = value_type(),
+					const allocator_type & alloc = allocator_type())
 				{
 					this->_alloc = alloc;
 					this->_size = 0;
@@ -331,18 +331,16 @@ namespace ft
 				void assign(InputIterator first, InputIterator last,
 					typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
 				{
-					clear();
-					//erase(begin(), end());
+					erase(begin(), end());
 					insert(begin(), first, last);
 				}
-				void assign(size_type n, const value_type& val)
+				void assign(size_type n, const value_type & val)
 				{
 					erase(begin(), end());
-					if (n > capacity())
-						resize(n, val);
-					this->_size = n;
+					insert(begin(), n, val);
+					//this->_size = n;
 				}
-				void push_back(const value_type &val)
+				void push_back(const value_type & val)
 				{
 					if (this->_capacity == 0)
 						reserve(1);
@@ -361,14 +359,14 @@ namespace ft
 					if (this->_size == this->_capacity / 2)
 						this->_capacity /= 2;
 				}
-				iterator insert(iterator position, const value_type& val)
+				iterator insert(iterator position, const value_type & val)
 				{
 					size_type start = position - this->begin();
 
 					insert(position, 1, val);
 					return (iterator(begin() + start));
 				}
-				void insert(iterator position, size_type n, const value_type& val)
+				void insert(iterator position, size_type n, const value_type & val)
 				{
 					size_type	start = position - begin();
 
@@ -377,11 +375,11 @@ namespace ft
 					else if (n + size() > capacity())
 						reserve(capacity() * 2);
 
-					for (size_type i = 0 ; i < n ; ++i)	//alloc
+					for (size_type i = 0 ; i < n ; ++i) //alloc
 						this->_alloc.construct(this->_elements + i + size(), val);
-					for (size_type i = size() + n ; i > start + n ; --i)	//cpy
+					for (size_type i = size() + n ; i > start + n ; --i) //cpy
 						this->_elements[i - 1] = this->_elements[i - n - 1];
-					for (size_type i = 0 ; i < n ; ++i)	//insert
+					for (size_type i = 0 ; i < n ; ++i) //insert
 						this->_elements[i + start] = val;
 					this->_size += n;
 				}
@@ -390,24 +388,23 @@ namespace ft
 					typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
 				{
 					size_type	start = position - begin();
-					size_type	n = last - first;
-					if (n > capacity())
-						resize(n);
+					size_type	n = 0;
 					InputIterator it;
 
 					for (it = first ; it != last ; n++, it++) {}
+					//if (n > capacity())
+						//resize(n);
 					if (n + size() > capacity() * 2)
-					 reserve(n + size());
+						reserve(n + size());
 					else if (n + size() > capacity())
-					 reserve(capacity() * 2);
+						reserve(capacity() * 2);
 
 					it = first;
-					for (size_type i = 0 ; i < n ; ++i, ++it)	//alloc
+					for (size_type i = 0 ; i < n ; ++i, ++it) //alloc
 						this->_alloc.construct(this->_elements + i + size(), *it);
-
-					for (size_type i = size() + n ; i > start + n ; --i)	//cpy
+					for (size_type i = size() + n ; i > start + n ; --i) //cpy
 						this->_elements[i - 1] = this->_elements[i - n - 1];
-					for (size_type i = 0 ; i < n ; ++i, ++first)	//insert
+					for (size_type i = 0 ; i < n ; ++i, ++first) //insert
 						this->_elements[i + start] = *first;
 					this->_size += n;
 				}
@@ -429,7 +426,7 @@ namespace ft
 
 					return (iterator(this->begin() + begin));
 				}
-				void swap(vector& x)
+				void swap(vector & x)
 				{
 					size_type tmp_size = this->_size;
 					size_type tmp_capa = this->_capacity;
@@ -450,7 +447,7 @@ namespace ft
 					this->_size = 0;
 				}
 			// Allocator
-				allocator_type	get_allocator() const{ return (this->_alloc); }
+				allocator_type	get_allocator() const { return (this->_alloc); }
 		private:
 			// VARIABLES
 				allocator_type	_alloc;
