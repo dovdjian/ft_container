@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:41:37 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/20 12:02:16 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/22 10:50:09 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,46 +37,46 @@ namespace ft
 	template <typename>
 	struct is_integral : false_type {};
 
-	template<typename T>
+	template <typename T>
 	struct is_integral<const T> : is_integral<T> {};
 
-	template<>
+	template <>
 	struct is_integral<bool> : true_type {};
 
-	template<>
+	template <>
 	struct is_integral<char> : true_type {};
 
-	template<>
+	template <>
 	struct is_integral<wchar_t> : true_type {};
 
-	template<>
+	template <>
 	struct is_integral<signed char> : true_type {};
 
-	template<>
+	template <>
 	struct is_integral<short int> : true_type {};
 
-	template<>
+	template <>
 	struct is_integral<int> : true_type {};
 
-	template<>
+	template <>
 	struct is_integral<long int> : true_type {};
 
-	template<>
+	template <>
 	struct is_integral<long long int> : true_type {};
 
-	template<>
+	template <>
 	struct is_integral<unsigned char> : true_type {};
 
-	template<>
+	template <>
 	struct is_integral<unsigned short int> : true_type {};
 
-	template<>
+	template <>
 	struct is_integral<unsigned int> : true_type {};
 
-	template<>
+	template <>
 	struct is_integral<unsigned long int> : true_type {};
 
-	template<>
+	template <>
 	struct is_integral<unsigned long long int> : true_type {};
 
 	template <class InputIterator1, class InputIterator2>
@@ -93,8 +93,8 @@ namespace ft
 		return (first1 == last1) && (first2 != last2);
 	}
 	template <class InputIterator1, class InputIterator2>
-	bool equal(InputIterator1 first1, InputIterator1 last1,
-		InputIterator2 first2)
+		bool equal(InputIterator1 first1, InputIterator1 last1,
+			InputIterator2 first2)
 	{
 		for (; first1 != last1; ++first1, ++first2)
 		{

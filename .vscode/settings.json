@@ -28,6 +28,25 @@
 		"tuple": "cpp",
 		"type_traits": "cpp",
 		"cstddef": "cpp",
-		"utility": "cpp"
+		"utility": "cpp",
+		"atomic": "cpp",
+		"bit": "cpp",
+		"cmath": "cpp",
+		"compare": "cpp",
+		"concepts": "cpp",
+		"exception": "cpp",
+		"random": "cpp",
+		"fstream": "cpp",
+		"iosfwd": "cpp",
+		"istream": "cpp",
+		"limits": "cpp",
+		"new": "cpp",
+		"numeric": "cpp",
+		"ostream": "cpp",
+		"ranges": "cpp",
+		"sstream": "cpp",
+		"streambuf": "cpp",
+		"system_error": "cpp",
+		"typeinfo": "cpp"
 	}
 }
