@@ -230,7 +230,7 @@ namespace ft
 					this->_size = src.size();
 					for (size_type i = 0 ; i < src.size() ; i++)
 						this->_elements[i] = src._elements[i];
-					this->_size = src._size;
+					//this->_size = src._size;
 				}
 		// DESTRUCTOR
 			~vector()
@@ -261,6 +261,7 @@ namespace ft
 					{
 						for (size_type i = n; i < size(); ++i)
 							_alloc.destroy(this->_elements + i);
+						this->_size = n;
 					}
 					else if (n > size())
 					{
