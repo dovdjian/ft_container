@@ -10,22 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vector.hpp"
-#include "utils.hpp"
+#include "tests.hpp"
 
-void	tests_relational_r_operators()
+void	tests_relational_operators()
 {
 	std::cout << BCYAN << "### relational operators ###" << END << std::endl << std::endl;
-	std::vector<int> v;
-	std::vector<int>::reverse_iterator a, c;
-	std::vector<int>::reverse_iterator b(a);
+	prefix::vector<int> v;
+	prefix::vector<int>::iterator a, d;
+	prefix::vector<int>::iterator b(a); // copy constr
+	prefix::vector<int>::iterator c = a; // copy assign
 
 	v.push_back(6);
 	v.push_back(7);
 
-	a = v.rbegin();
+	a = v.begin();
 	b = a;
 	c = b + 1;
+	d = c - 1;
 	std::cout << "*a\t=\t" << *a << std::endl;
 	std::cout << "*b\t=\t" << *b << std::endl;
 	std::cout << "*c\t=\t" << *c << std::endl << std::endl;
@@ -44,20 +45,19 @@ void	tests_relational_r_operators()
 	std::cout << std::endl << BCYAN << "### END ###" << END << std::endl << std::endl;
 }
 
-void	tests_arithmetic_r_operators()
+void	tests_arithmetic_operators()
 {
 	std::cout << BCYAN << "### arithmetic operators ###" << END << std::endl << std::endl;
-	std::vector<int> v;
-	std::vector<int>::reverse_iterator it; // default constructible
+	prefix::vector<int> v;
+	prefix::vector<int>::iterator it; // default constructible
 
 	v.push_back(10);
 	v.push_back(20);
 	v.push_back(30);
 	v.push_back(40);
 
-	printVec_rev(v);
-	it = v.rbegin();
-
+	printVec(v);
+	it = v.begin();
 	std::cout << "*it\t\t=\t" << *it << std::endl;
 	std::cout << "*it++\t\t=\t" << *it++ << std::endl;
 	std::cout << "*it\t\t=\t" << *it << std::endl;
@@ -68,7 +68,7 @@ void	tests_arithmetic_r_operators()
 	std::cout << "*it\t\t=\t" << *it << std::endl;
 	std::cout << "*--it\t\t=\t" << *--it << std::endl;
 
-	it = v.rbegin() + 2;
+	it = v.begin() + 2;
 
 	std::cout << std::endl << "*it\t\t=\t" << *it << std::endl;
 	std::cout << "*(it + 1)\t=\t" << *(it + 1) << std::endl;
@@ -90,16 +90,19 @@ void	tests_arithmetic_r_operators()
 	std::cout << "it--\t\t=\t" << *it << std::endl;
 	it++; // post incr
 	std::cout << "it++\t\t=\t" << *it << std::endl << std::endl;
-	it = v.rbegin();
 	for (size_t i = 0; i < v.size(); i++)
 		std::cout << "it[i]\t=\t" << it[i] << std::endl;
 	std::cout << std::endl << BCYAN << "### END ###" << END << std::endl << std::endl;
 }
 
-void	tests_constructors_r_iterator()
+
+void	tests_constructors_iterator()
 {
 	std::cout << BCYAN << "### constructor ###" << END << std::endl << std::endl;
-	std::vector<int> v;
+	prefix::vector<int> v;
+	prefix::vector<int>::iterator it; // default constructible
+	prefix::vector<int>::iterator copy_constr(it); // copy constructible
+	prefix::vector<int>::iterator copy_assign = it; // copy assignable
 
 	v.push_back(500);
 	v.push_back(600);
@@ -107,32 +110,33 @@ void	tests_constructors_r_iterator()
 	v.push_back(800);
 
 	printVec(v);
+	it = v.begin() + 2;
+	copy_constr = it;
+	copy_assign = it;
 
-	typedef std::vector<int>::iterator iter_type;
+	std::cout << std::endl << END << "*it\t\t=\t" << *it << std::endl;
+	std::cout << "*copy_constr\t=\t" << *copy_constr << std::endl;
+	std::cout << "*copy_assign\t=\t" << *copy_assign << std::endl;
 
-	iter_type from(v.begin());
-	iter_type until(v.end());
-	std::reverse_iterator<iter_type> rev_until(from);
-	std::reverse_iterator<iter_type> rev_from(until);
+	prefix::vector<int>::const_iterator it_c; // default constructible
 
-	std::cout << BGREEN << "vec_rev_it = [ ";
-	while (rev_from != rev_until)
-		std::cout << *rev_from++ << " ";
-	std::cout << "]" << std::endl << std::endl << END;
-
+	it_c = it;
+	if (it_c != it)
+		std::cout << "false" << std::endl;
+	std::cout << std::endl << END << "*it_c\t\t=\t" << *it_c << std::endl;
 	std::cout << std::endl << BCYAN << "### END ###" << END << std::endl << std::endl;
 }
 
-void	tests_operator_r_iterator()
+void	tests_operator_iterator()
 {
-	tests_arithmetic_r_operators();
-	tests_relational_r_operators();
+	tests_arithmetic_operators();
+	tests_relational_operators();
 }
 
-void	tests_r_iterator()
+void	tests_iterator()
 {
-	std::cout << BYELLOW << "*** TEST REV ITERATOR ***" << END << std::endl << std::endl;
-	tests_constructors_r_iterator();
-	tests_operator_r_iterator();
+	std::cout << BYELLOW << "*** TEST ITERATOR ***" << END << std::endl << std::endl;
+	tests_constructors_iterator();
+	tests_operator_iterator();
 	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
 }

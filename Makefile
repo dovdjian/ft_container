@@ -30,57 +30,47 @@ STACK		=	tests_stack.cpp
 
 MAP			=	tests_map.cpp
 
-VECTOR_STL	=	tests_iterator.cpp \
-				tests_methods.cpp \
-				tests_reverse_iterator.cpp \
-				tests_vector_stl.cpp \
+MAIN =			main.cpp
 
-STACK_STL	=	tests_stack_stl.cpp \
+TESTS = 		$(addprefix vector/, $(VECTOR)) \
+				$(addprefix stack/, $(STACK)) \
+				$(addprefix map/, $(MAP)) \
 
-MAP_STL		=	tests_map_stl.cpp \
+SRCS =			$(addprefix srcs/, $(MAIN)) \
+				$(addprefix srcs/tests/, $(TESTS)) \
 
-TESTS = 	$(addprefix vector/, $(VECTOR)) \
-			$(addprefix stack/, $(STACK)) \
-			$(addprefix map/, $(MAP)) \
-
-
-TESTS_STL = $(addprefix vector/, $(VECTOR_STL)) \
-			$(addprefix stack/, $(STACK_STL)) \
-			$(addprefix map/, $(MAP_STL)) \
-
-MAIN = main.cpp
-
-SRCS =		$(addprefix srcs/, $(MAIN)) \
-			$(addprefix srcs/tests/ft_tests/, $(TESTS)) \
-
-SRCS_STL =	$(addprefix srcs/, $(MAIN)) \
-			$(addprefix srcs/tests/stl_tests/, $(TESTS_STL)) \
-
-OBJ = $(SRCS:.cpp=.o)
-
-OBJ_STL = $(SRCS_STL:.cpp=.o)
+OBJ =			$(SRCS:.cpp=.o)
 
 %.o: %.cpp
 		@printf "${PURPLE}%-35.35s\r${END}" $@
 		${CPP} $(HEADER) ${CFLAGS} -c $< -o $@
 
-all : $(NAME) $(NAME_STL)
+all : test
 
 $(NAME) : $(OBJ)
-	$(CPP) $(CFLAGS) $(HEADER) -o $(NAME) $(OBJ)
+	$(CPP) $(CFLAGS) -D prefix=ft $(HEADER) -o $(NAME) $(OBJ)
 	@echo "The ${RED} $(NAME) ${END} has been build !"
 
-$(NAME_STL) : $(OBJ_STL)
-	$(CPP) $(CFLAGS) $(HEADER) -o $(NAME_STL) $(OBJ_STL)
+$(NAME_STL) : $(OBJ)
+	$(CPP) $(CFLAGS) -D prefix=std $(HEADER) -o $(NAME_STL) $(OBJ)
 	@echo "The ${RED} $(NAME_STL) ${END} has been build !"
 
+test:
+			@$(RM) res
+			@$(MAKE) $(NAME)
+			@$(MAKE) $(NAME_STL)
+			@mkdir res
+			@mv $(NAME) res/
+			@mv $(NAME_STL) res/
+			@./res/$(NAME) > res/ft.res
+			@./res/$(NAME_STL) > res/std.res
+			@-diff -u res/ft.res res/std.res > res/diff.res
+
 clean :
-	$(RM) $(OBJ) $(OBJ_STL)
+		$(RM) $(OBJ)
 
 fclean : clean
-	@$(RM) $(NAME) $(NAME_STL)
-	@echo "The ${BLUE} $(NAME) ${END} has been deleted !"
-	@echo "The ${BLUE} $(NAME_STL) ${END} has been deleted !"
+		$(RM) res
 
 re : fclean all
 

@@ -6,18 +6,17 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:27:50 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/20 11:38:08 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/22 16:10:51 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vector.hpp"
-#include "utils.hpp"
+#include "tests.hpp"
 
 void	tests_capacity()
 {
 	std::cout << BCYAN << "### capacity ###" << END <<
 		std::endl << std::endl;
-	std::vector<int> v;
+	prefix::vector<int> v;
 
 	printVec(v);
 	std::cout << "v.empty()\t=\t" << v.empty() << std::endl;
@@ -55,8 +54,8 @@ void	tests_element_access()
 {
 	std::cout << BCYAN << "### element access ###" << END <<
 		std::endl << std::endl;
-	std::vector<int>			v;
-	std::vector<int>::iterator	it;
+	prefix::vector<int>			v;
+	prefix::vector<int>::iterator	it;
 
 	v.push_back(2);
 	v.push_back(4);
@@ -81,8 +80,8 @@ void	tests_modifiers()
 {
 	std::cout << BCYAN << "### modifiers ###" << END <<
 		std::endl << std::endl;
-	std::vector<int>			v, v2;
-	std::vector<int>::iterator	it;
+	prefix::vector<int>			v, v2;
+	prefix::vector<int>::iterator	it;
 
 	v.assign(7,100);
 	it = v.begin() + 1;
@@ -143,7 +142,7 @@ void	tests_allocator()
 {
 	std::cout << BCYAN << "### allocator ###" << END <<
 		std::endl << std::endl;
-	std::vector<int>	v;
+	prefix::vector<int>	v;
 	int					*p;
 	unsigned int		i;
 
@@ -165,31 +164,31 @@ void	tests_allocator()
 void	tests_methods()
 {
 	std::cout << BYELLOW << "*** TEST METHODS ***" << END << std::endl << std::endl;
-	//tests_capacity();
-	//tests_element_access();
+	tests_capacity();
+	tests_element_access();
 	tests_modifiers();
-	//tests_allocator();
+	tests_allocator();
 	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
 }
 
 void	tests_constructor()
 {
 	std::cout << BYELLOW << "*** TEST CONSTRUCTORS ***" << END << std::endl << std::endl;
-	std::vector<int> first;                                // empty vector of ints
-	std::vector<int> second(5, 20);                       // four ints with value 100
+	prefix::vector<int> first;                                // empty vector of ints
+	prefix::vector<int> second(5, 20);                       // four ints with value 100
 	std::cout << std::endl << "SECOND INIT" << std::endl;
 	printVec(second);
 	while (!second.empty())
 		second.pop_back();
 	for (int i = 0; i < 10; i++)
 		second.push_back(i);
-	std::vector<int>::iterator it_test = second.begin();
-	std::vector<int>::iterator it_test_end = second.end();
+	prefix::vector<int>::iterator it_test = second.begin();
+	prefix::vector<int>::iterator it_test_end = second.end();
 
 	it_test_end--;
 	std::cout << "DECREMENT END ITERATOR THIRD" << std::endl;
-	std::vector<int> third(it_test, it_test_end);  // iterating through second
-	std::vector<int> fourth(third);                       // a copy of third
+	prefix::vector<int> third(it_test, it_test_end);  // iterating through second
+	prefix::vector<int> fourth(third);                       // a copy of third
 
 	std::cout << "FIRST" << std::endl;
 	printVec(first);

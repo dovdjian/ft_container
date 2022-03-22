@@ -25,22 +25,18 @@
 #define BWHITE		"\033[1;37m"
 #define END			"\033[0m"
 
-#include <iostream>
 #include <vector>
+#include <iterator>
+#include <iostream>
+#include <ostream>
 #include <cstddef>
 #include <memory>
 #include "utils_vector.hpp"
+#include "utils.hpp"
 #include "rev_iterator.hpp"
 
 namespace ft
 {
-	// forward declare the iterator
-
-	/* template <class T, class Alloc>
-		class Iterator;
-	template <class T, class Alloc>
-		class Const_Iterator; */
-
 	template <class T, class Alloc = std::allocator <T> >
 	class vector
 	{
@@ -54,9 +50,6 @@ namespace ft
 			typedef typename Alloc::const_pointer const_pointer;
 			typedef ptrdiff_t difference_type;
 			typedef size_t size_type;
-		// make the iterator a friend
-			//friend class Iterator <value_type, allocator_type >;
-			//friend class Const_Iterator <value_type, allocator_type >;
 		// ITERATOR
 			template <typename ite_T, bool is_const = false>
 			class Iterator
@@ -230,7 +223,6 @@ namespace ft
 					this->_size = src.size();
 					for (size_type i = 0 ; i < src.size() ; i++)
 						this->_elements[i] = src._elements[i];
-					//this->_size = src._size;
 				}
 		// DESTRUCTOR
 			~vector()
@@ -288,10 +280,6 @@ namespace ft
 							_alloc.construct(new_mem + i, this->_elements[i]);
 							_alloc.destroy(this->_elements + i);
 						}
-						/* if (this->_elements)
-						{
-							this->_alloc.deallocate(this->_elements, this->_capacity);
-						} */
 						this->_capacity = n;
 						this->_elements = new_mem;
 					}
@@ -339,7 +327,6 @@ namespace ft
 				{
 					erase(begin(), end());
 					insert(begin(), n, val);
-					//this->_size = n;
 				}
 				void push_back(const value_type & val)
 				{
@@ -376,11 +363,11 @@ namespace ft
 					else if (n + size() > capacity())
 						reserve(capacity() * 2);
 
-					for (size_type i = 0 ; i < n ; ++i) //alloc
+					for (size_type i = 0 ; i < n ; ++i)
 						this->_alloc.construct(this->_elements + i + size(), val);
-					for (size_type i = size() + n ; i > start + n ; --i) //cpy
+					for (size_type i = size() + n ; i > start + n ; --i)
 						this->_elements[i - 1] = this->_elements[i - n - 1];
-					for (size_type i = 0 ; i < n ; ++i) //insert
+					for (size_type i = 0 ; i < n ; ++i)
 						this->_elements[i + start] = val;
 					this->_size += n;
 				}
@@ -393,19 +380,17 @@ namespace ft
 					InputIterator it;
 
 					for (it = first ; it != last ; n++, it++) {}
-					//if (n > capacity())
-						//resize(n);
 					if (n + size() > capacity() * 2)
 						reserve(n + size());
 					else if (n + size() > capacity())
 						reserve(capacity() * 2);
 
 					it = first;
-					for (size_type i = 0 ; i < n ; ++i, ++it) //alloc
+					for (size_type i = 0 ; i < n ; ++i, ++it)
 						this->_alloc.construct(this->_elements + i + size(), *it);
-					for (size_type i = size() + n ; i > start + n ; --i) //cpy
+					for (size_type i = size() + n ; i > start + n ; --i)
 						this->_elements[i - 1] = this->_elements[i - n - 1];
-					for (size_type i = 0 ; i < n ; ++i, ++first) //insert
+					for (size_type i = 0 ; i < n ; ++i, ++first)
 						this->_elements[i + start] = *first;
 					this->_size += n;
 				}
@@ -424,7 +409,6 @@ namespace ft
 					for (i = size() - end + begin ; i < size() ; i++)
 						this->_alloc.destroy(this->_elements + i);
 					this->_size = size() - end + begin;
-
 					return (iterator(this->begin() + begin));
 				}
 				void swap(vector & x)
