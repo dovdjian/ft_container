@@ -90,6 +90,7 @@ void	tests_arithmetic_operators()
 	std::cout << "it--\t\t=\t" << *it << std::endl;
 	it++; // post incr
 	std::cout << "it++\t\t=\t" << *it << std::endl << std::endl;
+	it = v.begin();
 	for (size_t i = 0; i < v.size(); i++)
 		std::cout << "it[i]\t=\t" << it[i] << std::endl;
 	std::cout << std::endl << BCYAN << "### END ###" << END << std::endl << std::endl;

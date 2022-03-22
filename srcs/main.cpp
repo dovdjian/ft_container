@@ -21,7 +21,7 @@ int	main(void)
 	{
 		std::cout << PURPLE << "--------------- TEST VECTOR ---------------"
 			<< END << std::endl << std::endl;
-		tests_vector();
+		//tests_vector();
 		std::cout << PURPLE << "------------------- END -------------------"
 			<< END << std::endl << std::endl;
 	}

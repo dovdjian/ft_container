@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:41:37 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/21 15:12:04 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/22 17:37:20 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,15 @@ void printVec_rev(T & vec)
 	end = vec.rend();
 	for (it = vec.rbegin() ; it != end ; it++)
 		std::cout << *it << " ";
+	std::cout << "]" << std::endl << std::endl << END;
+}
+
+template <typename T>
+void printStack(T & stack)
+{
+	std::cout << BGREEN << "stack = [ ";
+	for (size_t i = 0; i < stack.size() ; i++)
+		std::cout << stack[i] << " ";
 	std::cout << "]" << std::endl << std::endl << END;
 }
 
