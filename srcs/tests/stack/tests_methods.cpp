@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:27:50 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/22 17:45:26 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/22 18:28:33 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,21 @@ void	tests_methods()
 void	tests_constructor()
 {
 	std::cout << BYELLOW << "*** TEST CONSTRUCTORS ***" << END << std::endl << std::endl;
-	prefix::stack<int> first;                                // empty stack of ints
+	prefix::stack<int> s;                                // empty stack of ints
+	prefix::vector<int> v;                                // empty vec of ints
+	printVec(v);
 	printStack(first);
 	for (int i = 0; i < 10; i++)
-		first.push(i);
+		s.push(i);
+	for (i = 0; i < 10; i++)
+		first.push_back(i * 10);
+	prefix::stack<int> s2;                                // empty stack of ints
+	std::cout << "v" << std::endl;
+	printVec(v);
 
-	std::cout << "FIRST" << std::endl;
-	printStack(first);
+	std::cout << "s" << std::endl;
+	printStack(s);
+	std::cout << "s2" << std::endl;
+	printStack(s2);
 	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
 }

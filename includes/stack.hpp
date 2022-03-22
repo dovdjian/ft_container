@@ -29,6 +29,8 @@
 #include <string>
 #include <stack>
 #include <cstddef>
+#include "utils_stl.hpp"
+#include "utils_display.hpp"
 
 namespace ft
 {
@@ -45,13 +47,14 @@ namespace ft
 		// CONSTRUCTOR
 			explicit stack(const container_type& ctnr = container_type())
 			{
-				ctnr = c;
+				//ctnr = container_type();
+				this->c = ctnr;
 			}
 		// DESTRUCTOR
 			~stack()
 			{
 				c.clear();
-				c._alloc.deallocate(c._elements, c.capacity());
+				//c.get_allocator().deallocate(c._elements, c.capacity());
 			}
 		// =
 			stack &		operator=(const stack &src)
@@ -67,11 +70,11 @@ namespace ft
 				bool empty() const { return (c.empty()); }
 				size_type size() const { return (c.size()); }
 			// ELEMENT ACCESS
-				value_type& top()
+				value_type & top()
 				{
 					return (c.back());
 				}
-				const value_type& top() const
+				const value_type & top() const
 				{
 					return (c.back());
 				}
@@ -84,32 +87,31 @@ namespace ft
 				{
 					c.pop_back();
 				}
-		private:
+			// GETTERS
+				const container_type & get_c() const { return (this->c); }
+		protected:
 			// VARIABLES
 				container_type	c;			// obj container (vector by default)
-				size_type		_size;		// nbr elements in container
 	};
 	// Non member function overload
 		template <class T, class Container>
 		bool operator==(const stack<T, Container> & lhs, const stack<T, Container> & rhs)
-			{ return (lhs.size() == rhs.size()
-				&& ft::equal(lhs.begin(), lhs.end(), rhs.begin())); }
+			{ return (lhs.get_c() == rhs.get_c()); }
 		template <class T, class Container>
-			bool operator!=(const stack<T, Container> & lhs, const stack<T, Container> & rhs)
-			{ return (!(lhs == rhs)); }
+		bool operator!=(const stack<T, Container> & lhs, const stack<T, Container> & rhs)
+			{ return (lhs != rhs); }
 		template <class T, class Container>
 		bool operator<(const stack<T, Container> & lhs, const stack<T, Container> & rhs)
-			{ return (ft::lexicographical_compare(lhs.begin(), lhs.end(),
-				rhs.begin(), rhs.end())); }
+			{ return (lhs < rhs); }
 		template <class T, class Container>
 		bool operator<=(const stack<T, Container> & lhs, const stack<T, Container> & rhs)
-			{ return (!(rhs < lhs)); }
+			{ return (lhs <= rhs); }
 		template <class T, class Container>
 		bool operator>(const stack<T, Container> & lhs, const stack<T, Container> & rhs)
-			{ return (rhs < lhs); }
+			{ return (lhs > rhs); }
 		template <class T, class Container>
 		bool operator>=(const stack<T, Container> & lhs, const stack<T, Container> & rhs)
-			{ return (!(lhs < rhs)); }
+			{ return (lhs >= rhs); }
 }
 
 #endif /* ********************************************************** `STACK_HPP */
