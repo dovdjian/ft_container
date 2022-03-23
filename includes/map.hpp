@@ -32,112 +32,217 @@
 
 namespace ft
 {
-	template <class T, class Alloc = std::allocator <T> >
-	class map
+	template < class Key,
+	class T,
+	class Compare = std::less<Key>,
+	class Alloc = std::allocator<pair<const Key, T> >
+	> class map
 	{
 		public:
-		// Iterator
-			class Iterator
-			{
-				public:
-					Iterator();
-					~Iterator();
-			};
-		// Typedef iterator
-			typedef map::Iterator iterator;
-			typedef map::Iterator const_iterator;
-			typedef map::Iterator reverse_iterator;
-			typedef map::Iterator const_reverse_iterator;
-			iterator begin() { return (iterator(*this, 0));}
-			iterator end() { return (iterator(*this, this->size()));}
-			reverse_iterator rbegin() { return (reverse_iterator(*this, 0));}
-			reverse_iterator rend() { return (reverse_iterator(*this, this->size()));}
-		// Typedef
+		// TYPEDEF
+			typedef Key key_type;
+			typedef T mapped_type;
+			typedef pair<const Key, T> value_type;
+			typedef Compare key_compare;
+			//typedef cmp_elem value_compare;
 			typedef Alloc allocator_type;
-			typedef typename Alloc::value_type value_type;
-			typedef typename Alloc::size_type size_type;
-			typedef typename Alloc::difference_type difference_type;
 			typedef typename Alloc::reference reference;
 			typedef typename Alloc::const_reference const_reference;
 			typedef typename Alloc::pointer pointer;
 			typedef typename Alloc::const_pointer const_pointer;
-		// Constructor
-			map(){};
-			//explicit map (const allocator_type &alloc = allocator_type()){(void)alloc;}
-			//explicit map (size_type n, const value_type &val = value_type(), const allocator &alloc = allocator()){}
-			//template <class InputIterator> map (InputIterator first, InputIterator last, const allocator &alloc = allocator()){}
-			//map (const map &x){(void)x;}
-		// Destructor
-			~map(){}
-		// Operator
-			/* map &		operator=(const map &x){}
-			reference		operator[] (size_type n){}
-			const_reference	operator[] (size_type n) const{} */
-		// Method
-			//Capacity
-				size_type size() const{ return (this->_size);}
-				//size_type max_size() const {}
-				//void resize (size_type n, value_type val = value_type()){}
-				size_type capacity() { return (this->_capacity);}
-				bool empty() const{ return (this->size() == 0 ? true : false);}
-				/* void reserve (size_type n)
-				{
-					if (n > this->capacity())
-						reallocation
-					if (n > this->max_size())
-						throw (std::length_error);
-				} */
-			// Element access
-				reference at (size_type n)
-				{
-					//if (n > this->size())
-						//throw (std::out_of_range());
-					for (size_type i = 0; i < n; i++){}
-					//return (reference val);
-				}
-				const_reference at (size_type n) const
-				{
-					//if (n > this->size())
-						//throw (std::out_of_range());
-					for (size_type i = 0; i < n; i++){}
-					//return (const_reference val);
-				}
-				reference front(){}
-				const_reference front() const{}
-				reference back(){}
-				const_reference back() const{}
-			// Modifiers
-				/* template <class InputIterator>
-				void assign (InputIterator first, InputIterator last){}
-				void assign (size_type n, const value_type& val){}
-				void push_back(const value_type &val)
-				{
-					map<value_type> my_map;
-					for (map<int>::iterator it = my_map.begin() ; it != my_map.end(); ++it){}
-					*it = val;
-					//if (map.size() > map.capacity())
-						//reallocation
-				}
-				void pop_back(){}
-				iterator insert (iterator position, const value_type& val){}
-				void insert (iterator position, size_type n, const value_type& val){}
+			typedef ptrdiff_t difference_type;
+			typedef size_t size_type;
+		// ITERATOR
+			template <typename ite_T, bool is_const = false>
+			class Iterator
+			{
+				public:
+				// TYPEDEF
+					typedef ite_T& reference;
+					typedef ite_T* pointer;
+					typedef ptrdiff_t difference_type;
+					typedef size_t size_type;
+				// CONSTRUCTOR
+					// Default
+						Iterator() : _ptr(NULL) {}
+					// COPY CONSTRUCTIBLE
+						Iterator(const Iterator & cpy)
+						{
+							*this = cpy;
+						}
+					// COPY ASSIGNABLE
+						Iterator(pointer ptr) : _ptr(ptr) {}
+				// DESTRUCTOR
+					~Iterator(){}
+				// IMPLICIT CONVERSION
+					operator Iterator<const ite_T, true>() const
+						{ return (Iterator<const ite_T, true>(this->_ptr)); }
+				// OPERATOR =
+					Iterator & operator=( Iterator const & src)
+					{
+						if (this != &src)
+							this->_ptr = src.getPtr();
+						return (*this);
+					}
+				// METHODS
+					pointer		getPtr() const { return (this->_ptr); }
+				// ALL CATEGORIES
+					Iterator & operator++() // pre
+					{
+						_ptr++;
+						return (*this);
+					}
+					Iterator operator++(int) // post
+					{
+						Iterator	ret = *this;
+						_ptr++;
+						return (ret);
+					}
+				// FORWARD
+					bool operator==(Iterator<ite_T, false> const & v) const
+						{ return (this->_ptr == v.getPtr()); }
+					bool operator!=(Iterator<ite_T, false> const & v) const
+						{ return (this->_ptr != v.getPtr()); }
+
+					// CONST
+						bool operator==(Iterator<const ite_T, true> const & v) const
+							{ return (this->_ptr == v.getPtr()); }
+						bool operator!=(Iterator<const ite_T, true> const & v) const
+							{ return (this->_ptr != v.getPtr()); }
+					reference operator*() { return (*this->_ptr); }
+					pointer operator->() { return (this->_ptr); }
+				// BIDIRECTIONAL
+					Iterator & operator--() // pre
+					{
+						_ptr--;
+						return (*this);
+					}
+					Iterator operator--(int) // post
+					{
+						Iterator	ret = *this;
+
+						_ptr--;
+						return (ret);
+					}
+				private:
+					pointer			_ptr;
+			};
+		// OVERLOAD +
+			template<typename ite_T, bool is_const >
+				friend Iterator<ite_T, is_const> operator+(
+					typename Iterator<ite_T, is_const>::difference_type const & lhs,
+						Iterator<ite_T, is_const> const & rhs )
+			{
+				return (Iterator<ite_T, is_const>(rhs + lhs));
+			}
+		// My Typedef iterator
+			typedef Iterator<T, false> iterator;
+			typedef Iterator<const T, true> const_iterator;
+			typedef ft::reverse_iterator<iterator> reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+		// METHOD ITERATOR
+			iterator begin() { return (iterator(this->_elements)); }
+			iterator end() { return (iterator(this->_elements + this->_size)); }
+			const_iterator begin() const { return (const_iterator(this->_elements)); }
+			const_iterator end() const { return (const_iterator(this->_elements + this->_size));}
+			reverse_iterator rbegin() { return (reverse_iterator(this->end())); }
+			reverse_iterator rend() { return (reverse_iterator(this->begin())); }
+			const_reverse_iterator rbegin() const { return (const_reverse_iterator(this->end())); }
+			const_reverse_iterator rend() const { return (const_reverse_iterator(this->begin())); }
+		// CONSTRUCTOR
+			map() {}
+			// EMPTY
+			/* 	explicit map(const key_compare & comp = key_compare(),
+					const allocator_type & alloc = allocator_type()) {}
+			// RANGE
 				template <class InputIterator>
-				void insert (iterator position, InputIterator first, InputIterator last){}
-				iterator erase (iterator position){}
-				iterator erase (iterator first, iterator last){}
-				void swap (map& x){}
-				void clear(){} */
+				map(InputIterator first, InputIterator last,
+					const key_compare & comp = key_compare(),
+					const allocator_type & alloc = allocator_type()) {}
+			// COPY
+				map(const map & x) {} */
+		// DESTRUCTOR
+			~map()
+			{
+				//clear();
+				//this->_alloc.deallocate(this->_elements, this->_capacity);
+			}
+		// =
+			map &		operator=(const map & src)
+			{
+				if (this != &src)
+				{
+
+				}
+				return (*this);
+			}
+		// METHODS
+			//CAPACITY
+				size_type size() const { return (this->_size); }
+				size_type max_size() const { return (this->_alloc.max_size()) ;}
+				bool empty() const { return (this->size() == 0 ? true : false); }
+			// ELEMENT ACCESS
+				/* reference operator[](size_type n)
+				{
+					return *(this->_elements + n);
+				}
+				const_reference operator[](size_type n) const
+				{
+					return *(this->_elements + n);
+				}
+			// MODIFIERS
+				pair<iterator, bool> insert(const value_type & val);
+				{
+
+				}
+				void insert(iterator position, const value_type & val)
+				{
+
+				}
+				template <class InputIterator>
+				void insert(InputIterator first, InputIterator last,
+					typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
+				{
+
+				}
+				void erase(iterator position)
+				{
+				}
+				size_type erase(const key_type & k)
+				{
+				}
+				void erase(iterator first, iterator last)
+				{
+					size_type begin = first - this->begin();
+					size_type end = last - this->begin();
+					size_type i;
+
+					for (i = begin ; (i - begin) + end < size() ; i++)
+						this->_elements[i] = this->_elements[(i - begin) + end];
+					for (i = size() - end + begin ; i < size() ; i++)
+						this->_alloc.destroy(this->_elements + i);
+					this->_size = size() - end + begin;
+				}
+				void swap(map & x)
+				{
+
+				}
+				void clear()
+				{
+
+				}
+			// OBSERVERS
+				key_compare key_comp() const {}
+				value_compare value_comp() const {} */
+
 			// Allocator
-				//allocator_type get_allocator() const{}
+				allocator_type	get_allocator() const { return (this->_alloc); }
 		private:
-			size_type _size;
-			size_type _capacity;
+			// VARIABLES
+				allocator_type	_alloc;
+				//size_type		_key;
+				//value_compare	_value;
 	};
 }
-
-// Non member function overload
-/*
-	template <class T, class Alloc>
-		void swap (map<T,Alloc>& x, map<T,Alloc>& y);*/
 
 #endif /* ********************************************************** `MAP_HPP */

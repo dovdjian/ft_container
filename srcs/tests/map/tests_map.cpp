@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:24:40 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/23 16:17:01 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/23 16:33:37 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	tests_pair()
 {
 	std::cout << BYELLOW << "*** TEST PAIR ***" << END << std::endl << std::endl;
 	prefix::pair<std::string, double> product1;                     // default constructor
-	prefix::pair<std::string, double> product2 ("tomatoes", 2.30);   // value init
-	prefix::pair<std::string, double> product3 (product2);          // copy constructor
+	prefix::pair<std::string, double> product2("tomatoes", 2.30);   // value init
+	prefix::pair<std::string, double> product3(product2);          // copy constructor
 
 	product1 = prefix::make_pair(std::string("pineapple"), 0.99);   // using make_pair (move)
 	product2.first = "shoes";                  // the type of first is string
