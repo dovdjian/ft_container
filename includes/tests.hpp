@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:40:49 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/22 18:11:12 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/23 12:28:14 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,17 @@
 # define prefix ft
 #endif
 
+# if prefix == ft
+	# define print_prefix "ft"
+# else
+	# define print_prefix "std"
+# endif
+
+
 #include "vector.hpp"
 #include "stack.hpp"
 #include <vector>
+#include <stack>
 #include <fstream>
 #include <ostream>
 #include <iostream>
@@ -35,6 +43,8 @@ void	tests_methods();
 
 // ---------------- TEST STACK -------------------
 void	tests_stack();
+void	tests_constructor_stack();
+void	tests_methods_stack();
 
 // ---------------- TEST MAP -------------------
 void	tests_map();

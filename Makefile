@@ -26,7 +26,8 @@ VECTOR		=	tests_iterator.cpp \
 				tests_reverse_iterator.cpp \
 				tests_vector.cpp \
 
-STACK		=	tests_stack.cpp
+STACK		=	tests_stack.cpp \
+				tests_methods.cpp \
 
 MAP			=	tests_map.cpp
 

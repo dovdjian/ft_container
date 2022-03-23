@@ -1,6 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
+/*   stack.hpp                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/23 12:25:25 by dodjian           #+#    #+#             */
+/*   Updated: 2022/03/23 14:19:58 by dodjian          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
 /*   stack.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
@@ -44,15 +56,14 @@ namespace ft
 			typedef typename Container::size_type size_type;
 		// CONSTRUCTOR
 			// DEFAULT
-				explicit stack(const container_type & ctnr = container_type()) : c(ctnr)
+				explicit stack(const container_type & ctnr = container_type())
 				{
-					//this->c = ctnr;
+					this->c = ctnr;
 				}
 			// COPY
 				stack(const stack & src)
 				{
-					*this = src;
-					//this->c = src.c;
+					this->c = src.c;
 				}
 		// =
 			stack &		operator=(const stack & src)
@@ -91,7 +102,7 @@ namespace ft
 				container_type const & get_c() const { return (this->c); }
 		protected:
 			// VARIABLES
-				container_type	c;			// obj container (vector by default)
+				container_type	c;			// obj container(vector by default)
 	};
 	// Non member function overload
 		template <class T, class Container>

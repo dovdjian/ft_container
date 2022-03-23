@@ -337,7 +337,7 @@ namespace ft
 						reserve(1);
 					else if (this->_size == this->_capacity)
 						reserve(this->_capacity * 2);
-					this->_elements[this->_size] = val;
+					this->_alloc.construct(this->_elements + this->_size, val);
 					this->_size++;
 				}
 				void pop_back()
