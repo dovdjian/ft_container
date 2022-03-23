@@ -30,7 +30,7 @@ int	main(void)
 	{
 		std::cout << BBLUE << std::endl <<  "--------------- TEST STACK ----------------"
 			<< END << std::endl << std::endl;
-		tests_stack();
+		//tests_stack();
 		std::cout << BBLUE << std::endl <<  "------------------- END -------------------"
 			<< END << std::endl << std::endl;
 	}
@@ -42,7 +42,7 @@ int	main(void)
 	{
 		std::cout << BGREEN << std::endl <<  "---------------- TEST MAP -----------------"
 			<< END << std::endl << std::endl;
-		//tests_map();
+		tests_map();
 		std::cout << BGREEN << std::endl <<  "------------------- END -------------------"
 			<< END << std::endl << std::endl;
 	}

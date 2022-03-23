@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 12:25:25 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/23 15:13:36 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/23 15:52:37 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ namespace ft
 			// DEFAULT
 				explicit stack(const container_type & ctnr = container_type())
 				{
-					std::cout << "gergre";
 					this->c = ctnr;
 				}
 			// COPY
