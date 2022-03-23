@@ -6,14 +6,14 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:41:37 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/23 14:12:13 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/23 15:00:11 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_HPP
 # define UTILS_HPP
 
-#include "vector.hpp"
+#include "tests.hpp"
 
 template <typename T>
 void printVec(T & vec)
@@ -57,7 +57,7 @@ void printStack(T & stack)
 		return ;
 	int x = stack.top();
 	stack.pop();
-	std::cout << BGREEN << "x =  " << x << std::endl;
+	std::cout << BGREEN << "stack content =  " << x << std::endl;
 	printStack(stack);
 	stack.push(x);
 }

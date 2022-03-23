@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "vector.hpp"
-#include "stack.hpp"
-#include "map.hpp"
-#include "tests.hpp"
+#include "../includes/tests.hpp"
 
 int	main(void)
 {
@@ -45,7 +42,7 @@ int	main(void)
 	{
 		std::cout << BGREEN << std::endl <<  "---------------- TEST MAP -----------------"
 			<< END << std::endl << std::endl;
-		tests_map();
+		//tests_map();
 		std::cout << BGREEN << std::endl <<  "------------------- END -------------------"
 			<< END << std::endl << std::endl;
 	}

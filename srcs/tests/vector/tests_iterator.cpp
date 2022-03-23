@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tests.hpp"
+#include "../../../includes/tests.hpp"
 
 void	tests_relational_operators()
 {

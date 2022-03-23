@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_vector.hpp                                   :+:      :+:    :+:   */
+/*   utils_stl.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/09 16:41:37 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/22 16:21:38 by dodjian          ###   ########.fr       */
+/*   Created: 2022/03/23 14:22:21 by dodjian           #+#    #+#             */
+/*   Updated: 2022/03/23 14:36:51 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILS_VECTOR_HPP
-# define UTILS_VECTOR_HPP
+#ifndef UTILS_STL_HPP
+# define UTILS_STL_HPP
 
 namespace ft
 {
@@ -103,6 +103,14 @@ namespace ft
 		}
 		return (true);
 	}
+
+	template <class T1, class T2>
+	struct pair
+	{
+		typedef T1 first_type;
+		typedef T2 second_type;
+	};
+
 }
 
 #endif

@@ -2,7 +2,7 @@ NAME = container
 
 NAME_STL = container_stl
 
-CPP	=	@c++
+CPP	=	@clang++
 
 CFLAGS	=	-Wall -Wextra -Werror -std=c++98
 
@@ -40,20 +40,20 @@ TESTS = 		$(addprefix vector/, $(VECTOR)) \
 SRCS =			$(addprefix srcs/, $(MAIN)) \
 				$(addprefix srcs/tests/, $(TESTS)) \
 
-OBJ =			$(SRCS:.cpp=.o)
+#OBJ =			$(SRCS:.cpp=.o)
 
-%.o: %.cpp
-		@printf "${PURPLE}%-35.35s\r${END}" $@
-		${CPP} $(HEADER) ${CFLAGS} -c $< -o $@
+#%.o: %.cpp
+#@printf "${PURPLE}%-35.35s\r${END}" $@
+#${CPP} $(HEADER) ${CFLAGS} -c $< -o $@
 
 all : test
 
-$(NAME) : $(OBJ)
-	$(CPP) $(CFLAGS) -D prefix=ft $(HEADER) -o $(NAME) $(OBJ)
+$(NAME):
+	$(CPP) $(CFLAGS) $(SRCS) -D prefix=ft -o $(NAME)
 	@echo "The ${RED} $(NAME) ${END} has been build !"
 
-$(NAME_STL) : $(OBJ)
-	$(CPP) $(CFLAGS) -D prefix=std $(HEADER) -o $(NAME_STL) $(OBJ)
+$(NAME_STL):
+	$(CPP) $(CFLAGS) $(SRCS) -D prefix=std -o $(NAME_STL)
 	@echo "The ${RED} $(NAME_STL) ${END} has been build !"
 
 test:
@@ -67,11 +67,11 @@ test:
 			@./res/$(NAME_STL) > res/std.res
 			@-diff -u res/ft.res res/std.res > res/diff.res
 
-clean :
-		$(RM) $(OBJ)
+#clean :
 
-fclean : clean
-		$(RM) res
+
+fclean :
+	$(RM) res
 
 re : fclean all
 

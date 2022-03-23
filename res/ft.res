@@ -7,47 +7,37 @@
 
 [1;33m*** TEST CONSTRUCTORS ***[0m
 
-grregreg
-grregreg
-constructor defaultgreger
-grregreg
-[1;32mvec_it     = [ ]
+gergre[1;32mvec_it     = [ ]
 
-[0mgrregreg
-grregreg
-constructor defaultgreger
-v
+[0mgergrev
 [1;32mvec_it     = [ 0 10 20 30 40 50 60 70 80 90 ]
 
 [0ms
-[1;32mx =  9
-[1;32mx =  8
-[1;32mx =  7
-[1;32mx =  6
-[1;32mx =  5
-[1;32mx =  4
-[1;32mx =  3
-[1;32mx =  2
-[1;32mx =  1
-[1;32mx =  0
+[1;32mstack content =  9
+[1;32mstack content =  8
+[1;32mstack content =  7
+[1;32mstack content =  6
+[1;32mstack content =  5
+[1;32mstack content =  4
+[1;32mstack content =  3
+[1;32mstack content =  2
+[1;32mstack content =  1
+[1;32mstack content =  0
 s2
 
 [1;33m*** END ***[0m
 
 [1;33m*** TEST METHODS ***[0m
 
-grregreg
-grregreg
-constructor defaultgreger
-s.empty()	=	1
-[1;32mx =  8
-[1;32mx =  5
-[1;32mx =  3
-[1;32mx =  2
+gergres.empty()	=	1
+[1;32mstack content =  8
+[1;32mstack content =  5
+[1;32mstack content =  3
+[1;32mstack content =  2
 POP
-[1;32mx =  5
-[1;32mx =  3
-[1;32mx =  2
+[1;32mstack content =  5
+[1;32mstack content =  3
+[1;32mstack content =  2
 s.empty()	=	0
 s.size()	=	3
 

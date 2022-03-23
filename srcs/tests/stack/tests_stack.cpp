@@ -6,11 +6,11 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 14:15:14 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/23 12:16:07 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/23 15:05:09 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tests.hpp"
+#include "../../../includes/tests.hpp"
 
 void	tests_stack()
 {
