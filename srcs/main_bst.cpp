@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 15:45:28 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/24 17:38:20 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/24 17:55:23 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,22 @@ int main(void)
 	typedef std::less< Key >    compare;
 
 	pair_type    pair = std::make_pair(1, 69);
-	BST<pair_type, compare> *first = new BST<pair_type, compare>(pair);
-	BST<pair_type, compare> *second;
+	BST<pair_type, compare> *first_bst = new BST<pair_type, compare>(pair);
+	BST<pair_type, compare> *second_bst;
 
-	std::cout << first->_elem.first << std::endl;
-	std::cout << first->_elem.second << std::endl;
+	std::cout << first_bst->_elem.first << std::endl;
+	std::cout << first_bst->_elem.second << std::endl;
 
-	first->insert(std::make_pair(2, 18));
-	first->insert(std::make_pair(0, -42));
+	first_bst->insert(std::make_pair(2, 18));
+	first_bst->insert(std::make_pair(0, -42));
 
-	second = first->_left_child;
+	second_bst = first_bst->_left_child;
 
-	std::cout << second->_elem.first << std::endl;
-	std::cout << second->_elem.second << std::endl;
+	std::cout << second_bst->_elem.first << std::endl;
+	std::cout << second_bst->_elem.second << std::endl;
 
-	first = first->_right_child;
+	first_bst = first_bst->_right_child;
 
-	std::cout << first->_elem.first << std::endl;
-	std::cout << first->_elem.second << std::endl;
+	std::cout << first_bst->_elem.first << std::endl;
+	std::cout << first_bst->_elem.second << std::endl;
 }
