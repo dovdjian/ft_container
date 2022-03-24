@@ -25,10 +25,7 @@
 #define BWHITE		"\033[1;37m"
 #define END			"\033[0m"
 
-#include <iostream>
-#include <string>
-#include <map>
-#include <cstddef>
+#include "../utils/stl.hpp"
 
 namespace ft
 {

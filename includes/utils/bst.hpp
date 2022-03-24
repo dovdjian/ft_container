@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tests_vector.cpp                                   :+:      :+:    :+:   */
+/*   bst.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/09 14:15:14 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/24 10:15:24 by dodjian          ###   ########.fr       */
+/*   Created: 2022/03/24 10:22:31 by dodjian           #+#    #+#             */
+/*   Updated: 2022/03/24 10:23:11 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/utils/tests.hpp"
+#ifndef BST_HPP
+# define BST_HPP
 
-void	tests_vector()
+#include "stl.hpp"
+
+template <>
+struct BST
 {
-	tests_constructor();
-	tests_iterator();
-	tests_r_iterator();
-	tests_methods();
+
 }
+
+#endif

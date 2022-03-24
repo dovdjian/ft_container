@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 12:25:25 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/23 15:52:37 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/24 10:20:30 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,7 @@
 #define BWHITE		"\033[1;37m"
 #define END			"\033[0m"
 
-#include <iostream>
-#include <string>
-#include <stack>
-#include <cstddef>
-#include "utils_stl.hpp"
-#include "utils_display.hpp"
+#include "../utils/stl.hpp"
 
 namespace ft
 {

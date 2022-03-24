@@ -25,15 +25,7 @@
 #define BWHITE		"\033[1;37m"
 #define END			"\033[0m"
 
-#include <vector>
-#include <iterator>
-#include <iostream>
-#include <ostream>
-#include <cstddef>
-#include <memory>
-#include "utils_stl.hpp"
-#include "utils_display.hpp"
-#include "rev_iterator.hpp"
+#include "../utils/stl.hpp"
 
 namespace ft
 {

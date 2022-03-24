@@ -6,11 +6,11 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:24:40 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/23 16:33:37 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/24 10:15:24 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../includes/tests.hpp"
+#include "../../../includes/utils/tests.hpp"
 
 void	tests_pair()
 {

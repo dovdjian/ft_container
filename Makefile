@@ -40,12 +40,6 @@ TESTS = 		$(addprefix vector/, $(VECTOR)) \
 SRCS =			$(addprefix srcs/, $(MAIN)) \
 				$(addprefix srcs/tests/, $(TESTS)) \
 
-#OBJ =			$(SRCS:.cpp=.o)
-
-#%.o: %.cpp
-#@printf "${PURPLE}%-35.35s\r${END}" $@
-#${CPP} $(HEADER) ${CFLAGS} -c $< -o $@
-
 all : test
 
 $(NAME):

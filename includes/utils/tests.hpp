@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:40:49 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/23 15:15:10 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/24 10:04:46 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,7 @@
 	# define print_prefix "std"
 # endif
 
-#include "vector.hpp"
-#include "stack.hpp"
-#include "map.hpp"
-#include <vector>
-#include <stack>
-#include <fstream>
-#include <ostream>
-#include <iostream>
-#include <string>
+#include "stl.hpp"
 
 // ---------------- TEST VECTOR -------------------
 

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/tests.hpp"
+#include "../includes/utils/tests.hpp"
 
 int	main(void)
 {
