@@ -123,6 +123,7 @@ namespace ft
 					}
 				private:
 					pointer			_ptr;
+					//pointerBST*		_bst;
 			};
 		// OVERLOAD +
 			template<typename ite_T, bool is_const >

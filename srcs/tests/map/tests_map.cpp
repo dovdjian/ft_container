@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:24:40 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/24 10:15:24 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/24 16:31:21 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,19 @@ void	tests_pair()
 	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
 }
 
+void	tests_bst()
+{
+	pointer	root = NULL;
+	root = new BST[1];
+	prefix::pair<std::string, double> product2("tomatoes", 2.30);   // value init
+
+	root->insert(pair);
+	display_bst(root);
+	//delete root;
+}
+
 void	tests_map()
 {
-	tests_pair();
+	//tests_pair();
+	tests_bst();
 }
