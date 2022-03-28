@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:41:37 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/24 10:14:32 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/28 23:09:29 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,28 @@ void printStack(T & stack)
 	std::cout << BGREEN << "stack content =  " << x << std::endl;
 	printStack(stack);
 	stack.push(x);
+}
+
+template <typename BST>
+void print_bst(const std::string & prefix, const BST* node,
+	bool isLeft)
+{
+	if( node != nullptr )
+	{
+		std::cout << prefix;
+		std::cout << (isLeft ? "├──" : "└──" );
+		// print the value of the node
+		std::cout << node->_elem.first << std::endl;
+		// enter the next tree level - left and right branch
+		print_bst(prefix + (isLeft ? "│   " : "    "), node->_left_child, true);
+		print_bst(prefix + (isLeft ? "│   " : "    "), node->_right_child, false);
+	}
+}
+
+template <typename BST>
+void print_bst(const BST* node)
+{
+	print_bst("", node, false);
 }
 
 #endif
