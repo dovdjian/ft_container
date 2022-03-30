@@ -68,7 +68,7 @@ namespace ft
 					operator Iterator<const ite_T, true>() const
 						{ return (Iterator<const ite_T, true>(this->_ptr)); }
 				// OPERATOR =
-					Iterator & operator=( Iterator const & src)
+					Iterator & operator=(Iterator const & src)
 					{
 						if (this != &src)
 							this->_ptr = src.getPtr();

@@ -31,36 +31,65 @@ struct BST
 	pointer			_right_child;
 	int				_depth;
 	// CONSTRUCTOR
-		BST(pair_type const & new_pair, const key_compare & comp = key_compare())
-		{
-			_data = new_pair;
-			_cmp = comp;
-			_left_child = NULL;
-			_right_child = NULL;
-			_depth = 1; // ?
-		}
+		// DEFAULT
+			BST(pair_type const & new_pair, const key_compare & comp = key_compare())
+			{
+				//std::cout << "new_pair.first\t=\t" << new_pair.first << std::endl;
+				this->_data = new_pair;
+				this->_cmp = comp;
+				this->_left_child = NULL;
+				this->_right_child = NULL;
+				this->_depth = 1; // ?
+			}
+		// COPY
+			BST(const BST & src)
+			{
+				this->_data = src._data;
+				this->_cmp = src._cmp;
+				this->_alloc = src._alloc;
+				this->_left_child = src._left_child;
+				this->_right_child = src._right_child;
+				this->_depth = src._depth; // ?
+			}
 	// DESTRUCTOR
 		~BST()
 		{
-		/* 	if (_left_child)
-				_alloc.destroy(_left_child);
+			if (_left_child)
+				this->_alloc.destroy(_left_child);
 			if (_right_child)
-				_alloc.destroy(_right_child);
-			if (*this)
-				_alloc.destroy(*this); */
+				this->_alloc.destroy(_right_child);
+			//if (this)
+				//this->_alloc.destroy(this);
+		}
+	// OPERATOR =
+		BST & operator=(BST const & src)
+		{
+			if (this != &src)
+			{
+				this->_cmp = src._cmp;
+				this->_data = src._data;
+				this->_depth = src._depth;
+				this->_left_child = src._left_child;
+				this->_right_child = src._right_child;
+				this->_alloc.construct(this->_left_child, src._left_child);
+				this->_alloc.construct(this->_right_child, src._right_child);
+			}
+			return (*this);
 		}
 	// METHODS
 		pointer create_node(pair_type const & new_pair)
 		{
-			pointer ret = _alloc.allocate(1);
+			pointer ret = this->_alloc.allocate(1);
 
-			_alloc.construct(ret, BST(new_pair));
+			this->_alloc.construct(ret, BST(new_pair));
 			return (ret);
 		}
 		bool	compare(pair_type const & new_pair)
 			{ return (_cmp(new_pair.first, _data.first)); }
 		BST *rotateRight(BST *node)
 		{
+			std::cout << "rright" << std::endl;
+			std::cout << "node->_data.first\t=\t" << node->_data.first << std::endl;
 			BST *ret = node->_left_child;
 			BST *tmp2 = ret->_right_child;
 
@@ -89,7 +118,7 @@ struct BST
 		}
 		BST	*balance_bst(pair_type const & new_pair)
 		{
-			std::cout << "in balance bst" << std::endl;
+			std::cout << "new_pair.first\t=\t" << new_pair.first << std::endl;
 			if (getBalanced_factor() > 1
 				&& _left_child->compare(new_pair)) // LL
 				return (rotateRight(this));
@@ -112,6 +141,7 @@ struct BST
 		}
 		BST	*insert(pair_type const & new_pair)
 		{
+			std::cout << "new_pair.first\t=\t" << new_pair.first << std::endl;
 			if (compare(new_pair)) //less = left
 			{
 				if (_left_child)
@@ -126,12 +156,64 @@ struct BST
 				else
 					_right_child = create_node(new_pair);
 			}
-			_depth = 1 + std::max(getDepth(_left_child),
+			this->_depth = 1 + std::max(getDepth(_left_child),
 				getDepth(_right_child));
-			if (!is_balanced(_depth))
-				return (balance_bst(new_pair));
+
+			std::cout << "getBalanced_factor()\t=\t" << getBalanced_factor() << std::endl;
+			//std::cout << "_data.first\t=\t" << _data.first << std::endl;
+			//std::cout << "new_pair.first\t=\t" << new_pair.first << std::endl;
+			//if (!is_balanced())
+				//return (balance_bst(this->_data));
 			return (this); // initial
 		}
+		BST *erase(pair_type const & new_pair)
+		{
+			//if (this == NULL)
+				//return (this);
+			if (new_pair < this->_data)
+				return (_left_child->erase(new_pair));
+			else if (new_pair > this->_data)
+				return (_right_child->erase(new_pair));
+			else
+			{
+				// 3 cases : 0, 1, 2 children
+				// No child
+				if (!_left_child && !_right_child)
+				{
+					this->_alloc.destroy(this);
+					//this = NULL;
+				}
+				// One child
+				else if (!_left_child)
+				{
+					BST *tmp = this;
+
+					//this = this->_right_child;
+					this->_alloc.destroy(tmp);
+				}
+				else if (!_right_child)
+				{
+					BST *tmp = this;
+
+					//this = this->_left_child;
+					this->_alloc.destroy(tmp);
+				}
+				// 2 children
+				else
+				{
+					//BST *tmp = findMin(_right_child->_data);
+
+					//_data = tmp->_data;
+					//_right_child = _right_child->erase(tmp->_data);
+				}
+			}
+			return (this); // initial
+		}
+		/* BST	*findMin(pair_type const & new_pair)
+		{
+			if (_right_child)
+				return (true);
+		} */
 		bool	search(pair_type const & new_pair)
 		{
 			if (new_pair == this->_data)
@@ -142,10 +224,11 @@ struct BST
 				return (search(_right_child->_data));
 			return (false);
 		}
-		bool	is_balanced(int depth)
+		bool	is_balanced()
 		{
-			std::cout << "depth\t=\t" << depth << std::endl;
-			if (depth >= -1 && depth <= 1)
+			int b_factor = getBalanced_factor();
+
+			if (b_factor >= -1 && b_factor <= 1)
 				return (true);
 			return (false);
 		}
