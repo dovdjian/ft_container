@@ -214,10 +214,7 @@ namespace ft
 					this->_capacity = src.capacity();
 					this->_size = src.size();
 					for (size_type i = 0 ; i < src.size() ; i++)
-					{
 						this->_alloc.construct(this->_elements + i, src[i]);
-						//this->_elements[i] = src._elements[i];
-					}
 				}
 		// DESTRUCTOR
 			~vector()
@@ -275,6 +272,8 @@ namespace ft
 							_alloc.construct(new_mem + i, this->_elements[i]);
 							_alloc.destroy(this->_elements + i);
 						}
+						//if (this->_elements)
+							//_alloc.deallocate(this->_elements, this->_capacity);
 						this->_capacity = n;
 						this->_elements = new_mem;
 					}

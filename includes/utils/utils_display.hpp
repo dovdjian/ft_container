@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:41:37 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/29 13:53:11 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/31 16:06:32 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ template <typename BST>
 void print_bst(const std::string & prefix, const BST* node,
 	bool isLeft)
 {
-	if( node != nullptr )
+	if (node)
 	{
 		std::cout << prefix;
 		std::cout << (isLeft ? "├──" : "└──" );

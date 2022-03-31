@@ -31,16 +31,15 @@ STACK		=	tests_stack.cpp \
 
 MAP			=	tests_map.cpp
 
-#MAIN =			main.cpp
-MAIN =			main_bst.cpp
+MAIN =			main.cpp
 
-#TESTS = 		$(addprefix vector/, $(VECTOR)) \
+TESTS = 		$(addprefix vector/, $(VECTOR)) \
 				$(addprefix stack/, $(STACK)) \
 				$(addprefix map/, $(MAP)) \
 
 
 SRCS =			$(addprefix srcs/, $(MAIN)) \
-				#$(addprefix srcs/tests/, $(TESTS)) \
+				$(addprefix srcs/tests/, $(TESTS)) \
 
 all : test
 
@@ -62,9 +61,6 @@ test:
 			@./res/$(NAME) > res/ft.res
 			@./res/$(NAME_STL) > res/std.res
 			@-diff -u res/ft.res res/std.res > res/diff.res
-
-#clean :
-
 
 fclean :
 	$(RM) res

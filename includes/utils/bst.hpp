@@ -129,18 +129,25 @@ struct BST
 				getDepth(ret->_right_child)) + 1;
 			return (ret);
 		}
-		BST *rotateLeft(BST *node)
+		BST *rotateLeft(BST *node) // x
 		{
 			std::cout << "rleft" << std::endl;
 			std::cout << "node->_data.first\t=\t" << node->_data.first << std::endl;
 			BST *ret = node->_right_child;
+			std::cout << "ret->_data.first\t=\t" << ret->_data.first << std::endl; // 20 ?
 			node->_right_child = ret->_left_child;
+			//std::cout << "node->_right_child->_data.first\t=\t" << node->_right_child->_data.first << std::endl; // 0
 
 			ret->_left_child = node;
+			std::cout << "ret->_left_child_data.first\t=\t" << ret->_left_child->_data.first << std::endl; // 20 ?
 			ret->_depth = std::max(getDepth(ret->_left_child),
 				getDepth(ret->_right_child)) + 1;
 			node->_depth = std::max(getDepth(node->_left_child),
 				getDepth(node->_right_child)) + 1;
+			//this->_depth = std::max(getDepth(_left_child),
+				//getDepth(_right_child)) + 1;
+			std::cout << "node->depth" << node->_depth << std::endl; // 1 ?
+			std::cout << "ret->depth" << ret->_depth << std::endl; // 0 ?
 			return (ret);
 		}
 		BST	*balance_bst(pair_type const & new_pair)
@@ -190,14 +197,12 @@ struct BST
 			//std::cout << "getBalanced_factor()\t=\t" << getBalanced_factor() << std::endl;
 			//std::cout << "_data.first\t=\t" << _data.first << std::endl;
 			//std::cout << "new_pair.first\t=\t" << new_pair.first << std::endl;
-			//if (!is_balanced())
-				//return (balance_bst(this->_data));
+			if (!is_balanced())
+				return (balance_bst(this->_data));
 			return (this); // initial
 		}
 		BST *erase(pair_type const & new_pair)
 		{
-			//if (this == NULL)
-				//return (this);
 			if (new_pair < this->_data)
 				return (_left_child->erase(new_pair));
 			else if (new_pair > this->_data)

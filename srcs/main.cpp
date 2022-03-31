@@ -18,7 +18,7 @@ int	main(void)
 	{
 		std::cout << PURPLE << "--------------- TEST VECTOR ---------------"
 			<< END << std::endl << std::endl;
-		//tests_vector();
+		tests_vector();
 		std::cout << PURPLE << "------------------- END -------------------"
 			<< END << std::endl << std::endl;
 	}
@@ -42,7 +42,7 @@ int	main(void)
 	{
 		std::cout << BGREEN << std::endl <<  "---------------- TEST MAP -----------------"
 			<< END << std::endl << std::endl;
-		tests_map();
+		//tests_map();
 		std::cout << BGREEN << std::endl <<  "------------------- END -------------------"
 			<< END << std::endl << std::endl;
 	}
