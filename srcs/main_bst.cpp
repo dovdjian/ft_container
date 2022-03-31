@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 15:45:28 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/31 12:36:59 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/31 16:01:54 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,4 @@ int main(void)
 		<< std::endl << std::endl;
 	print_bst(first_bst);
 	delete first_bst;
-	delete second_bst;
-	delete third_bst;
 }
