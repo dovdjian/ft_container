@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 15:45:28 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/30 19:00:24 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/03/31 12:36:59 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,19 @@ int main(void)
 	BST<pair_type, compare> *first_bst = new BST<pair_type, compare>(pair);
 	BST<pair_type, compare> *second_bst, *third_bst;
 
-	std::cout << "insert 10" << std::endl << std::endl;
+	std::cout << "cree un bst avec 10" << std::endl << std::endl;
 	print_bst(first_bst);
 
-	std::cout << std::endl << "insert 20, 30"
+	std::cout << std::endl << "insert 20"
 		<< std::endl << std::endl;
 	//first_bst->insert(std::make_pair(10, "b"));
 	//first_bst->insert(std::make_pair(0, "c"));
+
 	first_bst->insert(std::make_pair(20, "d"));
+	std::cout << std::endl << "insert 30"
+		<< std::endl << std::endl;
 	first_bst->insert(std::make_pair(30, "c"));
-	first_bst->erase(std::make_pair(30, "c"));
+	//first_bst->erase(std::make_pair(30, "c"));
 	//first_bst->insert(std::make_pair(15, "c"));
 	//first_bst->insert(std::make_pair(25, "c"));
 	//std::cout << "search f bst data = "

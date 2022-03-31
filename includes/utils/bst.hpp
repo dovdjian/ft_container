@@ -47,17 +47,35 @@ struct BST
 				this->_data = src._data;
 				this->_cmp = src._cmp;
 				this->_alloc = src._alloc;
-				this->_left_child = src._left_child;
-				this->_right_child = src._right_child;
+				this->_left_child = NULL;
+				this->_right_child = NULL;
 				this->_depth = src._depth; // ?
+				if (!this->_left_child)
+				{
+					_left_child = this->_alloc.allocate(1);
+					this->_alloc.construct(this->_left_child, *src._left_child);
+				}
+				if (!this->_right_child)
+				{
+					_right_child = this->_alloc.allocate(1);
+					this->_alloc.construct(this->_right_child, *src._right_child);
+				}
 			}
 	// DESTRUCTOR
 		~BST()
 		{
 			if (_left_child)
+			{
 				this->_alloc.destroy(_left_child);
+				this->_alloc.deallocate(_left_child, 1);
+				_left_child = NULL;
+			}
 			if (_right_child)
+			{
 				this->_alloc.destroy(_right_child);
+				this->_alloc.deallocate(_right_child, 1);
+				_right_child = NULL;
+			}
 			//if (this)
 				//this->_alloc.destroy(this);
 		}
@@ -69,10 +87,16 @@ struct BST
 				this->_cmp = src._cmp;
 				this->_data = src._data;
 				this->_depth = src._depth;
-				this->_left_child = src._left_child;
-				this->_right_child = src._right_child;
-				this->_alloc.construct(this->_left_child, src._left_child);
-				this->_alloc.construct(this->_right_child, src._right_child);
+				if (!this->_left_child)
+				{
+					_left_child = this->_alloc.allocate(1);
+					this->_alloc.construct(this->_left_child, *src._left_child);
+				}
+				if (!this->_right_child)
+				{
+					_right_child = this->_alloc.allocate(1);
+					this->_alloc.construct(this->_right_child, *src._right_child);
+				}
 			}
 			return (*this);
 		}
@@ -104,6 +128,8 @@ struct BST
 		}
 		BST *rotateLeft(BST *node)
 		{
+			std::cout << "rleft" << std::endl;
+			std::cout << "node->_data.first\t=\t" << node->_data.first << std::endl;
 			BST *ret = node->_right_child;
 			BST *tmp2 = ret->_left_child;
 
@@ -118,21 +144,22 @@ struct BST
 		}
 		BST	*balance_bst(pair_type const & new_pair)
 		{
-			std::cout << "new_pair.first\t=\t" << new_pair.first << std::endl;
+			std::cout << "getBalanced_factor()\t=\t" << getBalanced_factor() << std::endl;
+			std::cout << "new_pair.first in balance bst\t=\t" << new_pair.first << std::endl;
 			if (getBalanced_factor() > 1
-				&& _left_child->compare(new_pair)) // LL
+				&& _left_child->compare(new_pair)) // RR
 				return (rotateRight(this));
 			if (getBalanced_factor() > 1
-				&& !_left_child->compare(new_pair)) // LR
+				&& !_left_child->compare(new_pair)) // RL
 			{
 				_left_child = rotateLeft(_left_child);
 				return (rotateRight(this));
 			}
 			if (getBalanced_factor() < -1
-				&& _right_child->compare(new_pair)) // RR
+				&& _right_child->compare(new_pair)) // LL
 				return (rotateLeft(this));
 			if (getBalanced_factor() < -1
-				&& !_right_child->compare(new_pair)) // RL
+				&& !_right_child->compare(new_pair)) // LR
 			{
 				_right_child = rotateRight(_right_child);
 				return (rotateLeft(this));
@@ -141,7 +168,7 @@ struct BST
 		}
 		BST	*insert(pair_type const & new_pair)
 		{
-			std::cout << "new_pair.first\t=\t" << new_pair.first << std::endl;
+			//std::cout << "new_pair.first\t=\t" << new_pair.first << std::endl;
 			if (compare(new_pair)) //less = left
 			{
 				if (_left_child)
@@ -156,14 +183,14 @@ struct BST
 				else
 					_right_child = create_node(new_pair);
 			}
-			this->_depth = 1 + std::max(getDepth(_left_child),
-				getDepth(_right_child));
+			this->_depth = std::max(getDepth(_left_child),
+				getDepth(_right_child)) + 1;
 
-			std::cout << "getBalanced_factor()\t=\t" << getBalanced_factor() << std::endl;
+			//std::cout << "getBalanced_factor()\t=\t" << getBalanced_factor() << std::endl;
 			//std::cout << "_data.first\t=\t" << _data.first << std::endl;
 			//std::cout << "new_pair.first\t=\t" << new_pair.first << std::endl;
-			//if (!is_balanced())
-				//return (balance_bst(this->_data));
+			if (!is_balanced())
+				return (balance_bst(this->_data));
 			return (this); // initial
 		}
 		BST *erase(pair_type const & new_pair)
@@ -240,6 +267,8 @@ struct BST
 		}
 		int getBalanced_factor()
 		{
+			//return (std::max(getDepth(_left_child),
+				//getDepth(_right_child)) + 1);
 			return (getDepth(_left_child) -
 				getDepth(_right_child));
 		}
