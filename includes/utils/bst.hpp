@@ -40,61 +40,51 @@ struct BST
 				this->_left_child = NULL;
 				this->_right_child = NULL;
 				this->_depth = 1; // ?
+				std::cout << "construct default" << std::endl;
 			}
 		// COPY
 			BST(const BST & src)
 			{
+				//std::cout << "construct copy" << std::endl;
+
 				this->_data = src._data;
 				this->_cmp = src._cmp;
-				this->_alloc = src._alloc;
 				this->_left_child = NULL;
 				this->_right_child = NULL;
 				this->_depth = src._depth; // ?
-				if (!this->_left_child)
+				if (this->_left_child)
 				{
-					_left_child = this->_alloc.allocate(1);
+					this->_left_child = this->_alloc.allocate(1);
 					this->_alloc.construct(this->_left_child, *src._left_child);
 				}
-				if (!this->_right_child)
+				if (this->_right_child)
 				{
-					_right_child = this->_alloc.allocate(1);
+					this->_right_child = this->_alloc.allocate(1);
 					this->_alloc.construct(this->_right_child, *src._right_child);
 				}
 			}
 	// DESTRUCTOR
 		~BST()
 		{
-			if (_left_child)
-			{
-				this->_alloc.destroy(_left_child);
-				this->_alloc.deallocate(_left_child, 1);
-				_left_child = NULL;
-			}
-			if (_right_child)
-			{
-				this->_alloc.destroy(_right_child);
-				this->_alloc.deallocate(_right_child, 1);
-				_right_child = NULL;
-			}
-			//if (this)
-				//this->_alloc.destroy(this);
+			destroy_children();
 		}
 	// OPERATOR =
 		BST & operator=(BST const & src)
 		{
 			if (this != &src)
 			{
+				destroy_children();
 				this->_cmp = src._cmp;
 				this->_data = src._data;
 				this->_depth = src._depth;
-				if (!this->_left_child)
+				if (this->_left_child)
 				{
-					_left_child = this->_alloc.allocate(1);
+					this->_left_child = this->_alloc.allocate(1);
 					this->_alloc.construct(this->_left_child, *src._left_child);
 				}
-				if (!this->_right_child)
+				if (this->_right_child)
 				{
-					_right_child = this->_alloc.allocate(1);
+					this->_right_child = this->_alloc.allocate(1);
 					this->_alloc.construct(this->_right_child, *src._right_child);
 				}
 			}
@@ -108,6 +98,21 @@ struct BST
 			this->_alloc.construct(ret, BST(new_pair));
 			return (ret);
 		}
+		void	destroy_children()
+		{
+			if (_left_child)
+			{
+				this->_alloc.destroy(_left_child);
+				this->_alloc.deallocate(_left_child, 1);
+				_left_child = NULL;
+			}
+			if (_right_child)
+			{
+				this->_alloc.destroy(_right_child);
+				this->_alloc.deallocate(_right_child, 1);
+				_right_child = NULL;
+			}
+		}
 		bool	compare(pair_type const & new_pair)
 			{ return (_cmp(new_pair.first, _data.first)); }
 		BST *rotateRight(BST *node)
@@ -115,11 +120,9 @@ struct BST
 			std::cout << "rright" << std::endl;
 			std::cout << "node->_data.first\t=\t" << node->_data.first << std::endl;
 			BST *ret = node->_left_child;
-			BST *tmp2 = ret->_right_child;
+			node->_left_child= ret->_right_child;
 
 			ret->_right_child = node;
-			node->_left_child = tmp2;
-
 			node->_depth = std::max(getDepth(node->_left_child),
 				getDepth(node->_right_child)) + 1;
 			ret->_depth = std::max(getDepth(ret->_left_child),
@@ -131,11 +134,9 @@ struct BST
 			std::cout << "rleft" << std::endl;
 			std::cout << "node->_data.first\t=\t" << node->_data.first << std::endl;
 			BST *ret = node->_right_child;
-			BST *tmp2 = ret->_left_child;
+			node->_right_child = ret->_left_child;
 
 			ret->_left_child = node;
-			node->_right_child = tmp2;
-
 			ret->_depth = std::max(getDepth(ret->_left_child),
 				getDepth(ret->_right_child)) + 1;
 			node->_depth = std::max(getDepth(node->_left_child),
@@ -189,8 +190,8 @@ struct BST
 			//std::cout << "getBalanced_factor()\t=\t" << getBalanced_factor() << std::endl;
 			//std::cout << "_data.first\t=\t" << _data.first << std::endl;
 			//std::cout << "new_pair.first\t=\t" << new_pair.first << std::endl;
-			if (!is_balanced())
-				return (balance_bst(this->_data));
+			//if (!is_balanced())
+				//return (balance_bst(this->_data));
 			return (this); // initial
 		}
 		BST *erase(pair_type const & new_pair)
