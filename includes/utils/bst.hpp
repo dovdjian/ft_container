@@ -46,8 +46,8 @@ struct BST
 			BST(const BST & src)
 			{
 				//std::cout << "construct copy" << std::endl;
-
-				this->_data = src._data;
+				*this = src;
+				/* this->_data = src._data;
 				this->_cmp = src._cmp;
 				this->_left_child = NULL;
 				this->_right_child = NULL;
@@ -61,7 +61,7 @@ struct BST
 				{
 					this->_right_child = this->_alloc.allocate(1);
 					this->_alloc.construct(this->_right_child, *src._right_child);
-				}
+				} */
 			}
 	// DESTRUCTOR
 		~BST()
@@ -73,8 +73,8 @@ struct BST
 		{
 			if (this != &src)
 			{
-				destroy_children();
-				this->_cmp = src._cmp;
+				//destroy_children();
+				//this->_cmp = src._cmp;
 				this->_data = src._data;
 				this->_depth = src._depth;
 				if (this->_left_child)
@@ -123,8 +123,10 @@ struct BST
 			node->_left_child= ret->_right_child;
 
 			ret->_right_child = node;
-			node->_depth = std::max(getDepth(node->_left_child),
-				getDepth(node->_right_child)) + 1;
+			//node->_depth = std::max(getDepth(node->_left_child),
+				//getDepth(node->_right_child)) + 1;
+			_depth = std::max(getDepth(_left_child),
+				getDepth(_right_child)) + 1;
 			ret->_depth = std::max(getDepth(ret->_left_child),
 				getDepth(ret->_right_child)) + 1;
 			return (ret);
@@ -142,10 +144,10 @@ struct BST
 			std::cout << "ret->_left_child_data.first\t=\t" << ret->_left_child->_data.first << std::endl; // 20 ?
 			ret->_depth = std::max(getDepth(ret->_left_child),
 				getDepth(ret->_right_child)) + 1;
-			node->_depth = std::max(getDepth(node->_left_child),
-				getDepth(node->_right_child)) + 1;
-			//this->_depth = std::max(getDepth(_left_child),
-				//getDepth(_right_child)) + 1;
+			//node->_depth = std::max(getDepth(node->_left_child),
+				//getDepth(node->_right_child)) + 1;
+			_depth = std::max(getDepth(_left_child),
+				getDepth(_right_child)) + 1;
 			std::cout << "node->depth" << node->_depth << std::endl; // 1 ?
 			std::cout << "ret->depth" << ret->_depth << std::endl; // 0 ?
 			return (ret);
@@ -197,8 +199,8 @@ struct BST
 			//std::cout << "getBalanced_factor()\t=\t" << getBalanced_factor() << std::endl;
 			//std::cout << "_data.first\t=\t" << _data.first << std::endl;
 			//std::cout << "new_pair.first\t=\t" << new_pair.first << std::endl;
-			if (!is_balanced())
-				return (balance_bst(this->_data));
+			//if (!is_balanced())
+				//return (balance_bst(this->_data));
 			return (this); // initial
 		}
 		BST *erase(pair_type const & new_pair)
