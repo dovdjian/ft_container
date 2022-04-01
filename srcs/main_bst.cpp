@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 15:45:28 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/01 15:23:34 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/01 15:58:53 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ int main(void)
 	//first_bst->insert(std::make_pair(0, "c"));
 
 	first_bst->insert(std::make_pair(20, "d"));
-	std::cout << std::endl << "insert 30"
+	std::cout << std::endl << "insert 12, 15"
 		<< std::endl << std::endl;
 	first_bst->insert(std::make_pair(12, "c"));
 	first_bst->insert(std::make_pair(15, "a"));
+	std::cout << std::endl << "erase 12"
+		<< std::endl << std::endl;
 	first_bst->erase(std::make_pair(12, "c"));
 	//first_bst->insert(std::make_pair(15, "c"));
 	//first_bst->insert(std::make_pair(25, "c"));

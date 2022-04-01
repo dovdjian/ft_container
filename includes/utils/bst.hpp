@@ -29,6 +29,7 @@ struct BST
 	allocator_type	_alloc;
 	pointer			_left_child;
 	pointer			_right_child;
+	pointer			_root;
 	int				_depth;
 	// CONSTRUCTOR
 		// DEFAULT
@@ -39,6 +40,7 @@ struct BST
 				this->_cmp = comp;
 				this->_left_child = NULL;
 				this->_right_child = NULL;
+				this->_root = NULL;
 				this->_depth = 1; // ?
 				std::cout << "construct default" << std::endl;
 			}
@@ -46,11 +48,12 @@ struct BST
 			BST(const BST & src)
 			{
 				//std::cout << "construct copy" << std::endl;
-				*this = src;
-				/* this->_data = src._data;
+				//*this = src;
+				this->_data = src._data;
 				this->_cmp = src._cmp;
 				this->_left_child = NULL;
 				this->_right_child = NULL;
+				this->_root = NULL;
 				this->_depth = src._depth; // ?
 				if (this->_left_child)
 				{
@@ -61,7 +64,7 @@ struct BST
 				{
 					this->_right_child = this->_alloc.allocate(1);
 					this->_alloc.construct(this->_right_child, *src._right_child);
-				} */
+				}
 			}
 	// DESTRUCTOR
 		~BST()
@@ -73,8 +76,9 @@ struct BST
 		{
 			if (this != &src)
 			{
-				//destroy_children();
-				//this->_cmp = src._cmp;
+				*this = src;
+				/* destroy_children();
+				this->_cmp = src._cmp;
 				this->_data = src._data;
 				this->_depth = src._depth;
 				if (this->_left_child)
@@ -86,7 +90,7 @@ struct BST
 				{
 					this->_right_child = this->_alloc.allocate(1);
 					this->_alloc.construct(this->_right_child, *src._right_child);
-				}
+				}*/
 			}
 			return (*this);
 		}
@@ -182,16 +186,16 @@ struct BST
 			if (compare(new_pair)) //less = left
 			{
 				if (_left_child)
-					_left_child = _left_child->insert(new_pair);
+					_root = _left_child = _left_child->insert(new_pair);
 				else
-					_left_child = create_node(new_pair);
+					_root = _left_child = create_node(new_pair);
 			}
 			else
 			{
 				if (_right_child)
-					_right_child = _right_child->insert(new_pair);
+					_root->_right_child = _right_child->insert(new_pair);
 				else
-					_right_child = create_node(new_pair);
+					_root->_right_child = create_node(new_pair);
 			}
 			this->_depth = std::max(getDepth(_left_child),
 				getDepth(_right_child)) + 1;
@@ -201,54 +205,56 @@ struct BST
 			//std::cout << "new_pair.first\t=\t" << new_pair.first << std::endl;
 			//if (!is_balanced())
 				//return (balance_bst(this->_data));
-			return (this); // initial
+			return (_root); // initial
 		}
-		BST *erase(pair_type const & new_pair)
+		BST	*erase(pair_type const & new_pair)
 		{
-			if (new_pair < this->_data)
-				return (_left_child->erase(new_pair));
-			else if (new_pair > this->_data)
-				return (_right_child->erase(new_pair));
+			if (new_pair < _data)
+				_root->_left_child = _left_child->erase(new_pair);
+			else if (new_pair > _data)
+				_root->_right_child = _right_child->erase(new_pair);
 			else
 			{
 				// 3 cases : 0, 1, 2 children
 				// No child
 				if (!_left_child && !_right_child)
 				{
-					this->_alloc.destroy(this);
+					//node->_alloc.destroy(node);
+					return (NULL);
 					//this = NULL;
 				}
 				// One child
 				else if (!_left_child)
 				{
-					BST *tmp = this;
-
+					BST *tmp = _right_child;
 					//this = this->_right_child;
-					this->_alloc.destroy(tmp);
+					_alloc.destroy(_root);
+					return (tmp);
 				}
 				else if (!_right_child)
 				{
-					BST *tmp = this;
+					BST *tmp = _left_child;
 
-					//this = this->_left_child;
-					this->_alloc.destroy(tmp);
+					_alloc.destroy(tmp);
+					return (tmp);
 				}
 				// 2 children
 				else
 				{
-					//BST *tmp = findMin(_right_child->_data);
+					BST *tmp = findMin(_right_child);
 
-					//_data = tmp->_data;
-					//_right_child = _right_child->erase(tmp->_data);
+					_data = tmp->_data;
+					_root->_right_child = _right_child->erase(tmp->_data);
 				}
 			}
-			return (this); // initial
+			return (_root);
 		}
-		/* BST	*findMin(pair_type const & new_pair)
+		BST	*findMin(BST *curr)
 		{
-			if (_right_child)
-				return (true);
-		} */
+			while (curr->_left_child)
+				curr = curr->_left_child;
+			return (curr);
+		}
 		bool	search(pair_type const & new_pair)
 		{
 			if (new_pair == this->_data)
