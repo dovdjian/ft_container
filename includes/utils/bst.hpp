@@ -23,7 +23,9 @@ struct BST
 	typedef typename allocator_type::const_reference const_reference;
 	typedef typename allocator_type::pointer pointer;
 	typedef typename allocator_type::const_pointer const_pointer;
-	//typedef cmp_data value_compare;
+	typedef size_t size_type;
+
+	size_type		_size;
 	pair_type		_data;
 	key_compare		_cmp;
 	allocator_type	_alloc;
@@ -39,6 +41,7 @@ struct BST
 				this->_cmp = comp;
 				this->_left_child = NULL;
 				this->_right_child = NULL;
+				this->_size = 0;
 				this->_depth = 1; // ?
 				std::cout << "construct default" << std::endl;
 			}
@@ -52,6 +55,7 @@ struct BST
 				this->_left_child = NULL;
 				this->_right_child = NULL;
 				this->_depth = src._depth; // ?
+				this->_size = src._size;
 				if (this->_left_child)
 				{
 					this->_left_child = this->_alloc.allocate(1);
@@ -196,12 +200,12 @@ struct BST
 			}
 			this->_depth = std::max(getDepth(_left_child),
 				getDepth(_right_child)) + 1;
-
 			//std::cout << "getBalanced_factor()\t=\t" << getBalanced_factor() << std::endl;
 			//std::cout << "_data.first\t=\t" << _data.first << std::endl;
 			//std::cout << "new_pair.first\t=\t" << new_pair.first << std::endl;
 			//if (!is_balanced())
 				//return (balance_bst(this->_data));
+			this->_size++;
 			return (this); // initial
 		}
 		BST	*erase(pair_type const & new_pair)
@@ -249,6 +253,7 @@ struct BST
 					_right_child = _right_child->erase(tmp->_data);
 				}
 			}
+			this->_size--;
 			return (this);
 		}
 		BST	*findMin(BST *curr)

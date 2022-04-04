@@ -126,28 +126,48 @@ namespace ft
 					key_compare _comp;
 					BST*		_node;
 			};
-		// OVERLOAD +
-			template<typename ite_T, bool is_const >
-				friend Iterator<ite_T, is_const> operator+(
-					typename Iterator<ite_T, is_const>::difference_type const & lhs,
-						Iterator<ite_T, is_const> const & rhs )
-			{
-				return (Iterator<ite_T, is_const>(rhs + lhs));
-			}
 		// My Typedef iterator
 			typedef Iterator<T, false> iterator;
 			typedef Iterator<const T, true> const_iterator;
 			typedef ft::reverse_iterator<iterator> reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 		// METHOD ITERATOR
-			iterator begin() { return (this->_tree.begin()); }
-			iterator end() { return (iterator(this->_elements + this->_size)); }
-			const_iterator begin() const { return (const_iterator(this->_elements)); }
-			const_iterator end() const { return (const_iterator(this->_elements + this->_size));}
-			reverse_iterator rbegin() { return (reverse_iterator(this->end())); }
-			reverse_iterator rend() { return (reverse_iterator(this->begin())); }
-			const_reverse_iterator rbegin() const { return (const_reverse_iterator(this->end())); }
-			const_reverse_iterator rend() const { return (const_reverse_iterator(this->begin())); }
+			iterator begin()
+			{
+				if (this->_tree->_size == 0)
+					return (NULL);
+				return (iterator(this->_tree);
+			}
+			iterator end()
+			{
+				return (iterator(NULL));
+			}
+			const_iterator begin() const
+			{
+				if (this->_tree->_size == 0)
+					return (NULL);
+				return (const_iterator(this->_tree);
+			}
+			const_iterator end() const
+			{
+				return (const_iterator(NULL));
+			}
+			reverse_iterator rbegin()
+			{
+				return (reverse_iterator(this->_tree.end()));
+			}
+			reverse_iterator rend()
+			{
+				return (reverse_iterator(this->_tree.begin()));
+			}
+			const_reverse_iterator rbegin() const
+			{
+				return (const_reverse_iterator(this->_tree.end()));
+			}
+			const_reverse_iterator rend() const
+			{
+				return (const_reverse_iterator(this->_tree.begin()));
+			}
 		// CONSTRUCTOR
 			// EMPTY
 			explicit map(const key_compare & comp = key_compare(),
