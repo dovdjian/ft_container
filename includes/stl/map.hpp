@@ -49,6 +49,7 @@ namespace ft
 			typedef typename Alloc::const_pointer const_pointer;
 			typedef ptrdiff_t difference_type;
 			typedef size_t size_type;
+			typedef BST<value_type, key_compare> BST;
 		// ITERATOR
 			template <typename ite_T, bool is_const = false>
 			class Iterator
@@ -61,69 +62,69 @@ namespace ft
 					typedef size_t size_type;
 				// CONSTRUCTOR
 					// Default
-						Iterator() : _ptr(NULL) {}
+						Iterator() : _node(NULL) {}
 					// COPY CONSTRUCTIBLE
 						Iterator(const Iterator & cpy)
 						{
 							*this = cpy;
 						}
 					// COPY ASSIGNABLE
-						Iterator(pointer ptr) : _ptr(ptr) {}
+						Iterator(BST *node) : _node(node) {}
 				// DESTRUCTOR
 					~Iterator(){}
 				// IMPLICIT CONVERSION
 					operator Iterator<const ite_T, true>() const
-						{ return (Iterator<const ite_T, true>(this->_ptr)); }
+						{ return (Iterator<const ite_T, true>(this->_node)); }
 				// OPERATOR =
 					Iterator & operator=( Iterator const & src)
 					{
 						if (this != &src)
-							this->_ptr = src.getPtr();
+							this->_node = src._node;
 						return (*this);
 					}
 				// METHODS
-					pointer		getPtr() const { return (this->_ptr); }
+					//pointer		getPtr() const { return (this->_node); }
 				// ALL CATEGORIES
 					Iterator & operator++() // pre
 					{
-						_ptr++;
+						_node++;
 						return (*this);
 					}
 					Iterator operator++(int) // post
 					{
 						Iterator	ret = *this;
-						_ptr++;
+						_node++;
 						return (ret);
 					}
 				// FORWARD
 					bool operator==(Iterator<ite_T, false> const & v) const
-						{ return (this->_ptr == v.getPtr()); }
+						{ return (this->_node == v._node); }
 					bool operator!=(Iterator<ite_T, false> const & v) const
-						{ return (this->_ptr != v.getPtr()); }
+						{ return (this->_node != v._node); }
 
 					// CONST
 						bool operator==(Iterator<const ite_T, true> const & v) const
-							{ return (this->_ptr == v.getPtr()); }
+							{ return (this->_node == v._node); }
 						bool operator!=(Iterator<const ite_T, true> const & v) const
-							{ return (this->_ptr != v.getPtr()); }
-					reference operator*() { return (*this->_ptr); }
-					pointer operator->() { return (this->_ptr); }
+							{ return (this->_node != v._node); }
+					reference operator*() { return (*this->_node->_data); }
+					pointer operator->() { return (this->_node->_data); }
 				// BIDIRECTIONAL
 					Iterator & operator--() // pre
 					{
-						_ptr--;
+						_node--;
 						return (*this);
 					}
 					Iterator operator--(int) // post
 					{
 						Iterator	ret = *this;
 
-						_ptr--;
+						_node--;
 						return (ret);
 					}
 				private:
-					pointer			_ptr;
-					//pointerBST*		_bst;
+					key_compare _comp;
+					BST*		_node;
 			};
 		// OVERLOAD +
 			template<typename ite_T, bool is_const >
@@ -139,7 +140,7 @@ namespace ft
 			typedef ft::reverse_iterator<iterator> reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 		// METHOD ITERATOR
-			iterator begin() { return (iterator(this->_elements)); }
+			iterator begin() { return (this->_tree.begin()); }
 			iterator end() { return (iterator(this->_elements + this->_size)); }
 			const_iterator begin() const { return (const_iterator(this->_elements)); }
 			const_iterator end() const { return (const_iterator(this->_elements + this->_size));}
@@ -148,17 +149,25 @@ namespace ft
 			const_reverse_iterator rbegin() const { return (const_reverse_iterator(this->end())); }
 			const_reverse_iterator rend() const { return (const_reverse_iterator(this->begin())); }
 		// CONSTRUCTOR
-			map() {}
 			// EMPTY
-			/* 	explicit map(const key_compare & comp = key_compare(),
-					const allocator_type & alloc = allocator_type()) {}
+			explicit map(const key_compare & comp = key_compare(),
+					const allocator_type & alloc = allocator_type())
+				{
+					this->_comp = comp;
+					this->_alloc = alloc;
+				}
 			// RANGE
 				template <class InputIterator>
 				map(InputIterator first, InputIterator last,
 					const key_compare & comp = key_compare(),
-					const allocator_type & alloc = allocator_type()) {}
+					const allocator_type & alloc = allocator_type())
+					{
+						this->_comp = comp;
+						this->_alloc = alloc;
+						this->insert(first, last);
+					}
 			// COPY
-				map(const map & x) {} */
+				map(const map & x) { *this = x;}
 		// DESTRUCTOR
 			~map()
 			{
@@ -170,15 +179,15 @@ namespace ft
 			{
 				if (this != &src)
 				{
-
+					this->_tree = src._tree;
 				}
 				return (*this);
 			}
 		// METHODS
 			//CAPACITY
+				bool empty() const { return (this->size() == 0 ? true : false); }
 				size_type size() const { return (this->_size); }
 				size_type max_size() const { return (this->_alloc.max_size()) ;}
-				bool empty() const { return (this->size() == 0 ? true : false); }
 			// ELEMENT ACCESS
 				/* reference operator[](size_type n)
 				{
@@ -237,7 +246,9 @@ namespace ft
 				allocator_type	get_allocator() const { return (this->_alloc); }
 		private:
 			// VARIABLES
+				key_compare		_comp;
 				allocator_type	_alloc;
+				BST				_tree;
 				//size_type		_key;
 				//value_compare	_value;
 	};

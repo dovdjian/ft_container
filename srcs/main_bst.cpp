@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 15:45:28 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/01 15:58:53 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/04 16:58:05 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,21 @@ int main(void)
 	std::cout << "cree un bst avec 10" << std::endl << std::endl;
 	print_bst(first_bst);
 
-	std::cout << std::endl << "insert 20"
+	std::cout << std::endl << "insert 7"
 		<< std::endl << std::endl;
 	//first_bst->insert(std::make_pair(10, "b"));
 	//first_bst->insert(std::make_pair(0, "c"));
 
-	first_bst->insert(std::make_pair(20, "d"));
-	std::cout << std::endl << "insert 12, 15"
+	first_bst->insert(std::make_pair(7, "d"));
+	std::cout << std::endl << "insert 12, 2"
 		<< std::endl << std::endl;
 	first_bst->insert(std::make_pair(12, "c"));
-	first_bst->insert(std::make_pair(15, "a"));
-	std::cout << std::endl << "erase 12"
+	first_bst->insert(std::make_pair(2, "a"));
+	first_bst->insert(std::make_pair(8, "a"));
+	print_bst(first_bst);
+	std::cout << std::endl << "erase 7"
 		<< std::endl << std::endl;
-	first_bst->erase(std::make_pair(12, "c"));
+	first_bst->erase(std::make_pair(7, "c"));
 	//first_bst->insert(std::make_pair(15, "c"));
 	//first_bst->insert(std::make_pair(25, "c"));
 	//std::cout << "search f bst data = "

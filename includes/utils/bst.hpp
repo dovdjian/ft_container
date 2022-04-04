@@ -29,7 +29,6 @@ struct BST
 	allocator_type	_alloc;
 	pointer			_left_child;
 	pointer			_right_child;
-	pointer			_root;
 	int				_depth;
 	// CONSTRUCTOR
 		// DEFAULT
@@ -40,7 +39,6 @@ struct BST
 				this->_cmp = comp;
 				this->_left_child = NULL;
 				this->_right_child = NULL;
-				this->_root = NULL;
 				this->_depth = 1; // ?
 				std::cout << "construct default" << std::endl;
 			}
@@ -53,7 +51,6 @@ struct BST
 				this->_cmp = src._cmp;
 				this->_left_child = NULL;
 				this->_right_child = NULL;
-				this->_root = NULL;
 				this->_depth = src._depth; // ?
 				if (this->_left_child)
 				{
@@ -186,16 +183,16 @@ struct BST
 			if (compare(new_pair)) //less = left
 			{
 				if (_left_child)
-					_root = _left_child = _left_child->insert(new_pair);
+					_left_child = _left_child->insert(new_pair);
 				else
-					_root = _left_child = create_node(new_pair);
+					_left_child = create_node(new_pair);
 			}
 			else
 			{
 				if (_right_child)
-					_root->_right_child = _right_child->insert(new_pair);
+					_right_child = _right_child->insert(new_pair);
 				else
-					_root->_right_child = create_node(new_pair);
+					_right_child = create_node(new_pair);
 			}
 			this->_depth = std::max(getDepth(_left_child),
 				getDepth(_right_child)) + 1;
@@ -205,20 +202,23 @@ struct BST
 			//std::cout << "new_pair.first\t=\t" << new_pair.first << std::endl;
 			//if (!is_balanced())
 				//return (balance_bst(this->_data));
-			return (_root); // initial
+			return (this); // initial
 		}
 		BST	*erase(pair_type const & new_pair)
 		{
-			if (new_pair < _data)
-				_root->_left_child = _left_child->erase(new_pair);
-			else if (new_pair > _data)
-				_root->_right_child = _right_child->erase(new_pair);
+			//std::cout << "new_pair\t=\t" << new_pair.first << std::endl;
+			//std::cout << "data\t=\t" << _data.first << std::endl;
+			if (new_pair.first < _data.first)
+				_left_child = _left_child->erase(new_pair);
+			else if (new_pair.first > _data.first)
+				_right_child = _right_child->erase(new_pair);
 			else
 			{
 				// 3 cases : 0, 1, 2 children
 				// No child
 				if (!_left_child && !_right_child)
 				{
+					std::cout << "no child" << std::endl;
 					//node->_alloc.destroy(node);
 					return (NULL);
 					//this = NULL;
@@ -226,16 +226,18 @@ struct BST
 				// One child
 				else if (!_left_child)
 				{
+					std::cout << "right erase" << std::endl;
 					BST *tmp = _right_child;
 					//this = this->_right_child;
-					_alloc.destroy(_root);
+					//_alloc.destroy(tmp);
 					return (tmp);
 				}
 				else if (!_right_child)
 				{
+					std::cout << "left erase" << std::endl;
 					BST *tmp = _left_child;
 
-					_alloc.destroy(tmp);
+					//_alloc.destroy(tmp);
 					return (tmp);
 				}
 				// 2 children
@@ -244,10 +246,10 @@ struct BST
 					BST *tmp = findMin(_right_child);
 
 					_data = tmp->_data;
-					_root->_right_child = _right_child->erase(tmp->_data);
+					_right_child = _right_child->erase(tmp->_data);
 				}
 			}
-			return (_root);
+			return (this);
 		}
 		BST	*findMin(BST *curr)
 		{
