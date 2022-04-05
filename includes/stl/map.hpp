@@ -39,7 +39,7 @@ namespace ft
 		// TYPEDEF
 			typedef Key key_type;
 			typedef T mapped_type;
-			typedef ft::pair<const key_type, mapped_type> value_type;
+			typedef std::pair<const key_type, mapped_type> value_type;
 			typedef Compare key_compare;
 			//typedef cmp_elem value_compare;
 			typedef Alloc allocator_type;
@@ -83,7 +83,7 @@ namespace ft
 						return (*this);
 					}
 				// METHODS
-					//pointer		getPtr() const { return (this->_node); }
+					pointer		getNode() const { return (this->_node); }
 				// ALL CATEGORIES
 					bidir_iterator & operator++() // pre
 					{
@@ -98,17 +98,16 @@ namespace ft
 					}
 				// FORWARD
 					bool operator==(bidir_iterator<ite_T, false> const & v) const
-						{ return (this->_node == v._node); }
+						{ return (this->_node == v.getNode()); }
 					bool operator!=(bidir_iterator<ite_T, false> const & v) const
-						{ return (this->_node != v._node); }
-
+						{ return !(this->_node == v.getNode()); }
 					// CONST
 						bool operator==(bidir_iterator<const ite_T, true> const & v) const
-							{ return (this->_node == v._node); }
+							{ return (this->_node == v.getNode()); }
 						bool operator!=(bidir_iterator<const ite_T, true> const & v) const
-							{ return (this->_node != v._node); }
-					reference operator*() const { return (this->_node->_data); }
-					pointer operator->() const { return (&this->_node->_data); }
+							{ return !(this->_node == v.getNode()); }
+					reference operator*() const { return (*this->_node); }
+					pointer operator->() const { return (this->_node); }
 				// BIDIRECTIONAL
 					bidir_iterator & operator--() // pre
 					{
@@ -124,7 +123,7 @@ namespace ft
 					}
 				private:
 					key_compare _comp;
-					BST*		_node;
+					pointer		_node;
 			};
 		// My Typedef iterator
 			typedef bidir_iterator<T, false> iterator;
@@ -209,19 +208,24 @@ namespace ft
 				size_type size() const { return (this->_tree._size); }
 				//size_type max_size() const { return (std::distance(this->begin(), this->end())); }
 			// ELEMENT ACCESS
-				/* mapped_type & operator[](const key_type & k)
+				mapped_type & operator[](const key_type & k)
 				{
-					return ((*((this->insert(ft::make_pair(k, mapped_type()))).first)).second);
-				} */
+					//ft::pair<key_type, mapped_type> a = ft::make_pair(k, mapped_type());
+
+					//return (this->insert(a.first)->second);
+					// version of cpp
+					return ((*((this->insert(make_pair(k,mapped_type()))).first)).second);
+				}
 			// MODIFIERS
-				/*ft::pair<iterator, bool> insert(const value_type & val)
+				ft::pair<iterator, bool> insert(const value_type & val)
 				{
 					iterator it;
-					bool	existed_bfr_insert = false;
+					bool	existed_bfr_insert;
 
 					if (!this->_tree.search(val))
 					{
-						this->insert(this->_tree.create_node(val));
+						this->_tree.insert(this->_tree.create_node(val));
+						//this->_tree.insert(val);
 						it = iterator(this->_tree.search(val));
 						existed_bfr_insert = true;
 					}
@@ -232,18 +236,18 @@ namespace ft
 					}
 					return (ft::make_pair(it, existed_bfr_insert));
 				}
-				void insert(iterator position, const value_type & val)
+				iterator insert(iterator position, const value_type & val)
 				{
-					static_cast<void> (position);
-					return (this->_tree.insert(val).first);
+					static_cast<void>(position);
+					return (this->insert(val).first);
 				}
 				template <class InputIterator>
 				void insert(InputIterator first, InputIterator last,
 					typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
 				{
 					for (; first != last; ++first)
-						this->_tree.insert(*first);
-				}*/
+						this->insert(*first);
+				}
 				/*
 				void erase(iterator position)
 				{
@@ -255,15 +259,7 @@ namespace ft
 				}
 				void erase(iterator first, iterator last)
 				{
-					size_type begin = first - this->begin();
-					size_type end = last - this->begin();
-					size_type i;
 
-					for (i = begin ; (i - begin) + end < size() ; i++)
-						this->_elements[i] = this->_elements[(i - begin) + end];
-					for (i = size() - end + begin ; i < size() ; i++)
-						this->_alloc.destroy(this->_elements + i);
-					this->_size = size() - end + begin;
 				}
 				void swap(map & x)
 				{
@@ -271,7 +267,8 @@ namespace ft
 				}
 				void clear()
 				{
-
+					//erase(begin(), end());
+					//this->_tree._size = 0;
 				}
 			// OBSERVERS
 				key_compare key_comp() const {}

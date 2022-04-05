@@ -11,12 +11,10 @@
 [1;32m
 ---------------- TEST MAP -----------------[0m
 
-[1;33m*** TEST METHODS ***[0m
+[1;33m*** TEST ITERATOR ***[0m
 
-[1;36m### capacity ###[0m
+[1;36m### constructor ###[0m
 
-m.empty()	=	1
-m.size()	=	0
 
 [1;36m### END ###[0m
 

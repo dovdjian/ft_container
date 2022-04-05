@@ -190,20 +190,20 @@ struct BST
 			}
 			return (this); // initial
 		}
-		BST	*insert(pair_type const & new_pair)
+		void	insert(pair_type const & new_pair)
 		{
 			//std::cout << "new_pair.first\t=\t" << new_pair.first << std::endl;
 			if (compare(new_pair)) //less = left
 			{
 				if (_left_child)
-					_left_child = _left_child->insert(new_pair);
+					_left_child->insert(new_pair);
 				else
 					_left_child = create_node(new_pair);
 			}
 			else
 			{
 				if (_right_child)
-					_right_child = _right_child->insert(new_pair);
+					_right_child->insert(new_pair);
 				else
 					_right_child = create_node(new_pair);
 			}
@@ -215,7 +215,7 @@ struct BST
 			this->_size++;
 			//if (!is_balanced())
 				//return (balance_bst(this->_data));
-			return (this); // initial
+			//return (this); // initial
 		}
 		BST	*erase(pair_type const & new_pair)
 		{
@@ -271,7 +271,7 @@ struct BST
 				curr = curr->_left_child;
 			return (curr);
 		}
-		bool	search(pair_type const & new_pair)
+		bool	search(pair_type const & new_pair) const
 		{
 			if (new_pair == this->_data)
 				return (true);
