@@ -31,6 +31,7 @@ STACK		=	tests_stack.cpp \
 
 MAP			=	tests_iterator.cpp \
 				tests_map.cpp \
+				tests_methods.cpp \
 
 MAIN =			main.cpp
 

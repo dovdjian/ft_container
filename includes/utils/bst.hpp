@@ -34,8 +34,18 @@ struct BST
 	int				_depth;
 	// CONSTRUCTOR
 		// DEFAULT
+			BST()
+			{
+				//std::cout << "construct default" << std::endl;
+				this->_left_child = NULL;
+				this->_right_child = NULL;
+				this->_size = 0;
+				this->_depth = 1; // ?
+			}
+		// PAIR
 			BST(pair_type const & new_pair, const key_compare & comp = key_compare())
 			{
+				std::cout << "construct with pair" << std::endl;
 				//std::cout << "new_pair.first\t=\t" << new_pair.first << std::endl;
 				this->_data = new_pair;
 				this->_cmp = comp;
@@ -43,7 +53,6 @@ struct BST
 				this->_right_child = NULL;
 				this->_size = 0;
 				this->_depth = 1; // ?
-				std::cout << "construct default" << std::endl;
 			}
 		// COPY
 			BST(const BST & src)
@@ -203,9 +212,9 @@ struct BST
 			//std::cout << "getBalanced_factor()\t=\t" << getBalanced_factor() << std::endl;
 			//std::cout << "_data.first\t=\t" << _data.first << std::endl;
 			//std::cout << "new_pair.first\t=\t" << new_pair.first << std::endl;
+			this->_size++;
 			//if (!is_balanced())
 				//return (balance_bst(this->_data));
-			this->_size++;
 			return (this); // initial
 		}
 		BST	*erase(pair_type const & new_pair)

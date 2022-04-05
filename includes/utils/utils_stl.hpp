@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:22:21 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/23 16:28:55 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/05 16:54:13 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ namespace ft
 			second_type second;
 		// CONSTRUCTOR
 			// DEFAULT
-				pair() {}
+				pair() : first(), second() {}
 			// COPY
 				template <class U, class V>
 				pair(const pair<U, V> & pr)

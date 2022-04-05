@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 13:52:05 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/05 14:26:19 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/05 16:55:37 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,16 +100,16 @@ void	tests_constructors_iterator_map()
 {
 	std::cout << BCYAN << "### constructor ###" << END << std::endl << std::endl;
 	prefix::map<char, int> m;
-	prefix::map<char, int>::iterator it; // default constructible
-	prefix::map<char, int>::iterator copy_constr(it); // copy constructible
+	//prefix::map<char, int>::iterator it; // default constructible
+	//prefix::map<char, int>::iterator copy_constr(it); // copy constructible
 
-	m['a'] = 10;
-	m['b'] = 20;
-	m['c'] = 30;
-	m['d'] = 40;
+	//m['a'] = 10;
+	//m['b'] = 20;
+	//m['c'] = 30;
+	//m['d'] = 40;
 
-	printMap(m);
-	it = m.begin();
+	//printMap(m);
+	/* it = m.begin();
 	copy_constr = it;
 
 	std::cout << std::endl << END << "it : " << it->first << " => " << it->second << std::endl;
@@ -120,7 +120,7 @@ void	tests_constructors_iterator_map()
 	it_c = it;
 	if (it_c != it)
 		std::cout << "false" << std::endl;
-	std::cout << std::endl << END << "it_c : " << it_c->first << " => " << it_c->second << std::endl;
+	std::cout << std::endl << END << "it_c : " << it_c->first << " => " << it_c->second << std::endl; */
 	std::cout << std::endl << BCYAN << "### END ###" << END << std::endl << std::endl;
 }
 

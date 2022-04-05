@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:40:49 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/05 14:08:33 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/05 17:11:45 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ void	tests_methods_stack();
 // ---------------- TEST MAP -------------------
 void	tests_map();
 void	tests_iterator_map();
+void	tests_methods_map();
 
 #endif
