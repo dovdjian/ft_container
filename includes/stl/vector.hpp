@@ -425,7 +425,7 @@ namespace ft
 						_alloc.destroy(this->_elements + i);
 					this->_size = 0;
 				}
-			// Allocator
+			// ALLOCATOR
 				allocator_type	get_allocator() const { return (this->_alloc); }
 		private:
 			// VARIABLES

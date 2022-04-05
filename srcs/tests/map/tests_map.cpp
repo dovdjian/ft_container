@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:24:40 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/04 17:13:11 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/05 14:08:38 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	tests_pair()
 
 void	tests_bst()
 {
-	prefix::map<std::string, double> first;                                // empty vector of ints
+	std::map<char, int> first;                                // empty vector of ints
 
 	//delete root;
 }
@@ -40,5 +40,6 @@ void	tests_bst()
 void	tests_map()
 {
 	//tests_pair();
+	tests_iterator_map();
 	tests_bst();
 }

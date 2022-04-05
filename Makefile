@@ -29,7 +29,8 @@ VECTOR		=	tests_iterator.cpp \
 STACK		=	tests_stack.cpp \
 				tests_methods.cpp \
 
-MAP			=	tests_map.cpp
+MAP			=	tests_iterator.cpp \
+				tests_map.cpp \
 
 MAIN =			main.cpp
 

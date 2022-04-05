@@ -32,14 +32,14 @@ namespace ft
 	template < class Key,
 	class T,
 	class Compare = std::less<Key>,
-	class Alloc = std::allocator<pair<const Key, T> >
+	class Alloc = std::allocator<ft::pair<const Key, T> >
 	> class map
 	{
 		public:
 		// TYPEDEF
 			typedef Key key_type;
 			typedef T mapped_type;
-			typedef pair<const Key, T> value_type;
+			typedef ft::pair<const Key, T> value_type;
 			typedef Compare key_compare;
 			//typedef cmp_elem value_compare;
 			typedef Alloc allocator_type;
@@ -52,7 +52,7 @@ namespace ft
 			typedef BST<value_type, key_compare> BST;
 		// ITERATOR
 			template <typename ite_T, bool is_const = false>
-			class Iterator
+			class bidir_iterator
 			{
 				public:
 				// TYPEDEF
@@ -62,21 +62,21 @@ namespace ft
 					typedef size_t size_type;
 				// CONSTRUCTOR
 					// Default
-						Iterator() : _node(NULL) {}
+						bidir_iterator() : _node(NULL) {}
 					// COPY CONSTRUCTIBLE
-						Iterator(const Iterator & cpy)
+						bidir_iterator(const bidir_iterator & cpy)
 						{
 							*this = cpy;
 						}
 					// COPY ASSIGNABLE
-						Iterator(BST *node) : _node(node) {}
+						bidir_iterator(BST *node) : _node(node) {}
 				// DESTRUCTOR
-					~Iterator(){}
+					~bidir_iterator(){}
 				// IMPLICIT CONVERSION
-					operator Iterator<const ite_T, true>() const
-						{ return (Iterator<const ite_T, true>(this->_node)); }
+					operator bidir_iterator<const ite_T, true>() const
+						{ return (bidir_iterator<const ite_T, true>(this->_node)); }
 				// OPERATOR =
-					Iterator & operator=( Iterator const & src)
+					bidir_iterator & operator=( bidir_iterator const & src)
 					{
 						if (this != &src)
 							this->_node = src._node;
@@ -85,39 +85,39 @@ namespace ft
 				// METHODS
 					//pointer		getPtr() const { return (this->_node); }
 				// ALL CATEGORIES
-					Iterator & operator++() // pre
+					bidir_iterator & operator++() // pre
 					{
 						_node++;
 						return (*this);
 					}
-					Iterator operator++(int) // post
+					bidir_iterator operator++(int) // post
 					{
-						Iterator	ret = *this;
+						bidir_iterator	ret = *this;
 						_node++;
 						return (ret);
 					}
 				// FORWARD
-					bool operator==(Iterator<ite_T, false> const & v) const
+					bool operator==(bidir_iterator<ite_T, false> const & v) const
 						{ return (this->_node == v._node); }
-					bool operator!=(Iterator<ite_T, false> const & v) const
+					bool operator!=(bidir_iterator<ite_T, false> const & v) const
 						{ return (this->_node != v._node); }
 
 					// CONST
-						bool operator==(Iterator<const ite_T, true> const & v) const
+						bool operator==(bidir_iterator<const ite_T, true> const & v) const
 							{ return (this->_node == v._node); }
-						bool operator!=(Iterator<const ite_T, true> const & v) const
+						bool operator!=(bidir_iterator<const ite_T, true> const & v) const
 							{ return (this->_node != v._node); }
 					reference operator*() { return (*this->_node->_data); }
 					pointer operator->() { return (this->_node->_data); }
 				// BIDIRECTIONAL
-					Iterator & operator--() // pre
+					bidir_iterator & operator--() // pre
 					{
 						_node--;
 						return (*this);
 					}
-					Iterator operator--(int) // post
+					bidir_iterator operator--(int) // post
 					{
-						Iterator	ret = *this;
+						bidir_iterator	ret = *this;
 
 						_node--;
 						return (ret);
@@ -127,16 +127,16 @@ namespace ft
 					BST*		_node;
 			};
 		// My Typedef iterator
-			typedef Iterator<T, false> iterator;
-			typedef Iterator<const T, true> const_iterator;
+			typedef bidir_iterator<T, false> iterator;
+			typedef bidir_iterator<const T, true> const_iterator;
 			typedef ft::reverse_iterator<iterator> reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 		// METHOD ITERATOR
-			iterator begin()
+			/* iterator begin()
 			{
-				if (this->_tree->_size == 0)
+				if (this._tree->_size == 0)
 					return (NULL);
-				return (iterator(this->_tree);
+				return (iterator(this._tree));
 			}
 			iterator end()
 			{
@@ -144,9 +144,9 @@ namespace ft
 			}
 			const_iterator begin() const
 			{
-				if (this->_tree->_size == 0)
+				if (this._tree->_size == 0)
 					return (NULL);
-				return (const_iterator(this->_tree);
+				return (const_iterator(this._tree));
 			}
 			const_iterator end() const
 			{
@@ -154,20 +154,20 @@ namespace ft
 			}
 			reverse_iterator rbegin()
 			{
-				return (reverse_iterator(this->_tree.end()));
+				return (reverse_iterator(this._tree.end()));
 			}
 			reverse_iterator rend()
 			{
-				return (reverse_iterator(this->_tree.begin()));
+				return (reverse_iterator(this._tree.begin()));
 			}
 			const_reverse_iterator rbegin() const
 			{
-				return (const_reverse_iterator(this->_tree.end()));
+				return (const_reverse_iterator(this._tree.end()));
 			}
 			const_reverse_iterator rend() const
 			{
-				return (const_reverse_iterator(this->_tree.begin()));
-			}
+				return (const_reverse_iterator(this._tree.begin()));
+			} */
 		// CONSTRUCTOR
 			// EMPTY
 			explicit map(const key_compare & comp = key_compare(),
@@ -209,18 +209,15 @@ namespace ft
 				size_type size() const { return (this->_size); }
 				size_type max_size() const { return (this->_alloc.max_size()) ;}
 			// ELEMENT ACCESS
-				/* reference operator[](size_type n)
+				mapped_type & operator[](const key_type & k)
 				{
-					return *(this->_elements + n);
-				}
-				const_reference operator[](size_type n) const
-				{
-					return *(this->_elements + n);
+					return ((*((this->insert(ft::make_pair(k, mapped_type()))).first)).second);
 				}
 			// MODIFIERS
-				pair<iterator, bool> insert(const value_type & val);
+				/*ft::pair<iterator, bool> insert(const value_type & val);
 				{
-
+					this->_tree->insert();
+					return ()
 				}
 				void insert(iterator position, const value_type & val)
 				{
@@ -230,13 +227,15 @@ namespace ft
 				void insert(InputIterator first, InputIterator last,
 					typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
 				{
-
+					this->_tree->insert(first, last);
 				}
 				void erase(iterator position)
 				{
+					this->_tree->erase(position);
 				}
 				size_type erase(const key_type & k)
 				{
+					//this->_tree->erase(position);
 				}
 				void erase(iterator first, iterator last)
 				{
@@ -260,9 +259,20 @@ namespace ft
 				}
 			// OBSERVERS
 				key_compare key_comp() const {}
-				value_compare value_comp() const {} */
+				value_compare value_comp() const {}
 
-			// Allocator
+			// OPERATIONS
+				iterator find (const key_type& k);
+				const_iterator find (const key_type& k) const;
+				size_type count (const key_type& k) const;
+				iterator lower_bound (const key_type& k);
+				const_iterator lower_bound (const key_type& k) const;
+				iterator upper_bound (const key_type& k);
+				const_iterator upper_bound (const key_type& k) const;
+				pair<const_iterator,const_iterator> equal_range (const key_type& k) const;
+				pair<iterator,iterator>             equal_range (const key_type& k);*/
+
+			// ALLOCATOR
 				allocator_type	get_allocator() const { return (this->_alloc); }
 		private:
 			// VARIABLES
