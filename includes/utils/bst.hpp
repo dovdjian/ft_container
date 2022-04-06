@@ -46,8 +46,9 @@ struct BST
 			BST(pair_type new_pair)
 			{
 				std::cout << "construct with pair" << std::endl;
+				(void)new_pair;
 				//std::cout << "new_pair.first\t=\t" << new_pair.first << std::endl;
-				this->_data = new_pair;
+				//this->_data = new_pair;
 				this->_left_child = NULL;
 				this->_right_child = NULL;
 				this->_size = 0;
@@ -57,8 +58,8 @@ struct BST
 			BST(const BST & src)
 			{
 				//std::cout << "construct copy" << std::endl;
-				//*this = src;
-				this->_data = src._data;
+				*this = src;
+				/* this->_data = src._data;
 				this->_cmp = src._cmp;
 				this->_left_child = NULL;
 				this->_right_child = NULL;
@@ -73,7 +74,7 @@ struct BST
 				{
 					this->_right_child = this->_alloc.allocate(1);
 					this->_alloc.construct(this->_right_child, *src._right_child);
-				}
+				} */
 			}
 	// DESTRUCTOR
 		~BST()
@@ -85,10 +86,10 @@ struct BST
 		{
 			if (this != &src)
 			{
-				*this = src;
-				/* destroy_children();
+				//*this = src;
+				destroy_children();
 				this->_cmp = src._cmp;
-				this->_data = src._data;
+				//this->_data = src._data;
 				this->_depth = src._depth;
 				if (this->_left_child)
 				{
@@ -99,7 +100,7 @@ struct BST
 				{
 					this->_right_child = this->_alloc.allocate(1);
 					this->_alloc.construct(this->_right_child, *src._right_child);
-				}*/
+				}
 			}
 			return (*this);
 		}

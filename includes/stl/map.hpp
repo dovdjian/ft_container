@@ -77,7 +77,7 @@ namespace ft
 					operator bidir_iterator<const ite_T, true>() const
 						{ return (bidir_iterator<const ite_T, true>(this->_node)); }
 				// OPERATOR =
-					bidir_iterator & operator=( bidir_iterator const & src)
+					bidir_iterator & operator=(bidir_iterator const & src)
 					{
 						if (this != &src)
 							this->_node = src._node;
@@ -88,13 +88,15 @@ namespace ft
 				// ALL CATEGORIES
 					bidir_iterator & operator++() // pre
 					{
-						_node++;
+						_node = this->_node->treeIncrement();
+						//_node++;
 						return (*this);
 					}
 					bidir_iterator operator++(int) // post
 					{
 						bidir_iterator	ret = *this;
-						_node++;
+						_node = this->_node->treeIncrement();
+						//_node++;
 						return (ret);
 					}
 				// FORWARD
@@ -112,14 +114,17 @@ namespace ft
 				// BIDIRECTIONAL
 					bidir_iterator & operator--() // pre
 					{
-						_node--;
+						_node = this->_node->treeDecrement();
+
+						//_node--;
 						return (*this);
 					}
 					bidir_iterator operator--(int) // post
 					{
 						bidir_iterator	ret = *this;
 
-						_node--;
+						_node = this->_node->treeDecrement();
+						//_node--;
 						return (ret);
 					}
 				private:
