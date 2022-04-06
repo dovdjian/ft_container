@@ -32,7 +32,7 @@ namespace ft
 	template < class Key,
 	class T,
 	class Compare = std::less<Key>,
-	class Alloc = std::allocator<ft::pair<const Key, T> >
+	class Alloc = std::allocator<std::pair<const Key, T> >
 	> class map
 	{
 		public:
@@ -67,6 +67,7 @@ namespace ft
 						bidir_iterator(const bidir_iterator & cpy)
 						{
 							*this = cpy;
+							//this->_node = cpy._node;
 						}
 					// COPY ASSIGNABLE
 						bidir_iterator(BST *node) : _node(node) {}
@@ -83,7 +84,7 @@ namespace ft
 						return (*this);
 					}
 				// METHODS
-					pointer		getNode() const { return (this->_node); }
+					BST *getNode() const { return (this->_node); }
 				// ALL CATEGORIES
 					bidir_iterator & operator++() // pre
 					{
@@ -106,8 +107,8 @@ namespace ft
 							{ return (this->_node == v.getNode()); }
 						bool operator!=(bidir_iterator<const ite_T, true> const & v) const
 							{ return !(this->_node == v.getNode()); }
-					reference operator*() const { return (*this->_node); }
-					pointer operator->() const { return (this->_node); }
+					reference operator*() const { return (this->_node->_data); }
+					pointer operator->() const { return &(this->_node->_data); }
 				// BIDIRECTIONAL
 					bidir_iterator & operator--() // pre
 					{
@@ -122,12 +123,12 @@ namespace ft
 						return (ret);
 					}
 				private:
-					key_compare _comp;
-					pointer		_node;
+					key_compare	_comp;
+					BST			*_node;
 			};
 		// My Typedef iterator
-			typedef bidir_iterator<T, false> iterator;
-			typedef bidir_iterator<const T, true> const_iterator;
+			typedef bidir_iterator<value_type, false> iterator;
+			typedef bidir_iterator<const value_type, true> const_iterator;
 			typedef ft::reverse_iterator<iterator> reverse_iterator;
 			typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 		// METHOD ITERATOR
@@ -135,7 +136,7 @@ namespace ft
 			{
 				if (this->_tree._size == 0)
 					return (this->end());
-				return (iterator(this->_tree[0]));
+				return (iterator(this->_tree.findMin(&this->_tree)));
 			}
 			iterator end()
 			{
@@ -198,6 +199,7 @@ namespace ft
 			{
 				if (this != &src)
 				{
+					//clear();
 					this->_tree = src._tree;
 				}
 				return (*this);
@@ -210,31 +212,27 @@ namespace ft
 			// ELEMENT ACCESS
 				mapped_type & operator[](const key_type & k)
 				{
-					//ft::pair<key_type, mapped_type> a = ft::make_pair(k, mapped_type());
-
-					//return (this->insert(a.first)->second);
-					// version of cpp
-					return ((*((this->insert(make_pair(k,mapped_type()))).first)).second);
+					return (*((this->insert(std::make_pair(k, mapped_type()))).first)).second;
 				}
 			// MODIFIERS
-				ft::pair<iterator, bool> insert(const value_type & val)
+				std::pair<iterator, bool> insert(const value_type & val)
 				{
 					iterator it;
 					bool	existed_bfr_insert;
 
 					if (!this->_tree.search(val))
 					{
-						this->_tree.insert(this->_tree.create_node(val));
-						//this->_tree.insert(val);
-						it = iterator(this->_tree.search(val));
-						existed_bfr_insert = true;
+						this->_tree.create_node(val);
+						this->_tree.insert_node(val);
+						it = iterator(&this->_tree);
+						existed_bfr_insert = false;
 					}
 					else
 					{
-						it = iterator(this->_tree.search(val));
-						existed_bfr_insert = false;
+						it = iterator(&this->_tree);
+						existed_bfr_insert = true;
 					}
-					return (ft::make_pair(it, existed_bfr_insert));
+					return (std::make_pair(it, existed_bfr_insert));
 				}
 				iterator insert(iterator position, const value_type & val)
 				{

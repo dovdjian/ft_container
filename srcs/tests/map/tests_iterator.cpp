@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 13:52:05 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/06 15:46:41 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/06 16:29:23 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ void	tests_arithmetic_operators_map()
 void	tests_constructors_iterator_map()
 {
 	std::cout << BCYAN << "### constructor ###" << END << std::endl << std::endl;
-	//prefix::map<char, int> m;
-	std::map<char, int> m;
+	prefix::map<char, int> m;
+	//std::map<char, int> m;
 	std::map<char, int>::iterator it; // default constructible
 	std::map<char, int>::iterator copy_constr(it); // copy constructible
 
@@ -100,6 +100,6 @@ void	tests_iterator_map()
 {
 	std::cout << BYELLOW << "*** TEST ITERATOR ***" << END << std::endl << std::endl;
 	tests_constructors_iterator_map();
-	tests_operator_iterator_map();
+	//tests_operator_iterator_map();
 	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
 }

@@ -43,12 +43,11 @@ struct BST
 				this->_depth = 1; // ?
 			}
 		// PAIR
-			BST(pair_type const & new_pair, const key_compare & comp = key_compare())
+			BST(pair_type new_pair)
 			{
 				std::cout << "construct with pair" << std::endl;
 				//std::cout << "new_pair.first\t=\t" << new_pair.first << std::endl;
 				this->_data = new_pair;
-				this->_cmp = comp;
 				this->_left_child = NULL;
 				this->_right_child = NULL;
 				this->_size = 0;
@@ -190,20 +189,20 @@ struct BST
 			}
 			return (this); // initial
 		}
-		void	insert(pair_type const & new_pair)
+		void	insert_node(pair_type const & new_pair)
 		{
 			//std::cout << "new_pair.first\t=\t" << new_pair.first << std::endl;
 			if (compare(new_pair)) //less = left
 			{
 				if (_left_child)
-					_left_child->insert(new_pair);
+					_left_child->insert_node(new_pair);
 				else
 					_left_child = create_node(new_pair);
 			}
 			else
 			{
 				if (_right_child)
-					_right_child->insert(new_pair);
+					_right_child->insert_node(new_pair);
 				else
 					_right_child = create_node(new_pair);
 			}
