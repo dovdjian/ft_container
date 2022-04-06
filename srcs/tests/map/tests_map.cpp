@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:24:40 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/05 17:42:21 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/06 13:00:09 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	tests_bst()
 void	tests_map()
 {
 	//tests_pair();
-	tests_iterator_map();
-	//tests_methods_map();
+	//tests_iterator_map();
+	tests_methods_map();
 	//tests_bst();
 }

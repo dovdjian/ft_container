@@ -11,10 +11,19 @@
 [1;32m
 ---------------- TEST MAP -----------------[0m
 
-[1;33m*** TEST ITERATOR ***[0m
+[1;33m*** TEST METHODS ***[0m
 
-[1;36m### constructor ###[0m
+[1;36m### observers ###[0m
 
+test keycomp with highest char = c
+a => 1
+b => 2
+c => 3
+
+test value comp with pair highest : z => 3003
+x => 1001
+y => 2002
+z => 3003
 
 [1;36m### END ###[0m
 
