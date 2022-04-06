@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 13:52:05 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/06 12:59:39 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/06 15:46:41 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	tests_relational_operators_map()
 
 	std::cout << "it1 : " << it1->first << " => " << it1->second << std::endl;
 	std::cout << "it2 : " << it2->first << " => " << it2->second << std::endl;
-	std::cout << "it3 : " << it3->first << " => " << it3->second << std::endl;
+	std::cout << "it3 : " << it3->first << " => " << it3->second << std::endl << std::endl;
 	if (it2 != it3)
 		std::cout << "it2 != it3" << std::endl;
 	if (it1 == it2)
@@ -84,7 +84,7 @@ void	tests_constructors_iterator_map()
 	it = m.begin();
 	copy_constr = it;
 
-	std::cout << std::endl << END << "it : " << it->first << " => " << it->second << std::endl;
+	std::cout << "it : " << it->first << " => " << it->second << std::endl;
 	std::cout << "copy_constr : " << copy_constr->first << " => " << copy_constr->second << std::endl;
 
 	std::cout << std::endl << BCYAN << "### END ###" << END << std::endl << std::endl;
@@ -93,13 +93,13 @@ void	tests_constructors_iterator_map()
 void	tests_operator_iterator_map()
 {
 	tests_arithmetic_operators_map();
-	//tests_relational_operators_map();
+	tests_relational_operators_map();
 }
 
 void	tests_iterator_map()
 {
 	std::cout << BYELLOW << "*** TEST ITERATOR ***" << END << std::endl << std::endl;
-	//tests_constructors_iterator_map();
+	tests_constructors_iterator_map();
 	tests_operator_iterator_map();
 	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
 }

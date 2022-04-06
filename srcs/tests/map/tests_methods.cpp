@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:59:08 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/06 13:55:09 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/06 15:05:42 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,58 @@ void	tests_operations()
 	std::cout << BCYAN << "### observers ###" << END <<
 		std::endl << std::endl;
 
-	
+	std::map<char, int> m;
+	std::map<char, int>::iterator it;
+
+	m['a'] = 50;
+	m['b'] = 100;
+	m['c'] = 150;
+	m['d'] = 200;
+
+	std::cout << "find b" << std::endl;
+
+	it = m.find('b');
+	std::cout << it->first << " => " << it->second << std::endl;
+
+	std::cout << std::endl << "count a = " << m.count('a') << std::endl;
+	std::cout << "count e = " << m.count('e') << std::endl;
+	std::map<char, int>::iterator it_low, it_up;
+
+	it_low = m.lower_bound('b');
+	it_up = m.upper_bound('c');
+
+	std::cout << std::endl << "it_low: " << it_low->first << " => " << it_low->second << std::endl;
+	std::cout << "it_up: " << it_up->first << " => " << it_up->second << std::endl;
+
+	std::pair<std::map<char, int>::iterator,
+		std::map<char, int>::iterator> pair_range;
+
+	pair_range = m.equal_range('a');
+
+	std::cout << std::endl << "lower bound points to: ";
+	std::cout << pair_range.first->first << " => " << pair_range.first->second << std::endl;
+
+	std::cout << "upper bound points to: ";
+	std::cout << pair_range.second->first << " => " << pair_range.second->second << std::endl;
+
+	std::cout << std::endl << BCYAN << "### END ###"
+		<< END << std::endl << std::endl;
+}
+
+void	tests_allocator_map()
+{
+	std::cout << BCYAN << "### allocator ###" << END <<
+		std::endl << std::endl;
+
+	int psize;
+	std::map<char, int> m;
+	std::pair<const char, int>* p;
+
+	p = m.get_allocator().allocate(5);
+	psize = sizeof(std::map<char, int>::value_type) * 5;
+	std::cout << "The allocated array has a size of " << psize << " bytes. (5 * 8)" << std::endl;
+
+	m.get_allocator().deallocate(p, 5);
 
 	std::cout << std::endl << BCYAN << "### END ###"
 		<< END << std::endl << std::endl;
@@ -172,10 +223,11 @@ void	tests_operations()
 void	tests_methods_map()
 {
 	std::cout << BYELLOW << "*** TEST METHODS ***" << END << std::endl << std::endl;
-	//tests_capacity_map();
-	//tests_element_access_map();
-	//tests_modifiers_map();
-	//tests_observers();
+	tests_capacity_map();
+	tests_element_access_map();
+	tests_modifiers_map();
+	tests_observers();
 	tests_operations();
+	tests_allocator_map();
 	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
 }

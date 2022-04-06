@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 09:57:59 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/05 18:28:16 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/06 15:40:51 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,5 @@
 #include "rev_iterator.hpp"
 #include "bst.hpp"
 #include "../stl/vector.hpp"
-#include "../stl/stack.hpp"
-#include "../stl/map.hpp"
 
 #endif

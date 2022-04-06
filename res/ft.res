@@ -11,19 +11,46 @@
 [1;32m
 ---------------- TEST MAP -----------------[0m
 
-[1;33m*** TEST METHODS ***[0m
+[1;33m*** TEST ITERATOR ***[0m
 
-[1;36m### observers ###[0m
+[1;36m### constructor ###[0m
 
-test keycomp with highest char = c
-a => 1
-b => 2
-c => 3
+[1;32mmap : 
+a => 10
+b => 20
+c => 30
+d => 40
 
-test value comp with pair highest : z => 3003
-x => 1001
-y => 2002
-z => 3003
+[0mit : a => 10
+copy_constr : a => 10
+
+[1;36m### END ###[0m
+
+[1;36m### arithmetic operators ###[0m
+
+[1;32mmap : 
+w => 600
+x => 700
+y => 800
+z => 900
+
+[0mit	=	y => 800
+--it	=	x => 700
+++it	=	y => 800
+it--	=	x => 700
+it++	=	y => 800
+
+
+[1;36m### END ###[0m
+
+[1;36m### relational operators ###[0m
+
+it1 : a => 10
+it2 : a => 10
+it3 : b => 20
+
+it2 != it3
+it1 == it2
 
 [1;36m### END ###[0m
 

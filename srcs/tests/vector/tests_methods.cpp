@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:27:50 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/24 10:15:24 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/06 14:59:57 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,8 @@ void	tests_allocator()
 	std::cout << std::endl << BCYAN << "### END ###"
 	<< END << std::endl << std::endl;
 }
+
+
 
 void	tests_methods()
 {
