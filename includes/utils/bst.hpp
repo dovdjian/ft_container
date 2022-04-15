@@ -265,11 +265,45 @@ struct BST
 			this->_size--;
 			return (this);
 		}
-		BST	*findMin(BST *curr)
+		/* pointer	find_start()
+		{
+			if (this->_left_child)
+				return (_left_child->find_start());
+			else
+				return (this);
+		}
+		pointer	find_end()
+		{
+			if (this->_right_child)
+				return (_right_child->find_end());
+			else
+				return (this);
+		} */
+		BST	*findMin(BST *curr) const
 		{
 			while (curr->_left_child)
 				curr = curr->_left_child;
 			return (curr);
+		}
+		BST *treeIncrement()
+		{
+			BST *ret = this;
+
+			if (ret->_right_child)
+			{
+				ret = ret->_right_child;
+			}
+			return (ret);
+		}
+		BST *treeDecrement()
+		{
+			BST *ret = this;
+
+			if (ret->_left_child)
+			{
+				ret = ret->_left_child;
+			}
+			return (ret);
 		}
 		bool	search(pair_type const & new_pair) const
 		{

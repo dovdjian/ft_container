@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 13:52:05 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/06 16:29:23 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/15 18:12:47 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,13 @@ void	tests_constructors_iterator_map()
 	std::cout << BCYAN << "### constructor ###" << END << std::endl << std::endl;
 	prefix::map<char, int> m;
 	//std::map<char, int> m;
-	std::map<char, int>::iterator it; // default constructible
-	std::map<char, int>::iterator copy_constr(it); // copy constructible
+	prefix::map<char, int>::iterator it; // default constructible
+	prefix::map<char, int>::iterator copy_constr(it); // copy constructible
 
-	m.insert(std::pair<char, int>('a', 10));
-	m.insert(std::pair<char, int>('b', 20));
-	m.insert(std::pair<char, int>('c', 30));
-	m.insert(std::pair<char, int>('d', 40));
+	m.insert(ft::pair<char, int>('a', 10));
+	m.insert(ft::pair<char, int>('b', 20));
+	m.insert(ft::pair<char, int>('c', 30));
+	m.insert(ft::pair<char, int>('d', 40));
 	printMap(m);
 	it = m.begin();
 	copy_constr = it;

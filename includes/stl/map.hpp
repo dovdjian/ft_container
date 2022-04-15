@@ -29,17 +29,17 @@
 
 namespace ft
 {
-	template < class Key,
+	template <class Key,
 	class T,
 	class Compare = std::less<Key>,
-	class Alloc = std::allocator<std::pair<const Key, T> >
+	class Alloc = std::allocator<ft::pair<const Key, T> >
 	> class map
 	{
 		public:
 		// TYPEDEF
 			typedef Key key_type;
 			typedef T mapped_type;
-			typedef std::pair<const key_type, mapped_type> value_type;
+			typedef ft::pair<const key_type, mapped_type> value_type;
 			typedef Compare key_compare;
 			//typedef cmp_elem value_compare;
 			typedef Alloc allocator_type;
@@ -67,7 +67,6 @@ namespace ft
 						bidir_iterator(const bidir_iterator & cpy)
 						{
 							*this = cpy;
-							//this->_node = cpy._node;
 						}
 					// COPY ASSIGNABLE
 						bidir_iterator(BST *node) : _node(node) {}
@@ -80,7 +79,7 @@ namespace ft
 					bidir_iterator & operator=(bidir_iterator const & src)
 					{
 						if (this != &src)
-							this->_node = src._node;
+							this->_node = src.getNode();
 						return (*this);
 					}
 				// METHODS
@@ -89,14 +88,12 @@ namespace ft
 					bidir_iterator & operator++() // pre
 					{
 						_node = this->_node->treeIncrement();
-						//_node++;
 						return (*this);
 					}
 					bidir_iterator operator++(int) // post
 					{
 						bidir_iterator	ret = *this;
-						_node = this->_node->treeIncrement();
-						//_node++;
+						this->operator++();
 						return (ret);
 					}
 				// FORWARD
@@ -115,16 +112,12 @@ namespace ft
 					bidir_iterator & operator--() // pre
 					{
 						_node = this->_node->treeDecrement();
-
-						//_node--;
 						return (*this);
 					}
 					bidir_iterator operator--(int) // post
 					{
 						bidir_iterator	ret = *this;
-
-						_node = this->_node->treeDecrement();
-						//_node--;
+						this->operator--();
 						return (ret);
 					}
 				private:
@@ -141,22 +134,28 @@ namespace ft
 			{
 				if (this->_tree._size == 0)
 					return (this->end());
-				return (iterator(this->_tree.findMin(&this->_tree)));
+				//return (iterator(this->_tree.find_start()));
+				//return (iterator(this->_tree->findMin(this->_tree)));
+				return (iterator(NULL));
 			}
 			iterator end()
 			{
 				return (iterator(NULL));
 			}
-			/*const_iterator begin() const
+			const_iterator begin() const
 			{
-				if (this._tree->_size == 0)
-					return (NULL);
-				return (const_iterator(this._tree));
+				if (this->_tree._size == 0)
+					return (this->end());
+				//return (const_iterator(this->_tree.find_start()));
+				//return (const_iterator(this->_tree->findMin(this->_tree)));
+				return (const_iterator(NULL));
+
 			}
 			const_iterator end() const
 			{
 				return (const_iterator(NULL));
 			}
+			/*
 			reverse_iterator rbegin()
 			{
 				return (reverse_iterator(this._tree.end()));
@@ -172,7 +171,8 @@ namespace ft
 			const_reverse_iterator rend() const
 			{
 				return (const_reverse_iterator(this._tree.begin()));
-			} */
+			}
+			*/
 		// CONSTRUCTOR
 			// EMPTY
 				explicit map(const key_compare & comp = key_compare(),
@@ -214,13 +214,14 @@ namespace ft
 				bool empty() const { return (this->size() == 0 ? true : false); }
 				size_type size() const { return (this->_tree._size); }
 				//size_type max_size() const { return (std::distance(this->begin(), this->end())); }
+				size_type max_size() const { return (this->_alloc.max_size()); }
 			// ELEMENT ACCESS
 				mapped_type & operator[](const key_type & k)
 				{
 					return (*((this->insert(std::make_pair(k, mapped_type()))).first)).second;
 				}
 			// MODIFIERS
-				std::pair<iterator, bool> insert(const value_type & val)
+				ft::pair<iterator, bool> insert(const value_type & val)
 				{
 					iterator it;
 					bool	existed_bfr_insert;
@@ -237,7 +238,7 @@ namespace ft
 						it = iterator(&this->_tree);
 						existed_bfr_insert = true;
 					}
-					return (std::make_pair(it, existed_bfr_insert));
+					return (ft::make_pair(it, existed_bfr_insert));
 				}
 				iterator insert(iterator position, const value_type & val)
 				{
@@ -251,7 +252,7 @@ namespace ft
 					for (; first != last; ++first)
 						this->insert(*first);
 				}
-				/*
+/*
 				void erase(iterator position)
 				{
 					this->_tree->erase(position);
@@ -298,6 +299,37 @@ namespace ft
 				//size_type		_key;
 				//value_compare	_value;
 	};
+
+	template <class Key, class T, class Compare, class Alloc>
+	bool operator==(const ft::map<Key, T, Compare, Alloc> & lhs,
+					const ft::map<Key, T, Compare, Alloc> & rhs)
+		{ return (lhs.size() == rhs.size()
+				&& ft::equal(lhs.begin(), lhs.end(), rhs.begin())); }
+	template <class Key, class T, class Compare, class Alloc>
+	bool operator!=(const ft::map<Key, T, Compare, Alloc> & lhs,
+					const ft::map<Key, T, Compare, Alloc> & rhs)
+			{ return (!(lhs == rhs)); }
+	template <class Key, class T, class Compare, class Alloc>
+	bool operator<(const ft::map<Key ,T, Compare, Alloc> & lhs,
+				const ft::map<Key ,T, Compare, Alloc> & rhs)
+		{ return (ft::lexicographical_compare(lhs.begin(), lhs.end(),
+			rhs.begin(), rhs.end())); }
+	template <class Key, class T, class Compare, class Alloc>
+	bool operator<=(const ft::map<Key, T, Compare,Alloc> & lhs,
+					const ft::map<Key, T, Compare,Alloc> & rhs)
+		{ return (!(rhs < lhs)); }
+	template <class Key, class T, class Compare, class Alloc>
+	bool operator>(const ft::map<Key, T, Compare, Alloc> & lhs,
+				const ft::map<Key,T,Compare,Alloc> & rhs)
+		{ return (rhs < lhs); }
+	template <class Key, class T, class Compare, class Alloc>
+	bool operator>=(const ft::map<Key, T, Compare, Alloc> & lhs,
+				const ft::map<Key, T, Compare, Alloc> & rhs)
+		{ return (!(lhs < rhs)); }
+	/* template <class Key, class T, class Compare, class Alloc>
+	void swap(ft::map<Key, T, Compare, Alloc> & lhs,
+				ft::map<Key, T, Compare, Alloc> & rhs)
+		{ lhs.swap(rhs); } */
 }
 
 #endif /* ********************************************************** `MAP_HPP */
