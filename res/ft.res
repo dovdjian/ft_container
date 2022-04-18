@@ -15,3 +15,5 @@
 
 [1;36m### constructor ###[0m
 
+Avant les insert
+Suce

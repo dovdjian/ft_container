@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:22:21 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/15 18:23:05 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/18 10:09:42 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,17 +118,10 @@ namespace ft
 				pair() : first(), second() {}
 			// COPY
 				template <class U, class V>
-				pair(const pair<U, V> & pr)
-				{
-					this->first = pr.first;
-					this->second = pr.second;
-				}
+				pair(const pair<U, V> & pr) : first(pr.first), second(pr.second) {}
 			// INIT
-				pair(const first_type & a, const second_type & b)
-				{
-					this->first = a;
-					this->second = b;
-				}
+				pair(const first_type & a, const second_type & b) : first(a), second(b) {}
+
 		// OPERATOR =
 			pair & operator=(const pair & pr)
 			{

@@ -127,7 +127,7 @@ struct BST
 				_right_child = NULL;
 			}
 		}
-		bool	compare(pair_type const & new_pair)
+		bool	compare(pair_type const & new_pair) const
 			{ return (_cmp(new_pair.first, _data.first)); }
 		BST *rotateRight(BST *node)
 		{
@@ -217,14 +217,14 @@ struct BST
 				//return (balance_bst(this->_data));
 			//return (this); // initial
 		}
-		BST	*erase(pair_type const & new_pair)
+		BST	*erase_node(pair_type const & new_pair)
 		{
 			//std::cout << "new_pair\t=\t" << new_pair.first << std::endl;
 			//std::cout << "data\t=\t" << _data.first << std::endl;
-			if (new_pair.first < _data.first)
-				_left_child = _left_child->erase(new_pair);
+			if (compare(new_pair))
+				_left_child = _left_child->erase_node(new_pair);
 			else if (new_pair.first > _data.first)
-				_right_child = _right_child->erase(new_pair);
+				_right_child = _right_child->erase_node(new_pair);
 			else
 			{
 				// 3 cases : 0, 1, 2 children
@@ -258,8 +258,8 @@ struct BST
 				{
 					BST *tmp = findMin(_right_child);
 
-					_data = tmp->_data;
-					_right_child = _right_child->erase(tmp->_data);
+					_data.second = tmp->_data.second;
+					_right_child = _right_child->erase_node(tmp->_data);
 				}
 			}
 			this->_size--;
@@ -307,9 +307,9 @@ struct BST
 		}
 		bool	search(pair_type const & new_pair) const
 		{
-			if (new_pair == this->_data)
+			if (new_pair.first == this->_data.first)
 				return (true);
-			else if (new_pair < this->_data)
+			else if (compare(new_pair))
 				return (search(_left_child->_data));
 			else
 				return (search(_right_child->_data));

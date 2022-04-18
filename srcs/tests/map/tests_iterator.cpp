@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 13:52:05 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/15 18:12:47 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/18 12:18:15 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,13 @@ void	tests_constructors_iterator_map()
 	prefix::map<char, int>::iterator it; // default constructible
 	prefix::map<char, int>::iterator copy_constr(it); // copy constructible
 
-	m.insert(ft::pair<char, int>('a', 10));
-	m.insert(ft::pair<char, int>('b', 20));
-	m.insert(ft::pair<char, int>('c', 30));
-	m.insert(ft::pair<char, int>('d', 40));
+	std::cout << "Avant les insert" << std::endl;
+	m.insert(prefix::pair<char, int>('a', 10));
+	std::cout << "Apres 1 insert" << std::endl;
+	m.insert(prefix::pair<char, int>('b', 20));
+	m.insert(prefix::pair<char, int>('c', 30));
+	m.insert(prefix::pair<char, int>('d', 40));
+	std::cout << "Apres tous les insert" << std::endl;
 	printMap(m);
 	it = m.begin();
 	copy_constr = it;
