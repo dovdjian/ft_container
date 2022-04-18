@@ -15,5 +15,23 @@
 
 [1;36m### constructor ###[0m
 
+construct default bst
+construct default map
 Avant les insert
-Suce
+new_pair.first = a
+allo
+new_pair.first in create node	=	a
+construct with pair bst
+construct copy bst
+operator =
+After insert node
+End of insert
+Apres 1 insert
+new_pair.first = b
+allo
+new_pair.first in create node	=	b
+construct with pair bst
+construct copy bst
+operator =
+construct copy bst
+operator =

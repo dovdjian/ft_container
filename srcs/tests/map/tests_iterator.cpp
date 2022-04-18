@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 13:52:05 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/18 12:18:15 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/18 17:12:07 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	tests_constructors_iterator_map()
 	m.insert(prefix::pair<char, int>('a', 10));
 	std::cout << "Apres 1 insert" << std::endl;
 	m.insert(prefix::pair<char, int>('b', 20));
+	std::cout << "Apres 2 insert" << std::endl;
 	m.insert(prefix::pair<char, int>('c', 30));
 	m.insert(prefix::pair<char, int>('d', 40));
 	std::cout << "Apres tous les insert" << std::endl;

@@ -31,33 +31,34 @@ struct BST
 	allocator_type	_alloc;
 	pointer			_left_child;
 	pointer			_right_child;
+	pointer			_root;
 	int				_depth;
 	// CONSTRUCTOR
 		// DEFAULT
 			BST()
 			{
-				//std::cout << "construct default" << std::endl;
+				std::cout << "construct default bst" << std::endl;
 				this->_left_child = NULL;
 				this->_right_child = NULL;
+				this->_root = NULL;
 				this->_size = 0;
 				this->_depth = 1; // ?
 			}
 		// PAIR
-			BST(pair_type new_pair)
+			BST(const pair_type & new_pair) : _data(new_pair)
 			{
-				std::cout << "construct with pair" << std::endl;
-				(void)new_pair;
+				std::cout << "construct with pair bst" << std::endl;
 				//std::cout << "new_pair.first\t=\t" << new_pair.first << std::endl;
-				//this->_data = new_pair;
 				this->_left_child = NULL;
 				this->_right_child = NULL;
+				this->_root = NULL;
 				this->_size = 0;
 				this->_depth = 1; // ?
 			}
 		// COPY
 			BST(const BST & src)
 			{
-				//std::cout << "construct copy" << std::endl;
+				std::cout << "construct copy bst" << std::endl;
 				*this = src;
 				/* this->_data = src._data;
 				this->_cmp = src._cmp;
@@ -84,19 +85,28 @@ struct BST
 	// OPERATOR =
 		BST & operator=(BST const & src)
 		{
+			std::cout << "operator =" << std::endl;
 			if (this != &src)
 			{
-				//*this = src;
-				destroy_children();
+				//std::cout << "bfr destroy children" << std::endl;
+				//destroy_children();
+				//std::cout << "after destroy children" << std::endl;
 				this->_cmp = src._cmp;
 				//this->_data = src._data;
 				this->_depth = src._depth;
-				if (this->_left_child)
+				//std::cout << "bfr left child" << std::endl;
+				if (!this->_root)
+				{
+					this->_root = this->_alloc.allocate(1);
+					this->_alloc.construct(this->_root, *src._root);
+				}
+				if (!this->_left_child)
 				{
 					this->_left_child = this->_alloc.allocate(1);
 					this->_alloc.construct(this->_left_child, *src._left_child);
 				}
-				if (this->_right_child)
+				//std::cout << "bfr right child" << std::endl;
+				if (!this->_right_child)
 				{
 					this->_right_child = this->_alloc.allocate(1);
 					this->_alloc.construct(this->_right_child, *src._right_child);
@@ -104,9 +114,134 @@ struct BST
 			}
 			return (*this);
 		}
+	// ITERATOR
+		template <typename ite_T, bool is_const = false>
+		class bidir_iterator
+		{
+			public:
+			// TYPEDEF
+				typedef ite_T& reference;
+				typedef ite_T* pointer;
+				typedef ptrdiff_t difference_type;
+				typedef size_t size_type;
+			// CONSTRUCTOR
+				// Default
+					bidir_iterator() : _node(NULL) {}
+				// COPY CONSTRUCTIBLE
+					bidir_iterator(const bidir_iterator & cpy)
+					{
+						*this = cpy;
+					}
+				// COPY ASSIGNABLE
+					bidir_iterator(BST *node) : _node(node) {}
+			// DESTRUCTOR
+				~bidir_iterator(){}
+			// IMPLICIT CONVERSION
+				operator bidir_iterator<const ite_T, true>() const
+					{ return (bidir_iterator<const ite_T, true>(this->_node)); }
+			// OPERATOR =
+				bidir_iterator & operator=(bidir_iterator const & src)
+				{
+					if (this != &src)
+						this->_node = src.getNode();
+					return (*this);
+				}
+			// METHODS
+				BST *getNode() const { return (this->_node); }
+			// ALL CATEGORIES
+				bidir_iterator & operator++() // pre
+				{
+					_node = this->_node->treeIncrement();
+					return (*this);
+				}
+				bidir_iterator operator++(int) // post
+				{
+					bidir_iterator	ret = *this;
+					this->operator++();
+					return (ret);
+				}
+			// FORWARD
+				bool operator==(bidir_iterator<ite_T, false> const & v) const
+					{ return (this->_node == v.getNode()); }
+				bool operator!=(bidir_iterator<ite_T, false> const & v) const
+					{ return !(this->_node == v.getNode()); }
+				// CONST
+					bool operator==(bidir_iterator<const ite_T, true> const & v) const
+						{ return (this->_node == v.getNode()); }
+					bool operator!=(bidir_iterator<const ite_T, true> const & v) const
+						{ return !(this->_node == v.getNode()); }
+				reference operator*() const { return (this->_node->_data); }
+				pointer operator->() const { return &(this->_node->_data); }
+			// BIDIRECTIONAL
+				bidir_iterator & operator--() // pre
+				{
+					_node = this->_node->treeDecrement();
+					return (*this);
+				}
+				bidir_iterator operator--(int) // post
+				{
+					bidir_iterator	ret = *this;
+					this->operator--();
+					return (ret);
+				}
+			private:
+				key_compare	_comp;
+				BST			*_node;
+		};
+	// My Typedef iterator
+		typedef bidir_iterator<pair_type, false> iterator;
+		typedef bidir_iterator<const pair_type, true> const_iterator;
+		typedef ft::reverse_iterator<iterator> reverse_iterator;
+		typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+	// METHOD ITERATOR
+		iterator begin()
+		{
+			std::cout << "size tree = " << this->_size << std::endl;
+			if (this->_size == 0)
+				return (this->end());
+			return (iterator(this->findMin(this)));
+		}
+		iterator end()
+		{
+			return (iterator(NULL));
+		}
+		const_iterator begin() const
+		{
+			if (this->_size == 0)
+				return (this->end());
+			return (const_iterator(this->findMin(this->_root)));
+		}
+		const_iterator end() const
+		{
+			return (const_iterator(NULL));
+		}
+		reverse_iterator rbegin()
+		{
+			return (reverse_iterator(this->end()));
+		}
+		reverse_iterator rend()
+		{
+			return (reverse_iterator(this->begin()));
+		}
+		const_reverse_iterator rbegin() const
+		{
+			return (const_reverse_iterator(this->end()));
+		}
+		const_reverse_iterator rend() const
+		{
+			return (const_reverse_iterator(this->begin()));
+		}
 	// METHODS
+		pointer init_node()
+		{
+			pointer ret = this->_alloc.allocate(1);
+
+			this->_alloc.construct(ret, BST());
+			return (ret);
+		}
 		pointer create_node(pair_type const & new_pair)
 		{
+			std::cout << "new_pair.first in create node\t=\t" << new_pair.first << std::endl;
 			pointer ret = this->_alloc.allocate(1);
 
 			this->_alloc.construct(ret, BST(new_pair));
@@ -129,7 +264,7 @@ struct BST
 		}
 		bool	compare(pair_type const & new_pair) const
 			{ return (_cmp(new_pair.first, _data.first)); }
-		BST *rotateRight(BST *node)
+		/* BST *rotateRight(BST *node)
 		{
 			std::cout << "rright" << std::endl;
 			std::cout << "node->_data.first\t=\t" << node->_data.first << std::endl;
@@ -189,10 +324,29 @@ struct BST
 				return (rotateLeft(this));
 			}
 			return (this); // initial
+		} */
+		ft::pair<iterator, bool> insert(pair_type const & new_pair)
+		{
+			iterator it;
+			bool	existed_bfr_insert;
+			if (!this->search(new_pair))
+			{
+				this->insert_node(new_pair);
+				std::cout << "After insert node" << std::endl;
+				it = iterator(this->_root);
+				existed_bfr_insert = false;
+			}
+			else
+			{
+				std::cout << "search existe !" << std::endl;
+				it = iterator(this->_root);
+				existed_bfr_insert = true;
+			}
+			std::cout << "End of insert" << std::endl;
+			return (ft::make_pair(it, existed_bfr_insert));
 		}
 		void	insert_node(pair_type const & new_pair)
 		{
-			//std::cout << "new_pair.first\t=\t" << new_pair.first << std::endl;
 			if (compare(new_pair)) //less = left
 			{
 				if (_left_child)
@@ -263,7 +417,20 @@ struct BST
 				}
 			}
 			this->_size--;
-			return (this);
+			return (this->_root);
+			//return (this);
+		}
+		iterator find(pair_type const & new_pair)
+		{
+			if (this->search(new_pair))
+				return (iterator(this->_root));
+			return (iterator(NULL));
+		}
+		const_iterator find(pair_type const & new_pair) const
+		{
+			if (this->search(new_pair))
+				return (const_iterator(this->_root));
+			return (const_iterator(NULL));
 		}
 		/* pointer	find_start()
 		{
@@ -307,7 +474,12 @@ struct BST
 		}
 		bool	search(pair_type const & new_pair) const
 		{
-			if (new_pair.first == this->_data.first)
+			std::cout << "new_pair.first = " << new_pair.first << std::endl;
+			std::cout << "allo" << std::endl;
+
+			if (this->_root == NULL)
+				return (false);
+			else if (new_pair.first == this->_root->_data.first)
 				return (true);
 			else if (compare(new_pair))
 				return (search(_left_child->_data));
