@@ -152,11 +152,62 @@ struct BST
 				}
 			// METHODS
 				BST *getNode() const { return (this->_node); }
+				void	treeIncrement()
+				{
+					std::cout << "tree incr" << std::endl;
+					BST *ret = this->_node;
+
+					if (ret->_right_child)
+					{
+						ret = ret->_right_child;
+						while (ret->_left_child)
+							ret = ret->_left_child;
+					}
+					else
+					{
+						BST *new_parent = ret->_parent;
+
+						while (ret == new_parent->_right_child)
+						{
+							ret = new_parent;
+							new_parent = new_parent->_parent;
+						}
+						if (ret->_right_child != new_parent)
+							ret = new_parent;
+					}
+					this->_node = ret;
+				}
+				void	treeDecrement()
+				{
+					//std::cout << "tree decr" << std::endl;
+					BST *ret = this->_node;
+
+					if (ret->_left_child)
+					{
+						BST *new_left = ret->_left_child;
+
+						while (ret->_right_child)
+							ret = ret->_right_child;
+						ret = new_left;
+					}
+					else
+					{
+						BST *new_parent = ret->_parent;
+
+						while (ret == new_parent->_left_child)
+						{
+							ret = new_parent;
+							new_parent = new_parent->_parent;
+						}
+						ret = new_parent;
+					}
+					this->_node = ret;
+				}
 			// ALL CATEGORIES
 				bidir_iterator & operator++() // pre
 				{
-					//std::cout << "dans preincr op" << std::endl;
-					_node = this->_node->treeIncrement();
+					std::cout << "dans preincr op" << std::endl;
+					this->treeIncrement();
 					return (*this);
 				}
 				bidir_iterator operator++(int) // post
@@ -177,12 +228,18 @@ struct BST
 						{ return !(this->_node == v.getNode()); }
 				reference operator*() { return (this->_node->_data); }
 				reference operator*() const { return (this->_node->_data); }
-				pointer operator->() { return &(this->_node->_data); }
-				pointer operator->() const { return &(this->_node->_data); }
+				pointer operator->()
+				{
+					//std::cout << "dans operator ->" << std::endl;
+					return &(this->_node->_data);
+				}
+				pointer operator->() const {
+					//std::cout << "dabs const ->" << std::endl;
+					return &(this->_node->_data); }
 			// BIDIRECTIONAL
 				bidir_iterator & operator--() // pre
 				{
-					_node = this->_node->treeDecrement();
+					this->treeDecrement();
 					return (*this);
 				}
 				bidir_iterator operator--(int) // post
@@ -372,14 +429,14 @@ struct BST
 				//return (balance_bst(this->_data));
 			//return (this); // initial
 		}
-		BST	*erase_node(pair_type const & new_pair)
+		void	erase_node(pair_type const & new_pair)
 		{
 			//std::cout << "new_pair\t=\t" << new_pair.first << std::endl;
 			//std::cout << "data\t=\t" << _data.first << std::endl;
 			if (compare(new_pair))
-				_left_child = _left_child->erase_node(new_pair);
+				_left_child->erase_node(new_pair);
 			else if (new_pair.first > _data.first)
-				_right_child = _right_child->erase_node(new_pair);
+				_right_child->erase_node(new_pair);
 			else
 			{
 				// 3 cases : 0, 1, 2 children
@@ -387,8 +444,8 @@ struct BST
 				if (!_left_child && !_right_child)
 				{
 					std::cout << "no child" << std::endl;
-					//node->_alloc.destroy(node);
-					return (NULL);
+					_alloc.destroy(this);
+					//return (NULL);
 					//this = NULL;
 				}
 				// One child
@@ -397,28 +454,29 @@ struct BST
 					std::cout << "right erase" << std::endl;
 					BST *tmp = _right_child;
 					//this = this->_right_child;
-					//_alloc.destroy(tmp);
-					return (tmp);
+					_alloc.destroy(tmp);
+					// return (tmp);
 				}
 				else if (!_right_child)
 				{
 					std::cout << "left erase" << std::endl;
 					BST *tmp = _left_child;
 
-					//_alloc.destroy(tmp);
-					return (tmp);
+					_alloc.destroy(tmp);
+					//return (tmp);
 				}
 				// 2 children
 				else
 				{
+					std::cout << "2 children" << std::endl;
 					BST *tmp = _right_child->find_start();
 
 					_data.second = tmp->_data.second;
-					_right_child = _right_child->erase_node(tmp->_data);
+					std::cout << "seg" << std::endl;
+					_right_child->erase_node(tmp->_data);
 				}
 			}
 			this->_size--;
-			return (this->_root);
 			//return (this);
 		}
 		iterator find(pair_type const & new_pair)
@@ -436,14 +494,14 @@ struct BST
 		BST *find_start() const
 		{
 			if (this->_left_child)
-				return (_left_child->find_start());
+				return (this->_left_child->find_start());
 			else
 				return (this->_root);
 		}
 		BST *find_end() const
 		{
 			if (this->_right_child)
-				return (_right_child->find_end());
+				return (this->_right_child->find_end());
 			else
 				return (this->_root);
 		}
@@ -454,7 +512,7 @@ struct BST
 				curr = curr->_left_child;
 			return (curr);
 		}
-		BST *treeIncrement()
+		/* BST *treeIncrement()
 		{
 			std::cout << "tree incr" << std::endl;
 			BST *ret = this->_root;
@@ -502,7 +560,7 @@ struct BST
 				ret = new_parent;
 			}
 			return (ret);
-		}
+		} */
 		bool	search(pair_type const & new_pair) const
 		{
 			//std::cout << "new_pair.first = " << new_pair.first << std::endl;

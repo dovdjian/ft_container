@@ -19,5 +19,4 @@ Avant les insert
 Apres 1 insert
 Apres 2 insert
 Apres tous les insert
-[1;32mmap : 
-
+it : dans operator ->
