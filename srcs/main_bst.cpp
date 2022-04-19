@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 15:45:28 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/06 18:07:06 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/19 11:05:11 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int main(void)
 	print_bst(first_bst);
 	std::cout << std::endl << "erase 7"
 		<< std::endl << std::endl;
-	first_bst->erase(std::make_pair(7, "c"));
+	first_bst->erase_node(std::make_pair(7, "c"));
 	//first_bst->insert(std::make_pair(15, "c"));
 	//first_bst->insert(std::make_pair(25, "c"));
 	//std::cout << "search f bst data = "

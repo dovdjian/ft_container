@@ -56,11 +56,10 @@ struct BST
 				this->_depth = 1; // ?
 			}
 		// COPY
-			BST(const BST & src)
+			BST(const BST & src) : _data(src._data)
 			{
 				std::cout << "construct copy bst" << std::endl;
-				*this = src;
-				/* this->_data = src._data;
+				//*this = src;
 				this->_cmp = src._cmp;
 				this->_left_child = NULL;
 				this->_right_child = NULL;
@@ -75,7 +74,7 @@ struct BST
 				{
 					this->_right_child = this->_alloc.allocate(1);
 					this->_alloc.construct(this->_right_child, *src._right_child);
-				} */
+				}
 			}
 	// DESTRUCTOR
 		~BST()
@@ -92,21 +91,21 @@ struct BST
 				//destroy_children();
 				//std::cout << "after destroy children" << std::endl;
 				this->_cmp = src._cmp;
-				//this->_data = src._data;
+				this->_data = src._data;
 				this->_depth = src._depth;
 				//std::cout << "bfr left child" << std::endl;
-				if (!this->_root)
+				/* if (!this->_root)
 				{
 					this->_root = this->_alloc.allocate(1);
 					this->_alloc.construct(this->_root, *src._root);
-				}
-				if (!this->_left_child)
+				} */
+				if (this->_left_child)
 				{
 					this->_left_child = this->_alloc.allocate(1);
 					this->_alloc.construct(this->_left_child, *src._left_child);
 				}
 				//std::cout << "bfr right child" << std::endl;
-				if (!this->_right_child)
+				if (this->_right_child)
 				{
 					this->_right_child = this->_alloc.allocate(1);
 					this->_alloc.construct(this->_right_child, *src._right_child);
@@ -232,13 +231,6 @@ struct BST
 			return (const_reverse_iterator(this->begin()));
 		}
 	// METHODS
-		pointer init_node()
-		{
-			pointer ret = this->_alloc.allocate(1);
-
-			this->_alloc.construct(ret, BST());
-			return (ret);
-		}
 		pointer create_node(pair_type const & new_pair)
 		{
 			std::cout << "new_pair.first in create node\t=\t" << new_pair.first << std::endl;
@@ -333,13 +325,13 @@ struct BST
 			{
 				this->insert_node(new_pair);
 				std::cout << "After insert node" << std::endl;
-				it = iterator(this->_root);
+				it = iterator(this);
 				existed_bfr_insert = false;
 			}
 			else
 			{
 				std::cout << "search existe !" << std::endl;
-				it = iterator(this->_root);
+				it = iterator(this);
 				existed_bfr_insert = true;
 			}
 			std::cout << "End of insert" << std::endl;
