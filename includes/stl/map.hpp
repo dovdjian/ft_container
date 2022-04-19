@@ -92,7 +92,7 @@ namespace ft
 				explicit map(const key_compare & comp = key_compare(),
 					const allocator_type & alloc = allocator_type())
 				{
-					std::cout << "construct default map" << std::endl;
+					//std::cout << "construct default map" << std::endl;
 					this->_comp = comp;
 					this->_alloc = alloc;
 				}
@@ -102,7 +102,7 @@ namespace ft
 					const key_compare & comp = key_compare(),
 					const allocator_type & alloc = allocator_type())
 					{
-						std::cout << "construct with pair" << std::endl;
+						//std::cout << "construct with pair" << std::endl;
 						this->_comp = comp;
 						this->_alloc = alloc;
 						this->insert(first, last);
@@ -110,7 +110,7 @@ namespace ft
 			// COPY
 				map(const map & x)
 				{
-					std::cout << "construct copy" << std::endl;
+					//std::cout << "construct copy" << std::endl;
 					*this = x;
 				}
 		// DESTRUCTOR
