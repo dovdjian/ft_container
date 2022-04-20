@@ -49,7 +49,7 @@ namespace ft
 			typedef typename Alloc::const_pointer const_pointer;
 			typedef ptrdiff_t difference_type;
 			typedef size_t size_type;
-			typedef BST<value_type, key_compare> BST;
+			typedef BST<value_type, key_compare, allocator_type> BST;
 			typedef typename BST::iterator iterator;
 			typedef typename BST::const_iterator const_iterator;
 			typedef typename BST::reverse_iterator reverse_iterator;

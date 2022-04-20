@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 13:52:05 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/19 14:09:13 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/20 10:15:50 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,15 @@ void	tests_constructors_iterator_map()
 	it = m.begin();
 	copy_constr = it;
 
+	prefix::map<char, int>::iterator it_2; // default constructible
+
+	it_2 = it;
+	//std::cout << "apres copyconstr = it" << std::endl;
+
+	if (it_2 != it)
+		std::cout << "false" << std::endl;
 	std::cout << "it : " << it->first << " => " << it->second << std::endl;
+	std::cout << "it_2: " << it_2->first << " => " << it_2->second << std::endl;
 	//std::cout << "copy_constr : " << copy_constr->first << " => " << copy_constr->second << std::endl;
 
 	std::cout << std::endl << BCYAN << "### END ###" << END << std::endl << std::endl;

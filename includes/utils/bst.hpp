@@ -15,76 +15,45 @@
 
 #include "stl.hpp"
 
-template <class pair_type, class key_compare>
+template <class pair_type, class key_compare, class Alloc>
 struct BST
 {
-	typedef typename std::allocator<BST<pair_type, key_compare> > allocator_type;
-	typedef typename allocator_type::reference reference;
-	typedef typename allocator_type::const_reference const_reference;
-	typedef typename allocator_type::pointer pointer;
-	typedef typename allocator_type::const_pointer const_pointer;
+	typedef typename	Alloc::template rebind<node>::other		allocator_type;
 	typedef size_t size_type;
+	struct node
+	{
+		node *_left_child;
+		node *_right_child;
+		node *_parent;
+		int _depth;
+		pair_type _data;
+
+		node(pair_type new_pair) : _left_child(NULL), _right_child(NULL), _parent(NULL),
+			_depth(1), _data(new_pair) {}
+	};
 
 	size_type		_size;
-	pair_type		_data;
 	key_compare		_cmp;
 	allocator_type	_alloc;
-	pointer			_left_child;
-	pointer			_right_child;
-	pointer			_root;
-	pointer			_parent;
-	int				_depth;
+	node			*_root;
 	// CONSTRUCTOR
 		// DEFAULT
 			BST()
 			{
 				//std::cout << "construct default bst" << std::endl;
-				this->_left_child = NULL;
-				this->_right_child = NULL;
-				this->_root = NULL;
-				this->_parent = NULL;
+				this->_root = node(pair_type());
 				this->_size = 0;
-				this->_depth = 1; // ?
-			}
-		// PAIR
-			BST(const pair_type & new_pair) : _data(new_pair)
-			{
-				//std::cout << "construct with pair bst" << std::endl;
-				//std::cout << "new_pair.first\t=\t" << new_pair.first << std::endl;
-				this->_left_child = NULL;
-				this->_right_child = NULL;
-				this->_root = NULL;
-				this->_parent = NULL;
-				this->_size = 0;
-				this->_depth = 1; // ?
 			}
 		// COPY
-			BST(const BST & src) : _data(src._data)
+			BST(const BST & src)
 			{
 				//std::cout << "construct copy bst" << std::endl;
-				//*this = src;
-				this->_cmp = src._cmp;
-				this->_left_child = NULL;
-				this->_right_child = NULL;
-				this->_depth = src._depth; // ?
-				this->_size = src._size;
-				if (src._left_child)
-				{
-					this->_left_child = this->_alloc.allocate(1);
-					this->_alloc.construct(this->_left_child, *src._left_child);
-					_left_child->_parent = this;
-				}
-				if (src._right_child)
-				{
-					this->_right_child = this->_alloc.allocate(1);
-					this->_alloc.construct(this->_right_child, *src._right_child);
-					_right_child->_parent = this;
-				}
+				*this = src;
 			}
 	// DESTRUCTOR
 		~BST()
 		{
-			destroy_children();
+			//destroy_children();
 		}
 	// OPERATOR =
 		BST & operator=(BST const & src)
@@ -96,25 +65,13 @@ struct BST
 				//destroy_children();
 				//std::cout << "after destroy children" << std::endl;
 				this->_cmp = src._cmp;
-				//this->_data = src._data;
-				this->_depth = src._depth;
+				this->_size = src._size;
 				//std::cout << "bfr left child" << std::endl;
 				/* if (!this->_root)
 				{
 					this->_root = this->_alloc.allocate(1);
 					this->_alloc.construct(this->_root, *src._root);
 				} */
-				if (src._left_child)
-				{
-					this->_left_child = this->_alloc.allocate(1);
-					this->_alloc.construct(this->_left_child, *src._left_child);
-				}
-				//std::cout << "bfr right child" << std::endl;
-				if (src._right_child)
-				{
-					this->_right_child = this->_alloc.allocate(1);
-					this->_alloc.construct(this->_right_child, *src._right_child);
-				}
 			}
 			return (*this);
 		}
@@ -137,7 +94,7 @@ struct BST
 						*this = cpy;
 					}
 				// COPY ASSIGNABLE
-					bidir_iterator(BST *node) : _node(node) {}
+					bidir_iterator(node *node) : _node(node) {}
 			// DESTRUCTOR
 				~bidir_iterator(){}
 			// IMPLICIT CONVERSION
@@ -151,11 +108,11 @@ struct BST
 					return (*this);
 				}
 			// METHODS
-				BST *getNode() const { return (this->_node); }
+				node *getNode() const { return (this->_node); }
 				void	treeIncrement()
 				{
 					std::cout << "tree incr" << std::endl;
-					BST *ret = this->_node;
+					node *ret = this->_node;
 
 					if (ret->_right_child)
 					{
@@ -165,7 +122,7 @@ struct BST
 					}
 					else
 					{
-						BST *new_parent = ret->_parent;
+						node *new_parent = ret->_parent;
 
 						while (ret == new_parent->_right_child)
 						{
@@ -180,11 +137,11 @@ struct BST
 				void	treeDecrement()
 				{
 					//std::cout << "tree decr" << std::endl;
-					BST *ret = this->_node;
+					node *ret = this->_node;
 
 					if (ret->_left_child)
 					{
-						BST *new_left = ret->_left_child;
+						node *new_left = ret->_left_child;
 
 						while (ret->_right_child)
 							ret = ret->_right_child;
@@ -192,7 +149,7 @@ struct BST
 					}
 					else
 					{
-						BST *new_parent = ret->_parent;
+						node *new_parent = ret->_parent;
 
 						while (ret == new_parent->_left_child)
 						{
@@ -213,6 +170,7 @@ struct BST
 				bidir_iterator operator++(int) // post
 				{
 					bidir_iterator	ret = *this;
+
 					this->operator++();
 					return (ret);
 				}
@@ -226,13 +184,7 @@ struct BST
 						{ return (this->_node == v.getNode()); }
 					bool operator!=(bidir_iterator<const ite_T, true> const & v) const
 						{ return !(this->_node == v.getNode()); }
-				reference operator*() { return (this->_node->_data); }
 				reference operator*() const { return (this->_node->_data); }
-				pointer operator->()
-				{
-					//std::cout << "dans operator ->" << std::endl;
-					return &(this->_node->_data);
-				}
 				pointer operator->() const {
 					//std::cout << "dabs const ->" << std::endl;
 					return &(this->_node->_data); }
@@ -245,12 +197,13 @@ struct BST
 				bidir_iterator operator--(int) // post
 				{
 					bidir_iterator	ret = *this;
+
 					this->operator--();
 					return (ret);
 				}
 			private:
 				key_compare	_comp;
-				BST			*_node;
+				node		*_node;
 		};
 	// My Typedef iterator
 		typedef bidir_iterator<pair_type, false> iterator;
@@ -297,15 +250,15 @@ struct BST
 			return (const_reverse_iterator(this->begin()));
 		}
 	// METHODS
-		pointer create_node(pair_type const & new_pair)
+		node *create_node(pair_type const & new_pair)
 		{
 			//std::cout << "new_pair.first in create node\t=\t" << new_pair.first << std::endl;
-			pointer ret = this->_alloc.allocate(1);
+			node *ret = this->_alloc.allocate(1);
 
-			this->_alloc.construct(ret, BST(new_pair));
+			this->_alloc.construct(ret, node(new_pair));
 			return (ret);
 		}
-		void	destroy_children()
+		/* void	destroy_children()
 		{
 			if (_left_child)
 			{
@@ -319,9 +272,13 @@ struct BST
 				this->_alloc.deallocate(_right_child, 1);
 				_right_child = NULL;
 			}
-		}
+		} */
 		bool	compare(pair_type const & new_pair) const
-			{ return (_cmp(new_pair.first, _data.first)); }
+		{
+			node *new_node = search(new_pair);
+
+			return (_cmp(new_pair.first, new_node->_data.first));
+		}
 		/* BST *rotateRight(BST *node)
 		{
 			std::cout << "rright" << std::endl;
@@ -389,7 +346,7 @@ struct BST
 			bool	existed_bfr_insert;
 			if (!this->search(new_pair))
 			{
-				this->insert_node(new_pair);
+				this->insert_node(create_node(new_pair));
 				//std::cout << "After insert node" << std::endl;
 				it = iterator(this->_root);
 				existed_bfr_insert = false;
@@ -403,24 +360,24 @@ struct BST
 			//std::cout << "End of insert" << std::endl;
 			return (ft::make_pair(it, existed_bfr_insert));
 		}
-		void	insert_node(pair_type const & new_pair)
+		void	insert_node(node *new_node)
 		{
-			if (compare(new_pair)) //less = left
+			if (compare(new_node->_data)) //less = left
 			{
-				if (_left_child)
-					_left_child->insert_node(new_pair);
+				if (new_node->_left_child)
+					this->insert_node(new_node->_left_child);
 				else
-					_left_child = create_node(new_pair);
+					new_node->_left_child = create_node(new_node->_data);
 			}
 			else
 			{
-				if (_right_child)
-					_right_child->insert_node(new_pair);
+				if (new_node->_right_child)
+					this->insert_node(new_node->_right_child);
 				else
-					_right_child = create_node(new_pair);
+					new_node->_right_child = create_node(new_node->_data);
 			}
-			this->_depth = std::max(getDepth(_left_child),
-				getDepth(_right_child)) + 1;
+			//this->_depth = std::max(getDepth(_left_child),
+				//getDepth(_right_child)) + 1;
 			//std::cout << "getBalanced_factor()\t=\t" << getBalanced_factor() << std::endl;
 			//std::cout << "_data.first\t=\t" << _data.first << std::endl;
 			//std::cout << "new_pair.first\t=\t" << new_pair.first << std::endl;
@@ -431,17 +388,20 @@ struct BST
 		}
 		void	erase_node(pair_type const & new_pair)
 		{
+			node *new_node;
+
+			new_node = this->search(new_pair);
 			//std::cout << "new_pair\t=\t" << new_pair.first << std::endl;
 			//std::cout << "data\t=\t" << _data.first << std::endl;
 			if (compare(new_pair))
-				_left_child->erase_node(new_pair);
-			else if (new_pair.first > _data.first)
-				_right_child->erase_node(new_pair);
+				new_node->_left_child->erase_node(new_pair);
+			else if (new_pair.first > new_node->_data.first)
+				new_node->_right_child->erase_node(new_pair);
 			else
 			{
 				// 3 cases : 0, 1, 2 children
 				// No child
-				if (!_left_child && !_right_child)
+				if (!new_node->_left_child && !new_node->_right_child)
 				{
 					std::cout << "no child" << std::endl;
 					_alloc.destroy(this);
@@ -449,18 +409,18 @@ struct BST
 					//this = NULL;
 				}
 				// One child
-				else if (!_left_child)
+				else if (!new_node->_left_child)
 				{
 					std::cout << "right erase" << std::endl;
-					BST *tmp = _right_child;
+					node *tmp = new_node->_right_child;
 					//this = this->_right_child;
 					_alloc.destroy(tmp);
 					// return (tmp);
 				}
-				else if (!_right_child)
+				else if (!new_node->_right_child)
 				{
 					std::cout << "left erase" << std::endl;
-					BST *tmp = _left_child;
+					node *tmp = new_node->_left_child;
 
 					_alloc.destroy(tmp);
 					//return (tmp);
@@ -469,11 +429,11 @@ struct BST
 				else
 				{
 					std::cout << "2 children" << std::endl;
-					BST *tmp = _right_child->find_start();
+					node *tmp = new_node->_right_child->find_start();
 
-					_data.second = tmp->_data.second;
+					new_node->_data.second = tmp->_data.second;
 					std::cout << "seg" << std::endl;
-					_right_child->erase_node(tmp->_data);
+					new_node->_right_child->erase_node(tmp->_data);
 				}
 			}
 			this->_size--;
@@ -491,92 +451,39 @@ struct BST
 				return (const_iterator(this->_root));
 			return (const_iterator(NULL));
 		}
-		BST *find_start() const
+		node *find_start() const
 		{
-			if (this->_left_child)
-				return (this->_left_child->find_start());
-			else
-				return (this->_root);
-		}
-		BST *find_end() const
-		{
-			if (this->_right_child)
-				return (this->_right_child->find_end());
-			else
-				return (this->_root);
-		}
-		BST	*findMin(BST *curr) const
-		{
-			//std::cout << "find min" << std::endl;
-			while (curr->_left_child)
-				curr = curr->_left_child;
-			return (curr);
-		}
-		/* BST *treeIncrement()
-		{
-			std::cout << "tree incr" << std::endl;
-			BST *ret = this->_root;
+			node *new_node = this->_root;
 
-			if (ret->_right_child)
-			{
-				ret = ret->_right_child;
-				while (ret->_left_child)
-					ret = ret->_left_child;
-			}
-			else
-			{
-				BST *new_parent = ret->_parent;
-				while (ret == new_parent->_right_child)
-				{
-					ret = new_parent;
-					new_parent = new_parent->_parent;
-				}
-				if (ret->_right_child != new_parent)
-					ret = new_parent;
-			}
-			return (ret);
+			while (new_node->_left_child)
+				new_node = new_node->_left_child;
+			return (new_node);
 		}
-		BST *treeDecrement()
+		node *find_end() const
 		{
-			//std::cout << "tree decr" << std::endl;
-			BST *ret = this->_root;
+			node *new_node = this->_root;
 
-			if (ret->_left_child)
-			{
-				BST *new_left = ret->_left_child;
-
-				while (ret->_right_child)
-					ret = ret->_right_child;
-				ret = new_left;
-			}
-			else
-			{
-				BST *new_parent = ret->_parent;
-				while (ret == new_parent->_left_child)
-				{
-					ret = new_parent;
-					new_parent = new_parent->_parent;
-				}
-				ret = new_parent;
-			}
-			return (ret);
-		} */
-		bool	search(pair_type const & new_pair) const
+			while (new_node->_right_child)
+				new_node = new_node->_right_child;
+			return (new_node);
+		}
+		node	*search(pair_type const & new_pair) const
 		{
 			//std::cout << "new_pair.first = " << new_pair.first << std::endl;
 			//std::cout << "allo" << std::endl;
+			node *search_node = this->_root;
 
-			if (this->_root == NULL)
-				return (false);
-			else if (new_pair.first == this->_root->_data.first)
-				return (true);
+			if (search_node == NULL)
+				return (NULL);
+			else if (new_pair.first == search_node->_data.first)
+				return (search_node);
 			else if (compare(new_pair))
-				return (search(_left_child->_data));
+				return (search(search_node->_left_child->_data));
 			else
-				return (search(_right_child->_data));
-			return (false);
+				return (search(search_node->_right_child->_data));
+			return (NULL);
 		}
-		bool	is_balanced()
+		/*bool	is_balanced()
 		{
 			int b_factor = getBalanced_factor();
 
@@ -584,7 +491,7 @@ struct BST
 				return (true);
 			return (false);
 		}
-		int	getDepth(BST *node)
+		int	getDepth(node *node)
 		{
 			if (node == NULL)
 				return (0);
@@ -596,7 +503,7 @@ struct BST
 				//getDepth(_right_child)) + 1);
 			return (getDepth(_left_child) -
 				getDepth(_right_child));
-		}
+		} */
 };
 
 #endif
