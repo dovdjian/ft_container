@@ -18,8 +18,6 @@
 template <class pair_type, class key_compare, class Alloc>
 struct BST
 {
-	typedef typename	Alloc::template rebind<node>::other		allocator_type;
-	typedef size_t size_type;
 	struct node
 	{
 		node *_left_child;
@@ -31,17 +29,27 @@ struct BST
 		node(pair_type new_pair) : _left_child(NULL), _right_child(NULL), _parent(NULL),
 			_depth(1), _data(new_pair) {}
 	};
+	// TYPEDEF
+		typedef size_t size_type;
+		typedef typename	Alloc::template rebind<node>::other		allocator_type;
 
-	size_type		_size;
-	key_compare		_cmp;
-	allocator_type	_alloc;
-	node			*_root;
+	// VARIABLES
+		size_type		_size;
+		key_compare		_cmp;
+		allocator_type	_alloc;
+		node			*_root;
 	// CONSTRUCTOR
 		// DEFAULT
 			BST()
 			{
 				//std::cout << "construct default bst" << std::endl;
-				this->_root = node(pair_type());
+				node null_node((pair_type()));
+
+				null_node._left_child = NULL;
+				null_node._right_child = NULL;
+				null_node._parent = NULL;
+
+				this->_root = NULL;
 				this->_size = 0;
 			}
 		// COPY
@@ -61,17 +69,10 @@ struct BST
 			//std::cout << "operator =" << std::endl;
 			if (this != &src)
 			{
-				//std::cout << "bfr destroy children" << std::endl;
-				//destroy_children();
-				//std::cout << "after destroy children" << std::endl;
+				this->_alloc = src._alloc;
 				this->_cmp = src._cmp;
 				this->_size = src._size;
-				//std::cout << "bfr left child" << std::endl;
-				/* if (!this->_root)
-				{
-					this->_root = this->_alloc.allocate(1);
-					this->_alloc.construct(this->_root, *src._root);
-				} */
+				this->_root = src._root;
 			}
 			return (*this);
 		}
@@ -252,6 +253,7 @@ struct BST
 	// METHODS
 		node *create_node(pair_type const & new_pair)
 		{
+			std::cout << "in create node" << std::endl;
 			//std::cout << "new_pair.first in create node\t=\t" << new_pair.first << std::endl;
 			node *ret = this->_alloc.allocate(1);
 
@@ -273,12 +275,6 @@ struct BST
 				_right_child = NULL;
 			}
 		} */
-		bool	compare(pair_type const & new_pair) const
-		{
-			node *new_node = search(new_pair);
-
-			return (_cmp(new_pair.first, new_node->_data.first));
-		}
 		/* BST *rotateRight(BST *node)
 		{
 			std::cout << "rright" << std::endl;
@@ -346,36 +342,42 @@ struct BST
 			bool	existed_bfr_insert;
 			if (!this->search(new_pair))
 			{
-				this->insert_node(create_node(new_pair));
-				//std::cout << "After insert node" << std::endl;
-				it = iterator(this->_root);
+				it = iterator(this->search(new_pair));
+				std::cout << "After ite->root" << std::endl;
 				existed_bfr_insert = false;
 			}
 			else
 			{
-				//std::cout << "search existe !" << std::endl;
-				it = iterator(this->_root);
+				this->insert_node(this->create_node(new_pair));
+				std::cout << "search existe !" << std::endl;
+				it = iterator(this->search(new_pair));
 				existed_bfr_insert = true;
 			}
 			//std::cout << "End of insert" << std::endl;
 			return (ft::make_pair(it, existed_bfr_insert));
 		}
-		void	insert_node(node *new_node)
+		void	insert_node(node *node_arg)
 		{
-			if (compare(new_node->_data)) //less = left
+			std::cout << "before create" << std::endl;
+			node *new_node = this->create_node(node_arg->_data);
+			std::cout << "after create" << std::endl;
+			node *new_root = this->_root;
+			node *y = NULL;
+
+			while (new_root)
 			{
-				if (new_node->_left_child)
-					this->insert_node(new_node->_left_child);
+				y = new_root;
+				if (this->_cmp(node_arg->_data.first, new_root->_data.first))
+					new_root = new_root->_left_child;
 				else
-					new_node->_left_child = create_node(new_node->_data);
+					new_root = new_root->_right_child;
 			}
+			if (!y)
+				y = new_node;
+			else if (this->_cmp(node_arg->_data.first, y->_data.first))
+				y->_left_child = new_node;
 			else
-			{
-				if (new_node->_right_child)
-					this->insert_node(new_node->_right_child);
-				else
-					new_node->_right_child = create_node(new_node->_data);
-			}
+				y->_right_child = new_node;
 			//this->_depth = std::max(getDepth(_left_child),
 				//getDepth(_right_child)) + 1;
 			//std::cout << "getBalanced_factor()\t=\t" << getBalanced_factor() << std::endl;
@@ -386,58 +388,68 @@ struct BST
 				//return (balance_bst(this->_data));
 			//return (this); // initial
 		}
-		void	erase_node(pair_type const & new_pair)
+		void	erase_node(node *new_node)
 		{
-			node *new_node;
-
-			new_node = this->search(new_pair);
 			//std::cout << "new_pair\t=\t" << new_pair.first << std::endl;
 			//std::cout << "data\t=\t" << _data.first << std::endl;
-			if (compare(new_pair))
-				new_node->_left_child->erase_node(new_pair);
-			else if (new_pair.first > new_node->_data.first)
-				new_node->_right_child->erase_node(new_pair);
+			node *curr = this->_root;
+			node *prev = NULL;
+
+			while (curr && curr->_data.first != new_node->_data.first)
+			{
+				prev = curr;
+				if (this->_cmp(new_node->_data.first, curr->_data.first))
+					curr = curr->_left_child;
+				else
+					curr = curr->_right_child;
+			}
+			if (!curr)
+				return ;
+			if (!curr->_left_child || !curr->_right_child)
+			{
+				node* newCurr;
+
+				if (!curr->_left_child)
+					newCurr = curr->_right_child;
+				else
+					newCurr = curr->_left_child;
+				if (!prev)
+					return ;
+				if (curr == prev->_left_child)
+					prev->_left_child = newCurr;
+				else
+					prev->_right_child = newCurr;
+				this->_alloc.destroy(curr);
+				this->_alloc.deallocate(curr, 1);
+			}
 			else
 			{
-				// 3 cases : 0, 1, 2 children
-				// No child
-				if (!new_node->_left_child && !new_node->_right_child)
-				{
-					std::cout << "no child" << std::endl;
-					_alloc.destroy(this);
-					//return (NULL);
-					//this = NULL;
-				}
-				// One child
-				else if (!new_node->_left_child)
-				{
-					std::cout << "right erase" << std::endl;
-					node *tmp = new_node->_right_child;
-					//this = this->_right_child;
-					_alloc.destroy(tmp);
-					// return (tmp);
-				}
-				else if (!new_node->_right_child)
-				{
-					std::cout << "left erase" << std::endl;
-					node *tmp = new_node->_left_child;
+				node* p = NULL;
+				node* temp;
 
-					_alloc.destroy(tmp);
-					//return (tmp);
+				temp = curr->_right_child;
+				while (temp->_left_child)
+				{
+					p = temp;
+					temp = temp->_left_child;
 				}
-				// 2 children
+				if (p)
+					p->_left_child = temp->_right_child;
 				else
-				{
-					std::cout << "2 children" << std::endl;
-					node *tmp = new_node->_right_child->find_start();
-
-					new_node->_data.second = tmp->_data.second;
-					std::cout << "seg" << std::endl;
-					new_node->_right_child->erase_node(tmp->_data);
-				}
+					curr->_right_child = temp->_right_child;
+				//curr = temp;
+				//curr->_data = temp->_data;
+				this->_alloc.destroy(temp);
+				this->_alloc.deallocate(temp, 1);
 			}
 			this->_size--;
 			//return (this);
+		}
+		void	erase_node(pair_type const & new_pair)
+		{
+			node *new_node = this->search(new_pair);
+
+			this->erase_node(new_node);
 		}
 		iterator find(pair_type const & new_pair)
 		{
@@ -469,18 +481,20 @@ struct BST
 		}
 		node	*search(pair_type const & new_pair) const
 		{
-			//std::cout << "new_pair.first = " << new_pair.first << std::endl;
+			std::cout << "new_pair.first = " << new_pair.first << std::endl;
 			//std::cout << "allo" << std::endl;
 			node *search_node = this->_root;
 
-			if (search_node == NULL)
-				return (NULL);
-			else if (new_pair.first == search_node->_data.first)
-				return (search_node);
-			else if (compare(new_pair))
-				return (search(search_node->_left_child->_data));
-			else
-				return (search(search_node->_right_child->_data));
+			while (search_node)
+			{
+				std::cout << "allo" << std::endl;
+				if (this->_cmp(search_node->_data.first, new_pair.first))
+					search_node = search_node->_right_child;
+				else if (this->_cmp(new_pair.first, search_node->_data.first))
+					search_node = search_node->_left_child;
+				else if (new_pair.first == search_node->_data.first)
+					return (search_node);
+			}
 			return (NULL);
 		}
 		/*bool	is_balanced()
