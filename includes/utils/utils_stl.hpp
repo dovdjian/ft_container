@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:22:21 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/18 10:09:42 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/22 19:40:37 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 
 namespace ft
 {
+	template <class T>
+	void swap(T & a, T& b)
+	{
+		T	c(a);
+
+		a = b;
+		b = c;
+	}
 	template <bool B, class T = void>
 	struct enable_if {};
 

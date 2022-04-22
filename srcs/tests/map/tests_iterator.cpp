@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 13:52:05 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/22 17:53:53 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/22 19:10:50 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 void	tests_relational_operators_map()
 {
 	std::cout << BCYAN << "### relational operators ###" << END << std::endl << std::endl;
-	std::map<char, int> m;
-	std::map<char, int>::iterator it1;
-	std::map<char, int>::iterator it2(it1); // copy constr
-	std::map<char, int>::iterator it3 = it1; // copy assign
+	prefix::map<char, int> m;
+	prefix::map<char, int>::iterator it1;
+	prefix::map<char, int>::iterator it2(it1); // copy constr
+	prefix::map<char, int>::iterator it3 = it1; // copy assign
 
 	m['a'] = 10;
 	m['b'] = 20;
@@ -43,13 +43,13 @@ void	tests_relational_operators_map()
 void	tests_arithmetic_operators_map()
 {
 	std::cout << BCYAN << "### arithmetic operators ###" << END << std::endl << std::endl;
-	std::map<char, int> m;
-	std::map<char, int>::iterator it; // default constructible
+	prefix::map<char, int> m;
+	prefix::map<char, int>::iterator it; // default constructible
 
-	m.insert(std::pair<char, int>('w', 600));
-	m.insert(std::pair<char, int>('x', 700));
-	m.insert(std::pair<char, int>('y', 800));
-	m.insert(std::pair<char, int>('z', 900));
+	m.insert(prefix::pair<char, int>('w', 600));
+	m.insert(prefix::pair<char, int>('x', 700));
+	m.insert(prefix::pair<char, int>('y', 800));
+	m.insert(prefix::pair<char, int>('z', 900));
 
 	printMap(m);
 	it = m.begin();
@@ -72,34 +72,19 @@ void	tests_constructors_iterator_map()
 {
 	std::cout << BCYAN << "### constructor ###" << END << std::endl << std::endl;
 	prefix::map<char, int> m;
-	//std::map<char, int> m;
 	prefix::map<char, int>::iterator it; // default constructible
 	prefix::map<char, int>::iterator copy_constr(it); // copy constructible
 
-	std::cout << "Avant les insert" << std::endl;
 	m.insert(prefix::pair<char, int>('a', 10));
-	std::cout << "Apres 1 insert" << std::endl;
 	m.insert(prefix::pair<char, int>('b', 20));
-	std::cout << "Apres 2 insert" << std::endl;
 	m.insert(prefix::pair<char, int>('c', 30));
 	m.insert(prefix::pair<char, int>('d', 40));
-	std::cout << "Apres tous les insert" << std::endl;
 	printMap(m);
 	it = m.begin();
 	copy_constr = it;
 
-	//prefix::map<char, int>::iterator it_2; // default constructible
-
-	//it_2 = it;
-	std::cout << "apres copyconstr = it" << std::endl;
-
-	//if (it_2 != it)
-		//std::cout << "false" << std::endl;
-	std::cout << "apres != ope" << std::endl;
 	std::cout << "it : " << it->first << " => " << it->second << std::endl;
-	//std::cout << "it_2: " << it_2->first << " => " << it_2->second << std::endl;
-	//std::cout << "copy_constr : " << copy_constr->first << " => " << copy_constr->second << std::endl;
-
+	std::cout << "copy_constr : " << copy_constr->first << " => " << copy_constr->second << std::endl;
 	std::cout << std::endl << BCYAN << "### END ###" << END << std::endl << std::endl;
 }
 
@@ -113,6 +98,6 @@ void	tests_iterator_map()
 {
 	std::cout << BYELLOW << "*** TEST ITERATOR ***" << END << std::endl << std::endl;
 	tests_constructors_iterator_map();
-	//tests_operator_iterator_map();
+	tests_operator_iterator_map();
 	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
 }

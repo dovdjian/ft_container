@@ -161,19 +161,36 @@ namespace ft
 				{
 					this->_tree.erase_node(*position);
 				}
+				size_type erase(const value_type & k)
+				{
+					size_type tmp = this->_tree.size();
+
+					this->_tree.erase_node(k);
+					return (tmp - this->_tree.size());
+				}
 				size_type erase(const key_type & k)
 				{
-					this->_tree.erase_node(ft::make_pair(k, mapped_type()));
-					return (1);
+					return (this->erase(ft::make_pair(k, mapped_type())));
 				}
 				void erase(iterator first, iterator last)
 				{
-					for (; first != last; ++first)
-						this->_tree.erase_node(*first);
+					iterator	nav;
+
+					value_type last_val = *last;
+					while (first != last)
+					{
+						nav = first;
+						nav++;
+						value_type next = *nav;
+
+						this->erase(*first);
+						first = this->find(next.first);
+						last = this->find(last_val.first);
+					}
 				}
 				void swap(map & x)
 				{
-					key_compare		tmp_comp = this->_comp;
+					/* key_compare		tmp_comp = this->_comp;
 					allocator_type	tmp_alloc = this->_alloc;
 					BST				tmp_tree = this->_tree;
 
@@ -184,6 +201,8 @@ namespace ft
 					x._comp = tmp_comp;
 					x._alloc = tmp_alloc;
 					x._tree = tmp_tree;
+ */
+					this->_tree.swap(x._tree);
 				}
 				void clear()
 				{

@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:59:08 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/06 15:05:42 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/22 19:16:12 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,13 @@ void	tests_capacity_map()
 {
 	std::cout << BCYAN << "### capacity ###" << END <<
 		std::endl << std::endl;
-	//prefix::map<char, int> m;
-	std::map<char, int> m;
+	prefix::map<char, int> m;
 
 	printMap(m);
 	std::cout << "m.empty()\t=\t" << m.empty() << std::endl;
 
-	m.insert(std::make_pair('a', 10));
-	m.insert(std::make_pair('b', 20));
+	m.insert(prefix::make_pair('a', 10));
+	m.insert(prefix::make_pair('b', 20));
 
 	printMap(m);
 	std::cout << "m.empty()\t=\t" << m.empty() << std::endl;
@@ -38,7 +37,7 @@ void	tests_element_access_map()
 {
 	std::cout << BCYAN << "### element_access ###" << END <<
 		std::endl << std::endl;
-	std::map<char, int> m;
+	prefix::map<char, int> m;
 
 	m['a'] = 77;
 	m['b'] = 88;
@@ -58,19 +57,19 @@ void	tests_modifiers_map()
 {
 	std::cout << BCYAN << "### modifiers ###" << END <<
 		std::endl << std::endl;
-	std::map<char, int> m;
+	prefix::map<char, int> m;
 	// first insert function version (single parameter):
 
-	m.insert(std::pair<char, int>('a', 100));
-	m.insert(std::pair<char, int>('z', 200));
+	m.insert(prefix::pair<char, int>('a', 100));
+	m.insert(prefix::pair<char, int>('z', 200));
 	// second insert function version (with hint position):
 
-	std::map<char, int>::iterator it = m.begin();
-	m.insert(it, std::pair<char, int>('b', 300));  // max efficiency inserting
-	m.insert(it, std::pair<char, int>('c', 400));  // no max efficiency inserting
+	prefix::map<char, int>::iterator it = m.begin();
+	m.insert(it, prefix::pair<char, int>('b', 300));  // max efficiency inserting
+	m.insert(it, prefix::pair<char, int>('c', 400));  // no max efficiency inserting
 	// third insert function version (range insertion):
 
-	std::map<char, int> m2;
+	prefix::map<char, int> m2;
 	m2.insert(m.begin(), m.find('c'));
 	// showing contents:
 	std::cout << "map1: " << std::endl;
@@ -126,8 +125,8 @@ void	tests_observers()
 	std::cout << BCYAN << "### observers ###" << END <<
 		std::endl << std::endl;
 
-	std::map<char, int> m;
-	std::map<char, int>::key_compare mycomp = m.key_comp();
+	prefix::map<char, int> m;
+	prefix::map<char, int>::key_compare mycomp = m.key_comp();
 
 	m['a'] = 1;
 	m['b'] = 2;
@@ -135,7 +134,7 @@ void	tests_observers()
 
 	std::cout << "test keycomp with highest char = c" << std::endl;
 	char highest = m.rbegin()->first;
-	std::map<char, int>::iterator it = m.begin();
+	prefix::map<char, int>::iterator it = m.begin();
 	std::cout << it->first << " => " << it->second << std::endl;
 	while (mycomp((*it++).first, highest))
 		std::cout << it->first << " => " << it->second << std::endl;
@@ -147,7 +146,7 @@ void	tests_observers()
 	m['z'] = 3003;
 
 	std::cout << std::endl << "test value comp with pair highest : z => 3003" << std::endl;
-	std::pair<char,int> pair_highest = *m.rbegin();
+	prefix::pair<char,int> pair_highest = *m.rbegin();
 	it = m.begin();
 
 	std::cout << it->first << " => " << it->second << std::endl;
@@ -163,8 +162,8 @@ void	tests_operations()
 	std::cout << BCYAN << "### observers ###" << END <<
 		std::endl << std::endl;
 
-	std::map<char, int> m;
-	std::map<char, int>::iterator it;
+	prefix::map<char, int> m;
+	prefix::map<char, int>::iterator it;
 
 	m['a'] = 50;
 	m['b'] = 100;
@@ -178,7 +177,7 @@ void	tests_operations()
 
 	std::cout << std::endl << "count a = " << m.count('a') << std::endl;
 	std::cout << "count e = " << m.count('e') << std::endl;
-	std::map<char, int>::iterator it_low, it_up;
+	prefix::map<char, int>::iterator it_low, it_up;
 
 	it_low = m.lower_bound('b');
 	it_up = m.upper_bound('c');
@@ -186,8 +185,8 @@ void	tests_operations()
 	std::cout << std::endl << "it_low: " << it_low->first << " => " << it_low->second << std::endl;
 	std::cout << "it_up: " << it_up->first << " => " << it_up->second << std::endl;
 
-	std::pair<std::map<char, int>::iterator,
-		std::map<char, int>::iterator> pair_range;
+	prefix::pair<prefix::map<char, int>::iterator,
+		prefix::map<char, int>::iterator> pair_range;
 
 	pair_range = m.equal_range('a');
 
@@ -207,11 +206,11 @@ void	tests_allocator_map()
 		std::endl << std::endl;
 
 	int psize;
-	std::map<char, int> m;
-	std::pair<const char, int>* p;
+	prefix::map<char, int> m;
+	prefix::pair<const char, int>* p;
 
 	p = m.get_allocator().allocate(5);
-	psize = sizeof(std::map<char, int>::value_type) * 5;
+	psize = sizeof(prefix::map<char, int>::value_type) * 5;
 	std::cout << "The allocated array has a size of " << psize << " bytes. (5 * 8)" << std::endl;
 
 	m.get_allocator().deallocate(p, 5);
@@ -223,11 +222,11 @@ void	tests_allocator_map()
 void	tests_methods_map()
 {
 	std::cout << BYELLOW << "*** TEST METHODS ***" << END << std::endl << std::endl;
-	tests_capacity_map();
-	tests_element_access_map();
-	tests_modifiers_map();
-	tests_observers();
+	//tests_capacity_map(); // ok
+	//tests_element_access_map(); // ok
+	//tests_modifiers_map();
+	//tests_observers();
 	tests_operations();
-	tests_allocator_map();
+	//tests_allocator_map(); // ok
 	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
 }

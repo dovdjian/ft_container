@@ -129,15 +129,8 @@ struct BST
 						{
 							if (this->_comp(new_parent->_data.first, this->_node->_data.first))
 								break ;
-							std::cout << new_parent->_right_child->_data.first << std::endl;
-							//std::cout << ret->_data.first << std::endl;
-							//this->_node = new_parent;
 							new_parent = new_parent->_parent;
-							//std::cout << "lol" << std::endl;
-							//std::cout << new_parent->_right_child->_data.first << std::endl;
-							//std::cout << ret->_data.first << std::endl;
 						}
-						//std::cout << "lol" << std::endl;
 						this->_node = NULL;
 						return ;
 					}
@@ -272,22 +265,19 @@ struct BST
 			this->_size = 0;
 			this->_root = NULL;
 		}
+		void	swap(BST & x)
+		{
+			ft::swap(this->_root, x._root);
+			ft::swap(this->_size, x._size);
+			ft::swap(this->_alloc, x._alloc);
+			ft::swap(this->_cmp, x._cmp);
+		}
 		void	destroy_tree(node *del_node)
 		{
 			if (!del_node)
 				return ;
-			if (del_node->_left_child)
-			{
-				this->_alloc.destroy(del_node->_left_child);
-				this->_alloc.deallocate(del_node->_left_child, 1);
-				del_node->_left_child = NULL;
-			}
-			if (del_node->_right_child)
-			{
-				this->_alloc.destroy(del_node->_right_child);
-				this->_alloc.deallocate(del_node->_right_child, 1);
-				del_node->_right_child = NULL;
-			}
+			this->destroy_tree(del_node->_left_child);
+			this->destroy_tree(del_node->_right_child);
 			this->_alloc.destroy(del_node);
 			this->_alloc.deallocate(del_node, 1);
 		}
@@ -467,15 +457,11 @@ struct BST
 		}
 		iterator find(pair_type const & new_pair)
 		{
-			if (this->search(new_pair))
-				return (iterator(this->_root));
-			return (iterator(NULL));
+			return (iterator(this->search(new_pair)));
 		}
 		const_iterator find(pair_type const & new_pair) const
 		{
-			if (this->search(new_pair))
-				return (const_iterator(this->_root));
-			return (const_iterator(NULL));
+			return (const_iterator(this->search(new_pair)));
 		}
 		node *find_start() const
 		{
