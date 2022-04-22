@@ -133,8 +133,8 @@ namespace ft
 		// METHODS
 			//CAPACITY
 				bool empty() const { return (this->size() == 0 ? true : false); }
-				size_type size() const { return (this->_tree._size); }
-				size_type max_size() const { return (this->_alloc.max_size()); }
+				size_type size() const { return (this->_tree.size()); }
+				size_type max_size() const { return (this->_tree.max_size()); }
 			// ELEMENT ACCESS
 				mapped_type & operator[](const key_type & k)
 				{
@@ -201,7 +201,6 @@ namespace ft
 						Compare comp;
 						value_compare(Compare c) : comp(c) {}
 					public:
-						//value_compare(Compare c) : comp(c) {}
 						bool operator()(const value_type & x, const value_type & y) const
 						{
 							return (comp(x.first, y.first));

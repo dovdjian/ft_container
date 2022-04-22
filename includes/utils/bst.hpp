@@ -114,28 +114,34 @@ struct BST
 				node *getNode() const { return (this->_node); }
 				void	treeIncrement()
 				{
-					std::cout << "tree incr" << std::endl;
-					node *ret = this->_node;
-
-					if (ret->_right_child)
+					//std::cout << "tree incr" << std::endl;
+					if (this->_node->_right_child)
 					{
-						ret = ret->_right_child;
-						while (ret->_left_child)
-							ret = ret->_left_child;
+						this->_node = this->_node->_right_child;
+						while (this->_node->_left_child)
+							this->_node = this->_node->_left_child;
 					}
 					else
 					{
-						node *new_parent = ret->_parent;
+						node *new_parent = this->_node->_parent;
 
-						while (ret == new_parent->_right_child)
+						while (new_parent)
 						{
-							ret = new_parent;
+							if (this->_comp(new_parent->_data.first, this->_node->_data.first))
+								break ;
+							std::cout << new_parent->_right_child->_data.first << std::endl;
+							//std::cout << ret->_data.first << std::endl;
+							//this->_node = new_parent;
 							new_parent = new_parent->_parent;
+							//std::cout << "lol" << std::endl;
+							//std::cout << new_parent->_right_child->_data.first << std::endl;
+							//std::cout << ret->_data.first << std::endl;
 						}
-						if (ret->_right_child != new_parent)
-							ret = new_parent;
+						//std::cout << "lol" << std::endl;
+						this->_node = NULL;
+						return ;
 					}
-					this->_node = ret;
+					//std::cout << "end of tree incr" << std::endl;
 				}
 				void	treeDecrement()
 				{
@@ -214,7 +220,6 @@ struct BST
 	// METHOD ITERATOR
 		iterator begin()
 		{
-			//std::cout << "size tree = " << this->_size << std::endl;
 			if (this->_size == 0)
 				return (this->end());
 			return (iterator(this->find_start()));
@@ -225,7 +230,6 @@ struct BST
 		}
 		const_iterator begin() const
 		{
-			//std::cout << "size tree = " << this->_size << std::endl;
 			if (this->_size == 0)
 				return (this->end());
 			return (const_iterator(this->find_start()));
@@ -251,6 +255,8 @@ struct BST
 			return (const_reverse_iterator(this->begin()));
 		}
 	// METHODS
+		size_type size() const { return (this->_size); }
+		size_type max_size() const { return (this->_alloc.max_size()); }
 		node *create_node(pair_type const & new_pair)
 		{
 			//std::cout << "in create node" << std::endl;
