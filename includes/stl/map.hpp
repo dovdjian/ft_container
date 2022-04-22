@@ -123,10 +123,10 @@ namespace ft
 			{
 				if (this != &src)
 				{
-					//clear();
+					this->clear();
 					this->_comp = src._comp;
 					this->_alloc = src._alloc;
-					this->_tree = src._tree;
+					this->insert(src.begin(), src.end());
 				}
 				return (*this);
 			}
@@ -187,10 +187,8 @@ namespace ft
 				}
 				void clear()
 				{
-					erase(begin(), end());
-					this->_tree._size = 0;
+					this->_tree.clear();
 				}
-
 			// OBSERVERS
 				key_compare key_comp() const
 				{
@@ -203,6 +201,7 @@ namespace ft
 						Compare comp;
 						value_compare(Compare c) : comp(c) {}
 					public:
+						//value_compare(Compare c) : comp(c) {}
 						bool operator()(const value_type & x, const value_type & y) const
 						{
 							return (comp(x.first, y.first));
@@ -212,7 +211,6 @@ namespace ft
 				{
 					return (value_compare(this->_comp));
 				}
-
 			// OPERATIONS
 				iterator find(const key_type & k)
 				{

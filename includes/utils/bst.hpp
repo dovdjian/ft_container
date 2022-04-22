@@ -61,6 +61,7 @@ struct BST
 	// DESTRUCTOR
 		~BST()
 		{
+			this->destroy_tree(this->_root);
 			//destroy_children();
 		}
 	// OPERATOR =
@@ -105,7 +106,8 @@ struct BST
 				bidir_iterator & operator=(bidir_iterator const & src)
 				{
 					if (this != &src)
-						this->_node = src.getNode();
+						this->_node = src._node;
+						//this->_node = src.getNode();
 					return (*this);
 				}
 			// METHODS
@@ -164,7 +166,7 @@ struct BST
 			// ALL CATEGORIES
 				bidir_iterator & operator++() // pre
 				{
-					std::cout << "dans preincr op" << std::endl;
+					//std::cout << "dans preincr op" << std::endl;
 					this->treeIncrement();
 					return (*this);
 				}
@@ -186,9 +188,7 @@ struct BST
 					bool operator!=(bidir_iterator<const ite_T, true> const & v) const
 						{ return !(this->_node == v.getNode()); }
 				reference operator*() const { return (this->_node->_data); }
-				pointer operator->() const {
-					//std::cout << "dabs const ->" << std::endl;
-					return &(this->_node->_data); }
+				pointer operator->() const { return (&this->_node->_data); }
 			// BIDIRECTIONAL
 				bidir_iterator & operator--() // pre
 				{
@@ -253,28 +253,38 @@ struct BST
 	// METHODS
 		node *create_node(pair_type const & new_pair)
 		{
-			std::cout << "in create node" << std::endl;
+			//std::cout << "in create node" << std::endl;
 			//std::cout << "new_pair.first in create node\t=\t" << new_pair.first << std::endl;
 			node *ret = this->_alloc.allocate(1);
 
 			this->_alloc.construct(ret, node(new_pair));
 			return (ret);
 		}
-		/* void	destroy_children()
+		void	clear()
 		{
-			if (_left_child)
+			this->destroy_tree(this->_root);
+			this->_size = 0;
+			this->_root = NULL;
+		}
+		void	destroy_tree(node *del_node)
+		{
+			if (!del_node)
+				return ;
+			if (del_node->_left_child)
 			{
-				this->_alloc.destroy(_left_child);
-				this->_alloc.deallocate(_left_child, 1);
-				_left_child = NULL;
+				this->_alloc.destroy(del_node->_left_child);
+				this->_alloc.deallocate(del_node->_left_child, 1);
+				del_node->_left_child = NULL;
 			}
-			if (_right_child)
+			if (del_node->_right_child)
 			{
-				this->_alloc.destroy(_right_child);
-				this->_alloc.deallocate(_right_child, 1);
-				_right_child = NULL;
+				this->_alloc.destroy(del_node->_right_child);
+				this->_alloc.deallocate(del_node->_right_child, 1);
+				del_node->_right_child = NULL;
 			}
-		} */
+			this->_alloc.destroy(del_node);
+			this->_alloc.deallocate(del_node, 1);
+		}
 		/* BST *rotateRight(BST *node)
 		{
 			std::cout << "rright" << std::endl;
@@ -340,16 +350,16 @@ struct BST
 		{
 			iterator it;
 			bool	existed_bfr_insert;
-			if (!this->search(new_pair))
+			if (this->search(new_pair))
 			{
 				it = iterator(this->search(new_pair));
-				std::cout << "After ite->root" << std::endl;
+				//std::cout << "After ite->root" << std::endl;
 				existed_bfr_insert = false;
 			}
 			else
 			{
 				this->insert_node(this->create_node(new_pair));
-				std::cout << "search existe !" << std::endl;
+				//std::cout << "search existe !" << std::endl;
 				it = iterator(this->search(new_pair));
 				existed_bfr_insert = true;
 			}
@@ -358,9 +368,6 @@ struct BST
 		}
 		void	insert_node(node *node_arg)
 		{
-			std::cout << "before create" << std::endl;
-			node *new_node = this->create_node(node_arg->_data);
-			std::cout << "after create" << std::endl;
 			node *new_root = this->_root;
 			node *y = NULL;
 
@@ -372,12 +379,13 @@ struct BST
 				else
 					new_root = new_root->_right_child;
 			}
+			node_arg->_parent = y;
 			if (!y)
-				y = new_node;
+				this->_root = node_arg;
 			else if (this->_cmp(node_arg->_data.first, y->_data.first))
-				y->_left_child = new_node;
+				y->_left_child = node_arg;
 			else
-				y->_right_child = new_node;
+				y->_right_child = node_arg;
 			//this->_depth = std::max(getDepth(_left_child),
 				//getDepth(_right_child)) + 1;
 			//std::cout << "getBalanced_factor()\t=\t" << getBalanced_factor() << std::endl;
@@ -481,13 +489,13 @@ struct BST
 		}
 		node	*search(pair_type const & new_pair) const
 		{
-			std::cout << "new_pair.first = " << new_pair.first << std::endl;
+			//std::cout << "new_pair.first = " << new_pair.first << std::endl;
 			//std::cout << "allo" << std::endl;
 			node *search_node = this->_root;
 
 			while (search_node)
 			{
-				std::cout << "allo" << std::endl;
+				//std::cout << "allo" << std::endl;
 				if (this->_cmp(search_node->_data.first, new_pair.first))
 					search_node = search_node->_right_child;
 				else if (this->_cmp(new_pair.first, search_node->_data.first))

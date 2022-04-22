@@ -16,20 +16,15 @@
 [1;36m### constructor ###[0m
 
 Avant les insert
-new_pair.first = a
-new_pair.first = a
-After ite->root
 Apres 1 insert
-new_pair.first = b
-new_pair.first = b
-After ite->root
 Apres 2 insert
-new_pair.first = c
-new_pair.first = c
-After ite->root
-new_pair.first = d
-new_pair.first = d
-After ite->root
 Apres tous les insert
-apres copyconstr = it
-apres != ope
+[1;32mmap : 
+a => 10
+tree incr
+b => 20
+tree incr
+c => 30
+tree incr
+d => 40
+tree incr
