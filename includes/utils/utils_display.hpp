@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:41:37 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/22 13:23:12 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/24 01:23:19 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,11 @@ void printMap(T & map)
 	typename T::iterator it;
 	typename T::iterator end;
 
-	std::cout << BGREEN << "map : " << std::endl;
+	std::cout << BGREEN << std::endl << "map : " << std::endl;
 	end = map.end();
 	for (it = map.begin() ; it != end ; it++)
 		std::cout << it->first << " => " << it->second << std::endl;
+	//std::cout << "fgewrfwewef" << std::endl;
 	std::cout << std::endl << END;
 }
 

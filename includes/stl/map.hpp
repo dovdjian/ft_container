@@ -154,12 +154,15 @@ namespace ft
 				void insert(InputIterator first, InputIterator last,
 					typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = 0)
 				{
-					for (; first != last; ++first)
+					while (first != last)
+					{
 						this->insert(*first);
+						first++;
+					}
 				}
 				void erase(iterator position)
 				{
-					this->_tree.erase_node(*position);
+					this->erase(*position);
 				}
 				size_type erase(const value_type & k)
 				{
@@ -190,18 +193,6 @@ namespace ft
 				}
 				void swap(map & x)
 				{
-					/* key_compare		tmp_comp = this->_comp;
-					allocator_type	tmp_alloc = this->_alloc;
-					BST				tmp_tree = this->_tree;
-
-					this->_comp = x._comp;
-					this->_alloc = x._alloc;
-					this->_tree = x._tree;
-
-					x._comp = tmp_comp;
-					x._alloc = tmp_alloc;
-					x._tree = tmp_tree;
- */
 					this->_tree.swap(x._tree);
 				}
 				void clear()

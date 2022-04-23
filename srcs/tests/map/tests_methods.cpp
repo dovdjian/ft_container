@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:59:08 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/22 19:16:12 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/23 17:49:39 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,15 @@ void	tests_modifiers_map()
 	m.insert(it, prefix::pair<char, int>('c', 400));  // no max efficiency inserting
 	// third insert function version (range insertion):
 
-	prefix::map<char, int> m2;
-	m2.insert(m.begin(), m.find('c'));
+	//prefix::map<char, int> m2;
+	//m2.insert(m.begin(), m.find('c'));
 	// showing contents:
 	std::cout << "map1: " << std::endl;
 	printMap(m);
-	std::cout << "map2: " << std::endl;
-	printMap(m2);
+	//std::cout << "map2: " << std::endl;
+	//printMap(m2);
 
-	it = m.find('c');
+	/*it = m.find('c');
 	m.erase(it);
 	std::cout << "erase by iterator with key = c" << std::endl;
 	printMap(m);
@@ -115,7 +115,7 @@ void	tests_modifiers_map()
 	printMap(m);
 	std::cout << "map2: " << std::endl;
 	printMap(m2);
-
+ */
 	std::cout << std::endl << BCYAN << "### END ###"
 		<< END << std::endl << std::endl;
 }
@@ -224,9 +224,9 @@ void	tests_methods_map()
 	std::cout << BYELLOW << "*** TEST METHODS ***" << END << std::endl << std::endl;
 	//tests_capacity_map(); // ok
 	//tests_element_access_map(); // ok
-	//tests_modifiers_map();
+	tests_modifiers_map();
 	//tests_observers();
-	tests_operations();
+	//tests_operations(); // ok
 	//tests_allocator_map(); // ok
 	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
 }

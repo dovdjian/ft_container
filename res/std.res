@@ -13,20 +13,17 @@
 
 [1;33m*** TEST METHODS ***[0m
 
-[1;36m### observers ###[0m
+[1;36m### modifiers ###[0m
 
-find b
-b => 100
+map1: 
+[1;32m
+map : 
+a => 100
+b => 300
+c => 400
+z => 200
 
-count a = 1
-count e = 0
-
-it_low: b => 100
-it_up: d => 200
-
-lower bound points to: a => 50
-upper bound points to: b => 100
-
+[0m
 [1;36m### END ###[0m
 
 

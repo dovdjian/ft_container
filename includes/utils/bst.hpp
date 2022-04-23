@@ -114,7 +114,7 @@ struct BST
 				node *getNode() const { return (this->_node); }
 				void	treeIncrement()
 				{
-					//std::cout << "tree incr" << std::endl;
+					std::cout << "tree incr" << std::endl;
 					if (this->_node->_right_child)
 					{
 						this->_node = this->_node->_right_child;
@@ -131,10 +131,11 @@ struct BST
 								break ;
 							new_parent = new_parent->_parent;
 						}
+						std::cout << "new_parent->_data.first\t=\t" << new_parent->_data.first << std::endl;
+						std::cout << "node->_data.first\t=\t" << this->_node->_data.first << std::endl;
 						this->_node = NULL;
-						return ;
 					}
-					//std::cout << "end of tree incr" << std::endl;
+					std::cout << "end of tree incr" << std::endl;
 				}
 				void	treeDecrement()
 				{
@@ -344,6 +345,7 @@ struct BST
 		} */
 		ft::pair<iterator, bool> insert(pair_type const & new_pair)
 		{
+			std::cout << "new_pair\t=\t" << new_pair.first << std::endl;
 			iterator it;
 			bool	existed_bfr_insert;
 			if (this->search(new_pair))
@@ -354,7 +356,10 @@ struct BST
 			}
 			else
 			{
-				this->insert_node(this->create_node(new_pair));
+				if (!this->_root)
+					this->_root = this->insert_node(this->create_node(new_pair));
+				else
+					this->insert_node(this->create_node(new_pair));
 				//std::cout << "search existe !" << std::endl;
 				it = iterator(this->search(new_pair));
 				existed_bfr_insert = true;
@@ -362,8 +367,9 @@ struct BST
 			//std::cout << "End of insert" << std::endl;
 			return (ft::make_pair(it, existed_bfr_insert));
 		}
-		void	insert_node(node *node_arg)
+		node *insert_node(node *node_arg)
 		{
+			std::cout << "node_arg->_data.first\t=\t" << node_arg->_data.first << std::endl;
 			node *new_root = this->_root;
 			node *y = NULL;
 
@@ -377,11 +383,14 @@ struct BST
 			}
 			node_arg->_parent = y;
 			if (!y)
-				this->_root = node_arg;
+				y = node_arg;
 			else if (this->_cmp(node_arg->_data.first, y->_data.first))
 				y->_left_child = node_arg;
 			else
 				y->_right_child = node_arg;
+			std::cout << "y->_data.first after insert\t=\t" << y->_data.first << std::endl;
+			//if (this->_root)
+				//std::cout << "this->_root->_data.first\t=\t" << this->_root->_data.first << std::endl;
 			//this->_depth = std::max(getDepth(_left_child),
 				//getDepth(_right_child)) + 1;
 			//std::cout << "getBalanced_factor()\t=\t" << getBalanced_factor() << std::endl;
@@ -391,9 +400,11 @@ struct BST
 			//if (!is_balanced())
 				//return (balance_bst(this->_data));
 			//return (this); // initial
+			return (y);
 		}
 		void	erase_node(node *new_node)
 		{
+			std::cout << "yo je suis dans erase" << std::endl;
 			//std::cout << "new_pair\t=\t" << new_pair.first << std::endl;
 			//std::cout << "data\t=\t" << _data.first << std::endl;
 			node *curr = this->_root;
@@ -418,13 +429,17 @@ struct BST
 				else
 					newCurr = curr->_left_child;
 				if (!prev)
+				{
+					destroy_tree(this->_root);
 					return ;
+				}
 				if (curr == prev->_left_child)
 					prev->_left_child = newCurr;
 				else
 					prev->_right_child = newCurr;
-				this->_alloc.destroy(curr);
-				this->_alloc.deallocate(curr, 1);
+				destroy_tree(curr);
+				//this->_alloc.destroy(curr);
+				//this->_alloc.deallocate(curr, 1);
 			}
 			else
 			{
@@ -441,10 +456,11 @@ struct BST
 					p->_left_child = temp->_right_child;
 				else
 					curr->_right_child = temp->_right_child;
-				//curr = temp;
+				curr = temp;
 				//curr->_data = temp->_data;
-				this->_alloc.destroy(temp);
-				this->_alloc.deallocate(temp, 1);
+				destroy_tree(temp);
+				//this->_alloc.destroy(temp);
+				//this->_alloc.deallocate(temp, 1);
 			}
 			this->_size--;
 			//return (this);
@@ -481,13 +497,10 @@ struct BST
 		}
 		node	*search(pair_type const & new_pair) const
 		{
-			//std::cout << "new_pair.first = " << new_pair.first << std::endl;
-			//std::cout << "allo" << std::endl;
 			node *search_node = this->_root;
 
 			while (search_node)
 			{
-				//std::cout << "allo" << std::endl;
 				if (this->_cmp(search_node->_data.first, new_pair.first))
 					search_node = search_node->_right_child;
 				else if (this->_cmp(new_pair.first, search_node->_data.first))
