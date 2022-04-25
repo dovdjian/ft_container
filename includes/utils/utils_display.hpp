@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:41:37 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/25 11:36:34 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/25 16:11:10 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,8 @@ void printMap(T & map)
 
 	std::cout << BGREEN << std::endl << "map : " << std::endl;
 	end = map.end();
-	std::cout << "before for loop printmap" << std::endl;
 	for (it = map.begin() ; it != end ; it++)
 		std::cout << it->first << " => " << it->second << std::endl;
-	std::cout << "after for loop printmap" << std::endl;
 	std::cout << std::endl << END;
 }
 

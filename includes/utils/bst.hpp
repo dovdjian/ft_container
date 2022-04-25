@@ -132,18 +132,14 @@ struct BST
 
 						while (this->_node == new_parent->_right_child)
 						{
-							//if (this->_comp(new_parent->_data.first, this->_node->_data.first))
-								//break ;
 							this->_node = new_parent;
 							new_parent = new_parent->_parent;
 						}
 						//std::cout << "new_parent->_data.first\t=\t" << new_parent->_data.first << std::endl;
 						//std::cout << "node->_data.first\t=\t" << this->_node->_data.first << std::endl;
 						//this->_node = NULL;
-						if (this->_node->_right_child != new_parent)
-							this->_node = new_parent;
-						//if (new_parent == this->_node)
-							//this->_node = new_parent->_parent;
+						//if (this->_node->_right_child != new_parent)
+							//this->_node = new_parent;
 						this->_node = new_parent;
 					}
 					//std::cout << "end of tree incr" << std::endl;
@@ -151,28 +147,35 @@ struct BST
 				void	treeDecrement()
 				{
 					//std::cout << "tree decr" << std::endl;
-					node *ret = this->_node;
-
-					if (ret->_left_child)
+					if (!this->_node->_right_child)
 					{
-						node *new_left = ret->_left_child;
+						node *new_right = this->_node;
+						new_right = new_right->_parent;
+						while (new_right->_right_child != this->_node)
+							new_right = new_right->_right_child;
+						this->_node = new_right;
+					}
+					else if (!this->_node->_left_child->_left_child)
+					{
+						node *new_parent = this->_node->_parent;
 
-						while (ret->_right_child)
-							ret = ret->_right_child;
-						ret = new_left;
+						while (this->_node == new_parent->_left_child)
+						{
+							this->_node = new_parent;
+							new_parent = new_parent->_parent;
+						}
+						this->_node = new_parent;
+						//if (this->_node->_right_child != new_parent)
+							//this->_node = new_parent;
+						//if (this->_node->_left_child != new_parent)
+							//this->_node = NULL;
 					}
 					else
 					{
-						node *new_parent = ret->_parent;
-
-						while (ret == new_parent->_left_child)
-						{
-							ret = new_parent;
-							new_parent = new_parent->_parent;
-						}
-						ret = new_parent;
+						this->_node = this->_node->_left_child;
+						while (this->_node->_right_child->_left_child)
+							this->_node = this->_node->_right_child;
 					}
-					this->_node = ret;
 				}
 			// ALL CATEGORIES
 				bidir_iterator & operator++() // pre
@@ -493,6 +496,12 @@ struct BST
 		const_iterator find(pair_type const & new_pair) const
 		{
 			return (const_iterator(this->search(new_pair)));
+		}
+		size_type count(pair_type const & new_pair) const
+		{
+			if (this->search(new_pair) != this->_nul_node)
+				return (1);
+			return (0);
 		}
 		node *find_start() const
 		{

@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:59:08 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/25 11:16:54 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/25 16:10:01 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,13 @@ void	tests_modifiers_map()
 	m.insert(it, prefix::pair<char, int>('c', 400));  // no max efficiency inserting
 	// third insert function version (range insertion):
 
-	//prefix::map<char, int> m2;
-	//m2.insert(m.begin(), m.find('c'));
+	prefix::map<char, int> m2;
+	m2.insert(m.begin(), m.find('c'));
 	// showing contents:
 	std::cout << "map1: " << std::endl;
 	printMap(m);
-	//std::cout << "map2: " << std::endl;
-	//printMap(m2);
+	std::cout << "map2: " << std::endl;
+	printMap(m2);
 
 	/*it = m.find('c');
 	m.erase(it);

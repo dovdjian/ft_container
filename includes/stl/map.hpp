@@ -211,6 +211,9 @@ namespace ft
 						Compare comp;
 						value_compare(Compare c) : comp(c) {}
 					public:
+						typedef bool result_type;
+						typedef value_type first_argument_type;
+						typedef value_type second_argument_type;
 						bool operator()(const value_type & x, const value_type & y) const
 						{
 							return (comp(x.first, y.first));
@@ -231,11 +234,7 @@ namespace ft
 				}
 				size_type count(const key_type & k) const
 				{
-					value_type v = ft::make_pair(k, mapped_type());
-
-					if (this->_tree.search(v))
-						return (1);
-					return (0);
+					return (this->_tree.count(ft::make_pair(k, mapped_type())));
 				}
 				iterator lower_bound(key_type const & k)
 				{
