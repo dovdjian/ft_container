@@ -18,10 +18,12 @@
 map1: 
 [1;32m
 map : 
+before for loop printmap
 a => 100
 b => 300
 c => 400
 z => 200
+after for loop printmap
 
 [0m
 [1;36m### END ###[0m

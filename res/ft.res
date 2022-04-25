@@ -17,19 +17,16 @@
 
 new_pair	=	a
 node_arg->_data.first	=	a
-y->_data.first after insert	=	a
 new_pair	=	z
 node_arg->_data.first	=	z
-y->_data.first after insert	=	a
 new_pair	=	b
 node_arg->_data.first	=	b
-y->_data.first after insert	=	z
 new_pair	=	c
 node_arg->_data.first	=	c
-y->_data.first after insert	=	b
 map1: 
 [1;32m
 map : 
+before for loop printmap
 a => 100
 tree incr
 end of tree incr
@@ -38,9 +35,11 @@ tree incr
 end of tree incr
 c => 400
 tree incr
-new_parent->_data.first	=	b
-node->_data.first	=	c
 end of tree incr
+z => 200
+tree incr
+end of tree incr
+after for loop printmap
 
 [0m
 [1;36m### END ###[0m

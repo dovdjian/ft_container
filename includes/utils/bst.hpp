@@ -26,8 +26,7 @@ struct BST
 		int _depth;
 		pair_type _data;
 
-		node(pair_type new_pair) : _left_child(NULL), _right_child(NULL), _parent(NULL),
-			_depth(1), _data(new_pair) {}
+		node(pair_type new_pair) : _depth(1), _data(new_pair) {}
 	};
 	// TYPEDEF
 		typedef size_t size_type;
@@ -38,18 +37,21 @@ struct BST
 		key_compare		_cmp;
 		allocator_type	_alloc;
 		node			*_root;
+		node			*_nul_node;
 	// CONSTRUCTOR
 		// DEFAULT
 			BST()
 			{
 				//std::cout << "construct default bst" << std::endl;
-				node null_node((pair_type()));
+				node new_node((pair_type()));
 
-				null_node._left_child = NULL;
-				null_node._right_child = NULL;
-				null_node._parent = NULL;
+				new_node._left_child = NULL;
+				new_node._right_child = NULL;
+				new_node._parent = NULL;
 
-				this->_root = NULL;
+				this->_nul_node = this->_alloc.allocate(1);
+				this->_alloc.construct(this->_nul_node, new_node);
+				this->_root = this->_nul_node;
 				this->_size = 0;
 			}
 		// COPY
@@ -62,6 +64,8 @@ struct BST
 		~BST()
 		{
 			this->destroy_tree(this->_root);
+			this->_alloc.destroy(this->_nul_node);
+			this->_alloc.deallocate(this->_nul_node, 1);
 			//destroy_children();
 		}
 	// OPERATOR =
@@ -73,6 +77,7 @@ struct BST
 				this->_alloc = src._alloc;
 				this->_cmp = src._cmp;
 				this->_size = src._size;
+				this->_nul_node = src._nul_node;
 				this->_root = src._root;
 			}
 			return (*this);
@@ -114,28 +119,34 @@ struct BST
 				node *getNode() const { return (this->_node); }
 				void	treeIncrement()
 				{
-					std::cout << "tree incr" << std::endl;
-					if (this->_node->_right_child)
+					//std::cout << "tree incr" << std::endl;
+					if (this->_node->_right_child->_right_child)
 					{
 						this->_node = this->_node->_right_child;
-						while (this->_node->_left_child)
+						while (this->_node->_left_child->_right_child)
 							this->_node = this->_node->_left_child;
 					}
 					else
 					{
 						node *new_parent = this->_node->_parent;
 
-						while (new_parent)
+						while (this->_node == new_parent->_right_child)
 						{
-							if (this->_comp(new_parent->_data.first, this->_node->_data.first))
-								break ;
+							//if (this->_comp(new_parent->_data.first, this->_node->_data.first))
+								//break ;
+							this->_node = new_parent;
 							new_parent = new_parent->_parent;
 						}
-						std::cout << "new_parent->_data.first\t=\t" << new_parent->_data.first << std::endl;
-						std::cout << "node->_data.first\t=\t" << this->_node->_data.first << std::endl;
-						this->_node = NULL;
+						//std::cout << "new_parent->_data.first\t=\t" << new_parent->_data.first << std::endl;
+						//std::cout << "node->_data.first\t=\t" << this->_node->_data.first << std::endl;
+						//this->_node = NULL;
+						if (this->_node->_right_child != new_parent)
+							this->_node = new_parent;
+						//if (new_parent == this->_node)
+							//this->_node = new_parent->_parent;
+						this->_node = new_parent;
 					}
-					std::cout << "end of tree incr" << std::endl;
+					//std::cout << "end of tree incr" << std::endl;
 				}
 				void	treeDecrement()
 				{
@@ -220,7 +231,7 @@ struct BST
 		}
 		iterator end()
 		{
-			return (iterator(NULL));
+			return (iterator(this->_nul_node));
 		}
 		const_iterator begin() const
 		{
@@ -230,7 +241,7 @@ struct BST
 		}
 		const_iterator end() const
 		{
-			return (const_iterator(NULL));
+			return (const_iterator(this->_nul_node));
 		}
 		reverse_iterator rbegin()
 		{
@@ -256,26 +267,32 @@ struct BST
 			//std::cout << "in create node" << std::endl;
 			//std::cout << "new_pair.first in create node\t=\t" << new_pair.first << std::endl;
 			node *ret = this->_alloc.allocate(1);
+			node tmp(new_pair);
 
-			this->_alloc.construct(ret, node(new_pair));
+			tmp._parent = this->_nul_node;
+			tmp._left_child = this->_nul_node;
+			tmp._right_child = this->_nul_node;
+			this->_alloc.construct(ret, tmp);
 			return (ret);
 		}
 		void	clear()
 		{
 			this->destroy_tree(this->_root);
 			this->_size = 0;
-			this->_root = NULL;
+			this->_root = this->_nul_node;
+			this->_nul_node->_parent = NULL;
 		}
 		void	swap(BST & x)
 		{
 			ft::swap(this->_root, x._root);
+			ft::swap(this->_nul_node, x._nul_node);
 			ft::swap(this->_size, x._size);
 			ft::swap(this->_alloc, x._alloc);
 			ft::swap(this->_cmp, x._cmp);
 		}
 		void	destroy_tree(node *del_node)
 		{
-			if (!del_node)
+			if (del_node == this->_nul_node)
 				return ;
 			this->destroy_tree(del_node->_left_child);
 			this->destroy_tree(del_node->_right_child);
@@ -345,10 +362,10 @@ struct BST
 		} */
 		ft::pair<iterator, bool> insert(pair_type const & new_pair)
 		{
-			std::cout << "new_pair\t=\t" << new_pair.first << std::endl;
+			//std::cout << "new_pair\t=\t" << new_pair.first << std::endl;
 			iterator it;
 			bool	existed_bfr_insert;
-			if (this->search(new_pair))
+			if (this->search(new_pair) != this->_nul_node)
 			{
 				it = iterator(this->search(new_pair));
 				//std::cout << "After ite->root" << std::endl;
@@ -356,10 +373,7 @@ struct BST
 			}
 			else
 			{
-				if (!this->_root)
-					this->_root = this->insert_node(this->create_node(new_pair));
-				else
-					this->insert_node(this->create_node(new_pair));
+				this->insert_node(this->create_node(new_pair));
 				//std::cout << "search existe !" << std::endl;
 				it = iterator(this->search(new_pair));
 				existed_bfr_insert = true;
@@ -367,13 +381,13 @@ struct BST
 			//std::cout << "End of insert" << std::endl;
 			return (ft::make_pair(it, existed_bfr_insert));
 		}
-		node *insert_node(node *node_arg)
+		void	insert_node(node *node_arg)
 		{
-			std::cout << "node_arg->_data.first\t=\t" << node_arg->_data.first << std::endl;
+			//std::cout << "node_arg->_data.first\t=\t" << node_arg->_data.first << std::endl;
 			node *new_root = this->_root;
-			node *y = NULL;
+			node *y = this->_nul_node;
 
-			while (new_root)
+			while (new_root != this->_nul_node)
 			{
 				y = new_root;
 				if (this->_cmp(node_arg->_data.first, new_root->_data.first))
@@ -382,13 +396,14 @@ struct BST
 					new_root = new_root->_right_child;
 			}
 			node_arg->_parent = y;
-			if (!y)
-				y = node_arg;
+			if (y == this->_nul_node)
+				this->_root = node_arg;
 			else if (this->_cmp(node_arg->_data.first, y->_data.first))
 				y->_left_child = node_arg;
 			else
 				y->_right_child = node_arg;
-			std::cout << "y->_data.first after insert\t=\t" << y->_data.first << std::endl;
+			this->_nul_node->_parent = this->_root;
+			//std::cout << "y->_data.first after insert\t=\t" << y->_data.first << std::endl;
 			//if (this->_root)
 				//std::cout << "this->_root->_data.first\t=\t" << this->_root->_data.first << std::endl;
 			//this->_depth = std::max(getDepth(_left_child),
@@ -400,7 +415,6 @@ struct BST
 			//if (!is_balanced())
 				//return (balance_bst(this->_data));
 			//return (this); // initial
-			return (y);
 		}
 		void	erase_node(node *new_node)
 		{
@@ -408,9 +422,9 @@ struct BST
 			//std::cout << "new_pair\t=\t" << new_pair.first << std::endl;
 			//std::cout << "data\t=\t" << _data.first << std::endl;
 			node *curr = this->_root;
-			node *prev = NULL;
+			node *prev = this->_nul_node;
 
-			while (curr && curr->_data.first != new_node->_data.first)
+			while (curr != this->_nul_node && curr->_data.first != new_node->_data.first)
 			{
 				prev = curr;
 				if (this->_cmp(new_node->_data.first, curr->_data.first))
@@ -418,13 +432,14 @@ struct BST
 				else
 					curr = curr->_right_child;
 			}
-			if (!curr)
+			if (curr == this->_nul_node)
 				return ;
-			if (!curr->_left_child || !curr->_right_child)
+			if (curr->_left_child == this->_nul_node
+				|| curr->_right_child == this->_nul_node)
 			{
 				node* newCurr;
 
-				if (!curr->_left_child)
+				if (curr->_left_child == this->_nul_node)
 					newCurr = curr->_right_child;
 				else
 					newCurr = curr->_left_child;
@@ -443,11 +458,11 @@ struct BST
 			}
 			else
 			{
-				node* p = NULL;
+				node* p = this->_nul_node;
 				node* temp;
 
 				temp = curr->_right_child;
-				while (temp->_left_child)
+				while (temp->_left_child != this->_nul_node)
 				{
 					p = temp;
 					temp = temp->_left_child;
@@ -483,7 +498,7 @@ struct BST
 		{
 			node *new_node = this->_root;
 
-			while (new_node->_left_child)
+			while (new_node->_left_child != this->_nul_node)
 				new_node = new_node->_left_child;
 			return (new_node);
 		}
@@ -491,7 +506,7 @@ struct BST
 		{
 			node *new_node = this->_root;
 
-			while (new_node->_right_child)
+			while (new_node->_right_child != this->_nul_node)
 				new_node = new_node->_right_child;
 			return (new_node);
 		}
@@ -499,7 +514,7 @@ struct BST
 		{
 			node *search_node = this->_root;
 
-			while (search_node)
+			while (search_node != this->_nul_node)
 			{
 				if (this->_cmp(search_node->_data.first, new_pair.first))
 					search_node = search_node->_right_child;
@@ -508,7 +523,7 @@ struct BST
 				else if (new_pair.first == search_node->_data.first)
 					return (search_node);
 			}
-			return (NULL);
+			return (this->_nul_node);
 		}
 		/*bool	is_balanced()
 		{
