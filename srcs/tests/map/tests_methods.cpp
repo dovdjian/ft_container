@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:59:08 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/25 16:10:01 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/25 19:08:16 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	tests_modifiers_map()
 	std::cout << "map2: " << std::endl;
 	printMap(m2);
 
-	/*it = m.find('c');
+	it = m.find('c');
 	m.erase(it);
 	std::cout << "erase by iterator with key = c" << std::endl;
 	printMap(m);
@@ -86,7 +86,7 @@ void	tests_modifiers_map()
 	std::cout << "erase z with key" << std::endl;
 	printMap(m);
 
-	m.erase(m.begin(), m.end());
+	/*m.erase(m.begin(), m.end());
 	std::cout << "erase range begin to end: all and clear m2" << std::endl;
 	printMap(m);
 	m2.clear();

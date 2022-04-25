@@ -18,27 +18,38 @@
 map1: 
 [1;32m
 map : 
-before for loop printmap
 a => 100
 b => 300
 c => 400
 z => 200
-after for loop printmap
 
 [0mmap2: 
 [1;32m
 map : 
-before for loop printmap
 a => 100
 b => 300
-after for loop printmap
 
-[0m
-[1;36m### END ###[0m
-
-
-[1;33m*** END ***[0m
-
+[0myo je suis dans erase
+this->_root->_data.first	=	a
+root pas nul
+root pas nul
+root pas nul
+curr->_data.first	=	c
+no child
+before size-- and stuff
+after size-- and stuff
+erase by iterator with key = c
 [1;32m
-------------------- END -------------------[0m
+map : 
+a => 100
+b => 300
+z => 200
 
+[0myo je suis dans erase
+this->_root->_data.first	=	a
+root pas nul
+curr->_data.first	=	z
+one child
+new curr->_data.first	=	b
+curr->_data.first	=	z
+prev->_right_child->_data.first	=	z

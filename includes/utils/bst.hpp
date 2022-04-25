@@ -217,8 +217,7 @@ struct BST
 					return (ret);
 				}
 			private:
-				key_compare	_comp;
-				node		*_node;
+				node			*_node;
 		};
 	// My Typedef iterator
 		typedef bidir_iterator<pair_type, false> iterator;
@@ -419,7 +418,7 @@ struct BST
 				//return (balance_bst(this->_data));
 			//return (this); // initial
 		}
-		void	erase_node(node *new_node)
+		void	erase_node(node *node_arg)
 		{
 			std::cout << "yo je suis dans erase" << std::endl;
 			//std::cout << "new_pair\t=\t" << new_pair.first << std::endl;
@@ -427,60 +426,98 @@ struct BST
 			node *curr = this->_root;
 			node *prev = this->_nul_node;
 
-			while (curr != this->_nul_node && curr->_data.first != new_node->_data.first)
+			std::cout << "this->_root->_data.first\t=\t" << this->_root->_data.first << std::endl;
+			while (curr != this->_nul_node && curr->_data.first != node_arg->_data.first)
 			{
+				std::cout << "root pas nul" << std::endl;
 				prev = curr;
-				if (this->_cmp(new_node->_data.first, curr->_data.first))
+				if (this->_cmp(node_arg->_data.first, curr->_data.first))
 					curr = curr->_left_child;
 				else
 					curr = curr->_right_child;
 			}
-			if (curr == this->_nul_node)
-				return ;
+			std::cout << "curr->_data.first\t=\t" << curr->_data.first << std::endl;
+			//std::cout << "curr->right.first\t=\t" << curr->_right_child->_data.first << std::endl;
+			//std::cout << "curr->left.first\t=\t" << curr->_left_child->_data.first << std::endl;
+			// PAS ICI
 			if (curr->_left_child == this->_nul_node
+				&& curr->_right_child == this->_nul_node) // seems to work !
+			{
+				std::cout << "no child" << std::endl;
+				if (prev != this->_root)
+				{
+					if (prev->_left_child == curr)
+						prev->_left_child = this->_nul_node;
+					else
+						prev->_right_child = this->_nul_node;
+				}
+				else
+					this->_root = this->_nul_node;
+				destroy_tree(curr);
+			}
+			else if (curr->_left_child == this->_nul_node
 				|| curr->_right_child == this->_nul_node)
 			{
+				std::cout << "one child" << std::endl;
 				node* newCurr;
 
 				if (curr->_left_child == this->_nul_node)
 					newCurr = curr->_right_child;
 				else
 					newCurr = curr->_left_child;
-				if (!prev)
+				std::cout << "new curr->_data.first\t=\t" << newCurr->_data.first << std::endl;
+
+				//if (prev == this->_nul_node)
+					//newCurr = this->_root;
+				if (curr != this->_root)
 				{
-					destroy_tree(this->_root);
-					return ;
+					std::cout << "curr->_data.first\t=\t" << curr->_data.first << std::endl;
+					//std::cout << "this->_root->_data.first\t=\t" << this->_root->_data.first << std::endl;
+					//std::cout << "node_arg->_data.first\t=\t" << node_arg->_data.first << std::endl;
+					//std::cout << "prev->_left_child->_data.first\t=\t" << prev->_left_child->_data.first << std::endl;
+					std::cout << "prev->_right_child->_data.first\t=\t" << prev->_right_child->_data.first << std::endl;
+					if (curr == prev->_left_child)
+						prev->_left_child = newCurr;
+					else
+						prev->_right_child = newCurr;
 				}
-				if (curr == prev->_left_child)
-					prev->_left_child = newCurr;
 				else
-					prev->_right_child = newCurr;
+				{
+					std::cout << "suce" << std::endl;
+					this->_root = newCurr;
+				}
+				if (curr->_left_child == this->_nul_node)
+					prev = curr->_left_child;
+				else
+					prev = curr->_right_child;
+				/* if (curr->_left_child == this->_nul_node)
+					newCurr = curr->_right_child;
+				else
+					newCurr = curr->_left_child; */
+				//std::cout << "curr->_data.first\t=\t" << curr->_data.first << std::endl;
+				//std::cout << "prev->_left_child->_data.first\t=\t" << prev->_left_child->_data.first << std::endl;
+				std::cout << "prev->_right_child->_data.first\t=\t" << prev->_right_child->_data.first << std::endl;
 				destroy_tree(curr);
-				//this->_alloc.destroy(curr);
-				//this->_alloc.deallocate(curr, 1);
+
+				std::cout << "end of one child" << std::endl;
 			}
 			else
 			{
-				node* p = this->_nul_node;
-				node* temp;
+				std::cout << "2 children" << std::endl;
+				node *successor = curr->_right_child;
 
-				temp = curr->_right_child;
-				while (temp->_left_child != this->_nul_node)
-				{
-					p = temp;
-					temp = temp->_left_child;
-				}
-				if (p)
-					p->_left_child = temp->_right_child;
-				else
-					curr->_right_child = temp->_right_child;
-				curr = temp;
-				//curr->_data = temp->_data;
-				destroy_tree(temp);
-				//this->_alloc.destroy(temp);
-				//this->_alloc.deallocate(temp, 1);
+				while (successor->_left_child != this->_nul_node)
+					successor = successor->_left_child;
+				this->erase_node(successor);
+				//curr = successor;
+
+				std::cout << "end of 2 children" << std::endl;
 			}
+			std::cout << "before size-- and stuff" << std::endl;
+			//curr = this->_root;
+			//this->_nul_node->_parent = this->_root;
 			this->_size--;
+			std::cout << "after size-- and stuff" << std::endl;
 			//return (this);
 		}
 		void	erase_node(pair_type const & new_pair)
