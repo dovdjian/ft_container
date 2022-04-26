@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:41:37 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/25 16:11:10 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/26 11:57:04 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void printMap(T & map)
 		std::cout << it->first << " => " << it->second << std::endl;
 	std::cout << std::endl << END;
 }
-
 
 template <typename BST>
 void print_bst(const std::string & prefix, const BST* node,

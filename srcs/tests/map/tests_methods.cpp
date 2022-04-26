@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:59:08 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/25 19:08:16 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/26 15:54:05 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	tests_modifiers_map()
 	std::cout << "erase z with key" << std::endl;
 	printMap(m);
 
-	/*m.erase(m.begin(), m.end());
+	m.erase(m.begin(), m.end());
 	std::cout << "erase range begin to end: all and clear m2" << std::endl;
 	printMap(m);
 	m2.clear();
@@ -115,7 +115,7 @@ void	tests_modifiers_map()
 	printMap(m);
 	std::cout << "map2: " << std::endl;
 	printMap(m2);
- */
+
 	std::cout << std::endl << BCYAN << "### END ###"
 		<< END << std::endl << std::endl;
 }
@@ -222,11 +222,11 @@ void	tests_allocator_map()
 void	tests_methods_map()
 {
 	std::cout << BYELLOW << "*** TEST METHODS ***" << END << std::endl << std::endl;
-	//tests_capacity_map(); // ok
-	//tests_element_access_map(); // ok
+	tests_capacity_map(); // ok
+	tests_element_access_map(); // ok
 	tests_modifiers_map();
-	//tests_observers();
-	//tests_operations(); // ok
-	//tests_allocator_map(); // ok
+	tests_observers(); // ok
+	tests_operations(); // ok
+	tests_allocator_map(); // ok
 	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
 }

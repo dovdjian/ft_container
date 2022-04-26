@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:24:40 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/22 19:10:44 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/26 15:54:18 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,9 @@ void	tests_pair()
 	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
 }
 
-void	tests_bst()
-{
-	std::map<char, int> first;                                // empty vector of ints
-
-	//delete root;
-}
-
 void	tests_map()
 {
-	//tests_pair();
-	//tests_iterator_map();
+	tests_pair();
+	tests_iterator_map();
 	tests_methods_map();
-	//tests_bst();
 }

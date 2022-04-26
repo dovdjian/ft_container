@@ -272,8 +272,8 @@ namespace ft
 							_alloc.construct(new_mem + i, this->_elements[i]);
 							_alloc.destroy(this->_elements + i);
 						}
-						//if (this->_elements)
-							//_alloc.deallocate(this->_elements, this->_capacity);
+						if (this->_elements)
+							_alloc.deallocate(this->_elements, this->_capacity);
 						this->_capacity = n;
 						this->_elements = new_mem;
 					}

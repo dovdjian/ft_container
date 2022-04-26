@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:27:50 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/06 14:59:57 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/26 17:02:26 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,6 @@ void	tests_modifiers()
 	printVec(v2);
 	v2.insert(it, 2, 300);
 	std::cout << "v2 insert 2 fois nombre 300 a position begin + 1"
-		<< std::endl;
-	printVec(v2);
-	it = v2.begin();
-	v2.insert(it, v2.begin(), v2.end() - 1);
-	std::cout << "v2 insert a it pos: begin a end - 1 nbr"
 		<< std::endl;
 	printVec(v2);
 	std::cout << "v2 erase le nombre a begin + 3 (1)" << std::endl;
