@@ -168,8 +168,8 @@ namespace ft
 				{
 					size_type tmp = this->_tree.size();
 
-					//this->_tree.erase_node(k);
-					this->_tree.deleteNode(k);
+					this->_tree.erase_node(k);
+					//this->_tree.deleteNode(k);
 					return (tmp - this->_tree.size());
 				}
 				size_type erase(const key_type & k)

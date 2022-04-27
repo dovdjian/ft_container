@@ -470,35 +470,41 @@ struct BST
 			this->_nul_node->_parent = this->_root;
 			this->_size--;
 		}
-
 		void	erase_node(node *node_arg)
 		{
-			std::cout << "yo je suis dans erase" << std::endl;
-			//std::cout << "new_pair\t=\t" << new_pair.first << std::endl;
+			//std::cout << "yo je suis dans erase" << std::endl;
+			//std::cout << "node arg first\t=\t" << node_arg->_data.first << std::endl;
 			//std::cout << "data\t=\t" << _data.first << std::endl;
 			node *curr = this->_root;
 			node *prev = this->_nul_node;
 
-			//std::cout << "this->_root->_data.first\t=\t" << this->_root->_data.first << std::endl;
 			while (curr != this->_nul_node && curr->_data.first != node_arg->_data.first)
 			{
-				std::cout << "root pas nul" << std::endl;
+				//std::cout << "curr->_left_child\t=\t" << curr->_left_child->_data.first << std::endl;
+				//std::cout << "curr->_right_child\t=\t" << curr->_right_child->_data.first << std::endl;
+				//std::cout << "curr->_data.first\t=\t" << curr->_data.first << std::endl;
+				//std::cout << "root pas nul" << std::endl;
 				prev = curr;
 				if (this->_cmp(node_arg->_data.first, curr->_data.first))
 					curr = curr->_left_child;
 				else
 					curr = curr->_right_child;
 			}
+			if (curr == this->_nul_node)
+			{
+				this->_root = prev;
+				this->_nul_node->_parent = this->_root;
+				return ;
+			}
 			//std::cout << "prev->_data.first\t=\t" << prev->_data.first << std::endl;
-			//std::cout << "curr->_data.first\t=\t" << curr->_data.first << std::endl;
 			//std::cout << "curr->_right_child.first\t=\t" << curr->_right_child->_data.first << std::endl;
-			//std::cout << "curr->_left_child.first\t=\t" << curr->_left_child->_data.first << std::endl;
+			//std::cout << "curr.first\t=\t" << curr->_data.first << std::endl;
 			// PAS ICI
 			if (curr->_left_child == this->_nul_node
 				&& curr->_right_child == this->_nul_node) // seems to work !
 			{
-				std::cout << "no child" << std::endl;
-				if (prev != this->_root)
+				//std::cout << "no child" << std::endl;
+				if (curr != this->_root)
 				{
 					if (prev->_left_child == curr)
 						prev->_left_child = this->_nul_node;
@@ -506,70 +512,54 @@ struct BST
 						prev->_right_child = this->_nul_node;
 				}
 				else
+				{
+					//std::cout << "egrgeregr" << std::endl;
 					this->_root = this->_nul_node;
-				destroy_tree(curr);
+				}
 			}
 			else if (curr->_left_child == this->_nul_node
 				|| curr->_right_child == this->_nul_node)
 			{
-				std::cout << "one child" << std::endl;
-				node* newCurr = prev;
+				//std::cout << "one child" << std::endl;
+				node *newCurr = prev;
 
 				if (curr->_left_child != this->_nul_node)
 					newCurr = curr->_left_child;
 				else
 					newCurr = curr->_right_child;
-				std::cout << "new curr->_data.first\t=\t" << newCurr->_data.first << std::endl;
-				if (prev == this->_nul_node)
-					newCurr = this->_root;
+				newCurr->_parent = prev;
 				if (curr != this->_root)
 				{
-					std::cout << "curr->_data.first\t=\t" << curr->_data.first << std::endl;
-					//std::cout << "this->_root->_data.first\t=\t" << this->_root->_data.first << std::endl;
-					//std::cout << "node_arg->_data.first\t=\t" << node_arg->_data.first << std::endl;
-					std::cout << "prev->_left_child->_data.first\t=\t" << prev->_left_child->_data.first << std::endl;
-					std::cout << "prev->_right_child->_data.first\t=\t" << prev->_right_child->_data.first << std::endl;
 					if (curr == prev->_left_child)
 						prev->_left_child = newCurr;
 					else
 						prev->_right_child = newCurr;
 				}
 				else
-				{
-					std::cout << "suce" << std::endl;
 					this->_root = newCurr;
-				}
-				std::cout << "BEFORE DESTROY CURR" << std::endl;
-				std::cout << "curr->_data.first\t=\t" << curr->_data.first << std::endl;
-				//destroy_tree(curr);
-				this->_alloc.destroy(prev);
-				this->_alloc.deallocate(prev, 1);
-				//curr = this->_nul_node;
-				std::cout << "AFTER DESTROY CURR" << std::endl;
-				//std::cout << BRED << "prev\t=\t" << prev->_data.first << std::endl;
-				//std::cout << "prev right\t=\t" << prev->_right_child->_data.first << std::endl;
-				//std::cout << "newCurr\t=\t" << newCurr->_data.first << std::endl;
-				//std::cout << "curr left\t=\t" << curr->_left_child->_data.first << std::endl;
-				std::cout << "end of one child" << END << std::endl;
+				//std::cout << "end of one child" << END << std::endl;
 			}
 			else
 			{
-				std::cout << "2 children" << std::endl;
-				node *successor = curr->_right_child;
+				//std::cout << "2 children" << std::endl;
 
+				node *successor = curr->_right_child;
 				while (successor->_left_child != this->_nul_node)
 					successor = successor->_left_child;
-				this->erase_node(successor);
-				//curr = successor;
-
-				std::cout << "end of 2 children" << std::endl;
+				successor->_parent->_left_child = this->_nul_node;
+				successor->_left_child = curr->_left_child;
+				successor->_right_child = curr->_right_child;
+				prev = successor;
+				//std::cout << "end of 2 children" << std::endl;
 			}
-
-			std::cout << "before size-- and stuff" << std::endl;
-			curr = this->_root;
+			//std::cout << "before size-- and stuff" << std::endl;
+			this->_alloc.destroy(curr);
+			this->_alloc.deallocate(curr, 1);
+			curr = this->_nul_node;
+			//curr = this->_root;
 			this->_nul_node->_parent = this->_root;
 			this->_size--;
-			std::cout << "after size-- and stuff" << std::endl;
+			//std::cout << "after size-- and stuff" << std::endl;
 			//return (this);
 		}
 		void	erase_node(pair_type const & new_pair)

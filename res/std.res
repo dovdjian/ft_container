@@ -384,42 +384,6 @@ b => 300
 [1;32m
 map : 
 
-[0m[1;32m
-map : 
-e => 1
-f => 2
-g => 3
-
-[0m[1;32m
-map : 
-x => 11
-y => 22
-z => 33
-
-[0mswap m with m2
-map1: 
-[1;32m
-map : 
-x => 11
-y => 22
-z => 33
-
-[0mmap2: 
-[1;32m
-map : 
-e => 1
-f => 2
-g => 3
-
-[0mclear m and m2
-map1: 
-[1;32m
-map : 
-
-[0mmap2: 
-[1;32m
-map : 
-
 [0m
 [1;36m### END ###[0m
 

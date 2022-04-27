@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:59:08 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/26 15:54:05 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/27 12:18:08 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	tests_modifiers_map()
 	m.erase(m.begin(), m.end());
 	std::cout << "erase range begin to end: all and clear m2" << std::endl;
 	printMap(m);
-	m2.clear();
+	/*m2.clear();
 
 	m['e'] = 1;
 	m['f'] = 2;
@@ -115,7 +115,7 @@ void	tests_modifiers_map()
 	printMap(m);
 	std::cout << "map2: " << std::endl;
 	printMap(m2);
-
+*/
 	std::cout << std::endl << BCYAN << "### END ###"
 		<< END << std::endl << std::endl;
 }
