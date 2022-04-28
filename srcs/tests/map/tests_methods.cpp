@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/05 16:59:08 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/27 12:18:08 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/28 11:39:47 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	tests_modifiers_map()
 	m.erase(m.begin(), m.end());
 	std::cout << "erase range begin to end: all and clear m2" << std::endl;
 	printMap(m);
-	/*m2.clear();
+	m2.clear();
 
 	m['e'] = 1;
 	m['f'] = 2;
@@ -115,7 +115,6 @@ void	tests_modifiers_map()
 	printMap(m);
 	std::cout << "map2: " << std::endl;
 	printMap(m2);
-*/
 	std::cout << std::endl << BCYAN << "### END ###"
 		<< END << std::endl << std::endl;
 }
@@ -146,7 +145,7 @@ void	tests_observers()
 	m['z'] = 3003;
 
 	std::cout << std::endl << "test value comp with pair highest : z => 3003" << std::endl;
-	prefix::pair<char,int> pair_highest = *m.rbegin();
+	prefix::pair<char, int> pair_highest = *m.rbegin();
 	it = m.begin();
 
 	std::cout << it->first << " => " << it->second << std::endl;
@@ -222,11 +221,11 @@ void	tests_allocator_map()
 void	tests_methods_map()
 {
 	std::cout << BYELLOW << "*** TEST METHODS ***" << END << std::endl << std::endl;
-	tests_capacity_map(); // ok
-	tests_element_access_map(); // ok
+	tests_capacity_map();
+	tests_element_access_map();
 	tests_modifiers_map();
-	tests_observers(); // ok
-	tests_operations(); // ok
-	tests_allocator_map(); // ok
+	tests_observers();
+	tests_operations();
+	tests_allocator_map();
 	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
 }

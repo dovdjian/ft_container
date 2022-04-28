@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:22:21 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/22 19:40:37 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/28 11:41:39 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ namespace ft
 				pair(const pair<U, V> & pr) : first(pr.first), second(pr.second) {}
 			// INIT
 				pair(const first_type & a, const second_type & b) : first(a), second(b) {}
-
 		// OPERATOR =
 			pair & operator=(const pair & pr)
 			{

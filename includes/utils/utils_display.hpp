@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:41:37 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/26 11:57:04 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/28 11:38:14 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,7 @@ void print_bst(const std::string & prefix, const BST* node,
 	{
 		std::cout << prefix;
 		std::cout << (isLeft ? "├──" : "└──" );
-		// print the value of the node
 		std::cout << node->_data.first << std::endl;
-		// enter the next tree level - left and right branch
 		print_bst(prefix + (isLeft ? "│   " : "    "), node->_left_child, true);
 		print_bst(prefix + (isLeft ? "│   " : "    "), node->_right_child, false);
 	}

@@ -168,8 +168,7 @@ namespace ft
 				{
 					size_type tmp = this->_tree.size();
 
-					this->_tree.erase_node(k);
-					//this->_tree.deleteNode(k);
+					this->_tree.delete_node(k);
 					return (tmp - this->_tree.size());
 				}
 				size_type erase(const key_type & k)
@@ -283,7 +282,7 @@ namespace ft
 			// VARIABLES
 				key_compare		_comp;
 				allocator_type	_alloc;
-				BST				_tree; // laisser le ptr
+				BST				_tree;
 	};
 
 	template <class Key, class T, class Compare, class Alloc>

@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/09 16:27:50 by dodjian           #+#    #+#             */
-/*   Updated: 2022/03/24 10:15:24 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/28 11:31:08 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	tests_methods_stack()
 	printStack(s);
 	std::cout << "s.empty()\t=\t" << s.empty() << std::endl;
 	std::cout << "s.size()\t=\t" << s.size() << std::endl;
-
 	std::cout << std::endl << BYELLOW << "*** END ***" << END << std::endl << std::endl;
 }
 

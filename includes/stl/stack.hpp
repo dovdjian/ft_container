@@ -6,7 +6,7 @@
 /*   By: dodjian <dovdjianpro@gmail.com>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 12:25:25 by dodjian           #+#    #+#             */
-/*   Updated: 2022/04/06 15:36:10 by dodjian          ###   ########.fr       */
+/*   Updated: 2022/04/28 11:37:49 by dodjian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ namespace ft
 				container_type const & get_c() const { return (this->c); }
 		protected:
 			// VARIABLES
-				container_type	c;			// obj container(vector by default)
+				container_type	c;
 	};
 	// Non member function overload
 		template <class T, class Container>

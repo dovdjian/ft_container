@@ -430,9 +430,9 @@ namespace ft
 		private:
 			// VARIABLES
 				allocator_type	_alloc;
-				size_type		_capacity;	// allocate size of container
-				size_type		_size;		// nbr elements in container
-				value_type		*_elements;	// elements in container
+				size_type		_capacity;
+				size_type		_size;
+				value_type		*_elements;
 	};
 	// Non member function overload
 		template <class T, class Alloc>

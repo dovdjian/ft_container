@@ -39,7 +39,6 @@ TESTS = 		$(addprefix vector/, $(VECTOR)) \
 				$(addprefix stack/, $(STACK)) \
 				$(addprefix map/, $(MAP)) \
 
-
 SRCS =			$(addprefix srcs/, $(MAIN)) \
 				$(addprefix srcs/tests/, $(TESTS)) \
 

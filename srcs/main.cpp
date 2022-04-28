@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/utils/tests.hpp"
+#include <ctime>
 
 int	main(void)
 {
@@ -22,21 +23,21 @@ int	main(void)
 		std::cout << PURPLE << "------------------- END -------------------"
 			<< END << std::endl << std::endl;
 	}
-	catch(const std::exception& e)
+	catch(const std::exception & e)
 	{
-		std::cerr << e.what() << '\n';
+		std::cerr << e.what() << std::endl;
 	}
 	try
 	{
 		std::cout << BBLUE << std::endl <<  "--------------- TEST STACK ----------------"
 			<< END << std::endl << std::endl;
-		//tests_stack();
+		tests_stack();
 		std::cout << BBLUE << std::endl <<  "------------------- END -------------------"
 			<< END << std::endl << std::endl;
 	}
-	catch(const std::exception& e)
+	catch(const std::exception & e)
 	{
-		std::cerr << e.what() << '\n';
+		std::cerr << e.what() << std::endl;
 	}
 	try
 	{
@@ -46,9 +47,9 @@ int	main(void)
 		std::cout << BGREEN << std::endl <<  "------------------- END -------------------"
 			<< END << std::endl << std::endl;
 	}
-	catch(const std::exception& e)
+	catch(const std::exception & e)
 	{
-		std::cerr << e.what() << '\n';
+		std::cerr << e.what() << std::endl;
 	}
 	return (0);
 }
