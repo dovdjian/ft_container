@@ -8,8 +8,8 @@ Implementation of own std::vector, std::stack and std::map
 make
 ```
 folder res created contains:
-- ./container
-- ./container_stl
+- ./container (output with my tests)
+- ./container_stl (stl output with my tests)
 - result of ./container in ft.res
 - result of ./container_stl in std.res
 - result of diff ft_res std_res in diff.res
